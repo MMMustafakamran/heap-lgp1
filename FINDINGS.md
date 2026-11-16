@@ -37,3 +37,5 @@ Stack: `@copilotkit/react-core`/`runtime` per frontend/VERSIONS.md (npm latest i
 - **#11** Quickstart FastAPI: the start step runs `uv run main.py` after `cd ..`, but `main.py` is in the agent directory.
 - **#12** `react-native` page linked from the components pages and inspector is a 404.
 - **#13** `CopilotKitProvider`'s `Date.now()` triggers the Next.js unstable-value error on every route (badge hidden, `devIndicators: false`).
+- **#14** Sub-agents: `subagents.py` imports `src._header_forwarding_middleware` (a showcase-only helper not on the page): `ModuleNotFoundError: No module named 'src'`; a no-op stand-in makes it run.
+- **#15** WebMCP: `searchOrders` is called but never defined on the page.
