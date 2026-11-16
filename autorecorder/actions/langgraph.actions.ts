@@ -1532,3 +1532,7 @@ export const runAgentTriggerAction: PageActionHandler = async (page, _config, _r
   if (!ok) ctx.fail('No agent reply after clicking "Run agent".');
   await sleep(2500);
 };
+
+// The first registerDocEvidence above copied the JS KNOWN_ISSUE set (it skipped a2ui-dynamic).
+// Register the Python map again: the newest source wins. Configurable is doc-only, so it keeps its highlight.
+registerDocEvidence(FINDING_EVIDENCE);

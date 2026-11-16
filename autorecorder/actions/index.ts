@@ -58,7 +58,7 @@ export const ACTION_MAP: Record<string, PageActionHandler> = {
   // Batch 2
   'headless-ui': runKeyboardSendAction,
   'json-render': runKeyboardSendAction,
-  'a2ui-fixed': runKeyboardSendAction,
+  'a2ui-fixed': runStandardWithFinding,
   'components-catalogs': runGenuiFindingAction,
   'components-surfaces': runGenuiFindingAction,
   'components-theming': runKeyboardSendAction,
