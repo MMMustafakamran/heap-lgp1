@@ -1577,3 +1577,12 @@ export const runKeyboardSendWithFinding: PageActionHandler = withFinding(keyboar
 // Standard catalog: back to ✅ (flaky, FINDINGS.md #20 minor): plain working take.
 delete FINDING_NOTES['components-standard-catalog'];
 delete FINDING_EVIDENCE['components-standard-catalog'];
+// Surfaces: 'render_ui' is only in the React Native section of the rendered page; point at the promise instead.
+FINDING_EVIDENCE['components-surfaces'] = [{ text: 'the shoes belong in the product row of the page', caption: 'The product row should fill; render_ui has no renderer' }];
+FINDING_NOTES['components-surfaces'] = [
+  'doc says when u ask for cheap running shoes they go in the product row of the page',
+  'agent calls render_ui but no renderer is registered for it',
+  'the area stays classic tee and canvas tote, nothing changes',
+  'same thing 3 runs in a row',
+  'product and productrow arent defined in the snippet,added those myself',
+].join('\n');

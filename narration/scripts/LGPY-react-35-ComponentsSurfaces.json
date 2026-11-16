@@ -8,15 +8,19 @@
   },
   {
    "at": "evidence",
-   "text": "So this is the problem, the agent uses render UI to fill the surface, umm, but nothing renders it."
+   "text": "So this is the problem, the shoes should land in the product row."
   },
   {
    "at": "ide",
    "text": "This is my project, I've implemented the exact code from the doc."
   },
   {
+   "at": "+",
+   "text": "This part, the product type, wasn't on the page, I added it myself."
+  },
+  {
    "at": "demo",
-   "text": "Moving on to the demo. I asked for cheap running shoes in the featured area, it should update that area, but it stays the same, nothing changes."
+   "text": "Moving on to the demo. The product row never changes."
   },
   {
    "at": "notepad",
