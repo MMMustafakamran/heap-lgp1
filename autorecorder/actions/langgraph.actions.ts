@@ -1574,3 +1574,6 @@ Object.assign(FINDING_EVIDENCE, {
 });
 registerDocEvidence(FINDING_EVIDENCE);
 export const runKeyboardSendWithFinding: PageActionHandler = withFinding(keyboardSend);
+// Standard catalog: back to ✅ (flaky, FINDINGS.md #20 minor): plain working take.
+delete FINDING_NOTES['components-standard-catalog'];
+delete FINDING_EVIDENCE['components-standard-catalog'];
