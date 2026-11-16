@@ -1,6 +1,6 @@
 # Findings — LangGraph Python (React)
 Open doc defects only, from probe evidence. Numbers are stable IDs (code cites `FINDINGS.md #N`).
-Stack: `@copilotkit/react-core`/`runtime` per frontend/VERSIONS.md (npm latest in CI), `langgraph` 1.2.22, `langgraph-cli` 0.4.43 (`langgraph-api` 0.18.1), `langchain-openai` 1.8.0, `langchain-core` 1.8.1, `copilotkit` 0.1.97, `ag-ui-langgraph` 0.0.47, `next` 16.4.5, `react` 19.3.0, Node 26.7.0, Python 3.13 (uv), Windows 11. Docs: https://docs.copilotkit.ai/langgraph-python (checked 2026-11-16)
+Stack: `@copilotkit/react-core`/`runtime` 1.88.0 (npm latest, CI 2026-11-16), `langgraph` 1.2.22, `langgraph-cli` 0.4.43 (`langgraph-api` 0.18.1), `langchain-openai` 1.8.0, `langchain-core` 1.8.1, `copilotkit` 0.1.97, `ag-ui-langgraph` 0.0.47, `next` 16.4.5, `react` 19.3.0, Node 26.7.0, Python 3.13 (uv), Windows 11. Docs: https://docs.copilotkit.ai/langgraph-python (checked 2026-11-16)
 
 ## Dev blockers
 

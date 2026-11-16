@@ -4,14 +4,16 @@
  "repo": "LangGraphPy-React",
  "docBase": "https://docs.copilotkit.ai/langgraph-python/",
  "versions": {
-  "@copilotkit/react-core": "see VERSIONS.md",
-  "@copilotkit/runtime": "see VERSIONS.md",
+  "@copilotkit/react-core": "1.88.0",
+  "@copilotkit/runtime": "1.88.0",
   "langgraph": "1.2.22",
   "langgraph-cli": "0.4.43",
   "langchain-openai": "1.8.0",
   "langchain-core": "1.8.1",
   "next": "16.4.5",
-  "react": "19.3.0"
+  "react": "19.3.0",
+  "copilotkit": "0.1.97",
+  "ag-ui-langgraph": "0.0.47"
  },
  "testedContext": {
   "os": "Microsoft Windows 11 Pro",
@@ -139,7 +141,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-01-Quickstart",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "quickstart-fastapi",
@@ -154,7 +165,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-02-QuickstartFastAPI",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "prebuilt-components-chat",
@@ -169,7 +189,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-19-PrebuiltChat",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "prebuilt-components-sidebar",
@@ -184,7 +213,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-21-PrebuiltSidebar",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "prebuilt-components-popup",
@@ -199,7 +237,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-20-PrebuiltPopup",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "prebuilt-components-chat-controls",
@@ -214,7 +261,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-22-ChatControls",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "prebuilt-components-copilot-threads-drawer",
@@ -229,7 +285,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-56-ThreadsDrawer",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "headless-threads",
@@ -244,7 +309,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-57-HeadlessThreads",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "custom-look-and-feel-css",
@@ -259,7 +333,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-23-CSS",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "custom-look-and-feel-markdown",
@@ -274,7 +357,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-26-Markdown",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "custom-look-and-feel-slots",
@@ -289,7 +381,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-24-Slots",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "custom-look-and-feel-headless-ui",
@@ -304,7 +405,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-25-HeadlessUI",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-reasoning",
@@ -319,7 +429,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-13-Reasoning",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "custom-look-and-feel-reasoning-messages",
@@ -335,7 +454,8 @@
     "approvedAt": null,
     "by": null
    },
-   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)"
+   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)",
+   "links": []
   },
   {
    "id": "multimodal-attachments",
@@ -350,7 +470,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-44-Multimodal",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "voice",
@@ -365,7 +494,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-55-Voice",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "frontend-tools",
@@ -380,7 +518,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-03-FrontendTools",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-tool-based",
@@ -395,7 +542,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-46-ComponentsAsTools",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-tool-rendering",
@@ -410,7 +566,30 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-10-ToolRendering",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    },
+    {
+     "text": "Default renderer - JS",
+     "clip": "LGPY-react-11-ToolRenderingDefault",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    },
+    {
+     "text": "Custom catch-all - JS",
+     "clip": "LGPY-react-12-ToolRenderingCustom",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-state-rendering",
@@ -425,7 +604,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-47-StateRendering",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components",
@@ -444,7 +632,16 @@
    "findings": [
     16
    ],
-   "notes": "Issue: with CopilotKit 1.88 the agent calls render_ui but no renderer is registered, the answer comes back as plain text, no component."
+   "notes": "Issue: with CopilotKit 1.88 the agent calls render_ui but no renderer is registered, the answer comes back as plain text, no component.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-14-Components",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-14-Components.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-surfaces",
@@ -463,7 +660,16 @@
    "findings": [
     4
    ],
-   "notes": "Issue: the agent calls render_ui but no renderer is registered, the featured products area never updates (3/3 runs)."
+   "notes": "Issue: the agent calls render_ui but no renderer is registered, the featured products area never updates (3/3 runs).",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-35-ComponentsSurfaces",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-35-ComponentsSurfaces.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-catalogs",
@@ -478,7 +684,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-34-ComponentsCatalogs",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-standard-catalog",
@@ -493,7 +708,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-48-ComponentsStandardCatalog",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-state-and-actions",
@@ -512,7 +736,16 @@
    "findings": [
     16
    ],
-   "notes": "Issue: with CopilotKit 1.88 render_ui has no renderer, no product cards render."
+   "notes": "Issue: with CopilotKit 1.88 render_ui has no renderer, no product cards render.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-38-ComponentsStateActions",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-38-ComponentsStateActions.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-theming",
@@ -528,7 +761,16 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: now working (theme accent applied)."
+   "notes": "Note: now working (theme accent applied).",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-36-ComponentsTheming",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-transports",
@@ -543,7 +785,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-37-ComponentsTransports",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-markdown-mode",
@@ -558,7 +809,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-39-ComponentsMarkdownMode",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-components-from-a2ui",
@@ -573,7 +833,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-49-ComponentsFromA2UI",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-a2ui",
@@ -593,7 +862,8 @@
    "findings": [
     1
    ],
-   "notes": "Issue: with the Python agent the generate_a2ui tool crashes (bound to a different event loop), no dashboard renders."
+   "notes": "Issue: with the Python agent the generate_a2ui tool crashes (bound to a different event loop), no dashboard renders.",
+   "links": []
   },
   {
    "id": "generative-ui-a2ui-dynamic-schema",
@@ -612,7 +882,16 @@
    "findings": [
     1
    ],
-   "notes": "Issue: the default path crashes on every run (generate_a2ui: bound to a different event loop), no dashboard renders. The page also shows no Python agent for the default path."
+   "notes": "Issue: the default path crashes on every run (generate_a2ui: bound to a different event loop), no dashboard renders. The page also shows no Python agent for the default path.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-32-A2UIDynamicSchema",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-32-A2UIDynamicSchema.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-a2ui-fixed-schema",
@@ -631,7 +910,16 @@
    "findings": [
     2
    ],
-   "notes": "Issue: the flight card renders but every bound field (airports, price) stays empty."
+   "notes": "Issue: the flight card renders but every bound field (airports, price) stays empty.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-33-A2UIFixedSchema",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-33-A2UIFixedSchema.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-json-render",
@@ -646,7 +934,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-28-JsonRender",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-hashbrown",
@@ -665,7 +962,16 @@
    "findings": [
     17
    ],
-   "notes": "Issue: the page gives no LangGraph Python agent, had to write it by hand; with it the dashboard renders."
+   "notes": "Issue: the page gives no LangGraph Python agent, had to write it by hand; with it the dashboard renders.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-29-Hashbrown",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-29-Hashbrown.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-open-generative-ui",
@@ -681,7 +987,16 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: now working. VISUALIZATION_DESIGN_SKILL is never defined on the page."
+   "notes": "Note: now working. VISUALIZATION_DESIGN_SKILL is never defined on the page.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-30-OpenGenerativeUI",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "generative-ui-mcp-apps",
@@ -696,7 +1011,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-15-McpApps",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "shared-state",
@@ -712,7 +1036,8 @@
     "approvedAt": null,
     "by": null
    },
-   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)"
+   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)",
+   "links": []
   },
   {
    "id": "shared-state-rendering-in-app",
@@ -731,7 +1056,16 @@
    "findings": [
     3
    ],
-   "notes": "Issue: useAgent() with no agentId looks for the 'default' agent, the quickstart only registers sample_agent, page crashes."
+   "notes": "Issue: useAgent() with no agentId looks for the 'default' agent, the quickstart only registers sample_agent, page crashes.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-50-RenderAgentState",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-50-RenderAgentState.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "shared-state-streaming",
@@ -746,7 +1080,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-09-StateStreaming",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "shared-state-agent-readonly",
@@ -761,7 +1104,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-40-AgentReadOnly",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "human-in-the-loop",
@@ -776,7 +1128,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-04-HumanInTheLoop",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "human-in-the-loop-useinterrupt",
@@ -792,7 +1153,8 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: the page says \"Not supported on LangGraph (Python)\"."
+   "notes": "Note: the page says \"Not supported on LangGraph (Python)\".",
+   "links": []
   },
   {
    "id": "human-in-the-loop-headless",
@@ -808,7 +1170,8 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: the page says \"Not supported on LangGraph (Python)\"."
+   "notes": "Note: the page says \"Not supported on LangGraph (Python)\".",
+   "links": []
   },
   {
    "id": "human-in-the-loop-governed-actions",
@@ -823,7 +1186,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-41-GovernedActions",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "webmcp",
@@ -838,7 +1210,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-18-WebMCP",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "agent-app-context",
@@ -848,12 +1229,13 @@
    "child": false,
    "docPath": "agent-app-context",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "–",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": []
   },
   {
    "id": "agent-app-context-impl-graph",
@@ -868,7 +1250,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-42-AgentAppContext",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "agent-app-context-impl-prebuilt",
@@ -883,7 +1274,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-51-ReadablesPrebuilt",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "agent-config",
@@ -900,7 +1300,8 @@
     "by": null
    },
    "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)",
-   "reachableFrom": "Configurable (\"see Agent Config\"), Inspector"
+   "reachableFrom": "Configurable (\"see Agent Config\"), Inspector",
+   "links": []
   },
   {
    "id": "configurable",
@@ -919,7 +1320,16 @@
    "findings": [
     5
    ],
-   "notes": "Issue: Python build_agent uses undefined graph / AgentState and nothing wires it to an endpoint, frontend code is missing."
+   "notes": "Issue: Python build_agent uses undefined graph / AgentState and nothing wires it to an endpoint, frontend code is missing.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-53-Configurable",
+     "loom": null,
+     "narration": "narration/scripts/LGPY-react-53-Configurable.json",
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "subgraphs",
@@ -935,7 +1345,8 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: no runnable code on the page (one useAgent snippet)."
+   "notes": "Note: no runnable code on the page (one useAgent snippet).",
+   "links": []
   },
   {
    "id": "guardrails",
@@ -951,7 +1362,16 @@
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: the helpers (screen_input, redact_sensitive, tool_call_allowed) are left to the reader and tools=[...] as written raises ValueError; filled in by hand."
+   "notes": "Note: the helpers (screen_input, redact_sensitive, tool_call_allowed) are left to the reader and tools=[...] as written raises ValueError; filled in by hand.",
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-54-Guardrails",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "multi-agent-subagents",
@@ -966,7 +1386,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-16-SubAgents",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "inspector",
@@ -982,7 +1411,8 @@
     "approvedAt": null,
     "by": null
    },
-   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)"
+   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)",
+   "links": []
   },
   {
    "id": "programmatic-control",
@@ -999,7 +1429,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-45-ProgrammaticControl",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   },
   {
    "id": "human-in-the-loop-interrupt-flow",
@@ -1016,7 +1455,16 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "links": [
+    {
+     "text": null,
+     "clip": "LGPY-react-07-InterruptFlow",
+     "loom": null,
+     "narration": null,
+     "filmed": null
+    }
+   ]
   }
  ]
 }
