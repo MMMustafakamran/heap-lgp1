@@ -36,6 +36,11 @@ Stack: `@copilotkit/react-core`/`runtime` 1.88.0 (npm latest, CI 2026-11-16), `l
 ### [Hashbrown](https://docs.copilotkit.ai/langgraph-python/generative-ui/hashbrown)
 **#17** (already in the team doc, ⚠️) The page gives no Python agent, only an example assistant message; the agent has to be written by hand (`backend/byoc_hashbrown.py`, HARNESS). With it, the dashboard renders.
 
+### [Standard catalog](https://docs.copilotkit.ai/langgraph-python/generative-ui/components/standard-catalog)
+**#20** The agent's tables/charts don't come through (CopilotKit 1.88.0).
+**Doc:** "You want the agent to answer with tables, charts, and forms today, not after you build a component library."
+**Result:** CI take 1: the chart renders but the table shows only headers and "No rows"; take 2: `AgentSilentError: The run ended with no reply (36s in)`. Worked locally on 1.85.0. (The page URL now 307-redirects to the framework-neutral /generative-ui/components/standard-catalog.)
+
 ## Minor notes
 - **#6** Quickstart (any tab): on Windows `langgraph dev` crashes at start (`SystemError: ConsoleRenderer with colors=True on Windows requires the colorama package`); the install line doesn't add `colorama` (`langgraph-cli[inmem]` itself is never named either).
 - **#7** Guardrails: `screen_input`, `redact_sensitive`, `tool_call_allowed` left to the reader; `tools=[...]` as written raises `ValueError: The first argument must be a string or a callable with a __name__`.

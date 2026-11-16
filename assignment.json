@@ -703,7 +703,7 @@
    "child": false,
    "docPath": "generative-ui/components/standard-catalog",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -714,10 +714,14 @@
      "text": null,
      "clip": "LGPY-react-48-ComponentsStandardCatalog",
      "loom": null,
-     "narration": null,
+     "narration": "narration/scripts/LGPY-react-48-ComponentsStandardCatalog.json",
      "filmed": null
     }
-   ]
+   ],
+   "findings": [
+    20
+   ],
+   "notes": "Issue: with CopilotKit 1.88 the table comes back empty (No rows) or the run ends with no reply."
   },
   {
    "id": "generative-ui-components-state-and-actions",

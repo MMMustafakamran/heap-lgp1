@@ -1,0 +1,30 @@
+{
+ "clip": "LGPY-react-48-ComponentsStandardCatalog",
+ "finding": "20",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the standard catalog page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, it says the agent answers with tables and charts today, umm, but they don't come through."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for a plan comparison, it should show a table and a chart, but the table is empty, or the run just ends with no reply."
+  },
+  {
+   "at": "notepad",
+   "text": "So basically, with today's version the table comes back with no rows, and sometimes there's no reply at all. It worked on the older version."
+  },
+  {
+   "at": "+",
+   "text": "That's what's breaking here, kindly have it fixed."
+  }
+ ]
+}

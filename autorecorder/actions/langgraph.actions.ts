@@ -1560,3 +1560,17 @@ registerDocEvidence(FINDING_EVIDENCE);
 
 // FINDINGS.md #17 Hashbrown: team doc already ⚠️ (no Python agent on the page): level 2, short clip.
 KNOWN_ISSUE.add('hashbrown');
+
+// FINDINGS.md #20 Standard catalog (CopilotKit 1.88): empty table / no reply.
+Object.assign(FINDING_NOTES, {
+  'components-standard-catalog': [
+    'doc says the agent answers with tables and charts out of the box',
+    'here the table only has headers and says no rows,or the run ends with no reply',
+    'worked on copilotkit 1.85, breaks with todays 1.88',
+  ].join('\n'),
+});
+Object.assign(FINDING_EVIDENCE, {
+  'components-standard-catalog': [{ text: 'You want the agent to answer with tables, charts, and forms today', caption: 'Tables/charts do not come through on 1.88' }],
+});
+registerDocEvidence(FINDING_EVIDENCE);
+export const runKeyboardSendWithFinding: PageActionHandler = withFinding(keyboardSend);

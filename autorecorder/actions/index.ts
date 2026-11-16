@@ -34,7 +34,7 @@ import {
   runOpenGenUiAction,
   runRenderingInAppFindingAction,
   runWebMcpFindingAction,
-  SCRIPTED, runAgentTriggerAction, runDocumentStreamAction } from './langgraph.actions';
+  SCRIPTED, runAgentTriggerAction, runDocumentStreamAction, runKeyboardSendWithFinding } from './langgraph.actions';
 
 /** Keys are page ids from `config/pages.config.ts`. Doctor flags any orphans. */
 export const ACTION_MAP: Record<string, PageActionHandler> = {
@@ -62,7 +62,7 @@ export const ACTION_MAP: Record<string, PageActionHandler> = {
   'components-catalogs': runGenuiFindingAction,
   'components-surfaces': runGenuiFindingAction,
   'components-theming': runKeyboardSendAction,
-  'components-standard-catalog': runKeyboardSendAction,
+  'components-standard-catalog': runKeyboardSendWithFinding,
   'components-from-a2ui': runGenuiFindingAction, // ❌ #39 (1 of 5 rendered)
   'components-state-actions': runGenuiFindingAction,
   'components-markdown-mode': runGenuiFindingAction, // ❌ #38 (3 of 5 rendered)

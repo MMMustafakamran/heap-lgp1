@@ -1,0 +1,9 @@
+{
+ "text": "Moving on to the demo. I asked for a plan comparison, it should show a table and a chart, but the table is empty, or the run just ends with no reply.",
+ "model": "s2.1-pro-free",
+ "refSha256": "2c9d0ecf4608feacc07c88e869cd4dec601481306a939b7be92fc1bff521a727",
+ "duration": 11.471,
+ "file": "ba9776a5a37a3df4ca234a1101cc45d8.mp3",
+ "clip": "LGPY-react-48-ComponentsStandardCatalog",
+ "at": "demo"
+}
