@@ -1,0 +1,274 @@
+### [app/page.tsx]
+import { GenerativeUISurface } from "@copilotkit/react-core/v2/generative-ui";
+import { shopUI } from "./catalog";
+
+export function FeaturedProducts({ products }: { products: Product[] }) {
+  return (
+    <GenerativeUISurface
+      id="featured"
+      ui={shopUI}
+      description="The Featured Products row of the home page. When the customer asks to see products here, show them as a ProductGrid with one ProductCard for each product. When they ask for the featured products again, delete this surface."
+      components={["ProductGrid", "ProductCard"]}
+      fallback={<ProductRow products={products} />}
+    />
+  );
+}
+
+### [src/app/featured-products.component.ts]
+import { Component, input } from "@angular/core";
+import { CopilotGenerativeUISurface } from "@copilotkit/angular/generative-ui";
+import { ProductRow } from "./product-row.component";
+import { shopUI } from "./shop-ui";
+
+@Component({
+  selector: "app-featured-products",
+  imports: [CopilotGenerativeUISurface, ProductRow],
+  template: `
+    <copilot-generative-ui-surface
+      id="featured"
+      [ui]="shopUI"
+      description="The Featured Products row of the home page. When the customer asks to see products here, show them as a ProductGrid with one ProductCard for each product. When they ask for the featured products again, delete this surface."
+      [components]="['ProductGrid', 'ProductCard']"
+    >
+      <app-product-row [products]="products()" />
+    </copilot-generative-ui-surface>
+  `,
+})
+export class FeaturedProducts {
+  readonly products = input.required<Product[]>();
+  protected readonly shopUI = shopUI;
+}
+
+### [src/FeaturedProducts.tsx]
+import { GenerativeUISurface } from "@copilotkit/react-native/generative-ui";
+import { ProductRow } from "./ProductRow";
+import { shopUI } from "./shopUI";
+
+export function FeaturedProducts({ products }: { products: Product[] }) {
+  return (
+    <GenerativeUISurface
+      id="featured"
+      ui={shopUI}
+      description="The Featured Products row of the home screen. When the customer asks to see products here, show them as a ProductGrid with one ProductCard for each product. When they ask for the featured products again, delete this surface."
+      components={["ProductGrid", "ProductCard"]}
+      fallback={<ProductRow products={products} />}
+      style={{ marginVertical: 16 }}
+    />
+  );
+}
+
+### [src/components/FeaturedProducts.vue]
+<script setup lang="ts">
+import { GenerativeUISurface } from "@copilotkit/vue/v2/generative-ui";
+import type { Product } from "../product";
+import { shopUI } from "../shop-ui";
+import ProductRow from "./ProductRow.vue";
+
+defineProps<{ products: Product[] }>();
+</script>
+
+<template>
+  <GenerativeUISurface
+    id="featured"
+    :ui="shopUI"
+    description="The Featured Products row of the home page. When the customer asks to see products here, show them as a ProductGrid with one ProductCard for each product. When they ask for the featured products again, delete this surface."
+    :components="['ProductGrid', 'ProductCard']"
+  >
+    <ProductRow :products="products" />
+  </GenerativeUISurface>
+</template>
+
+### [src/HomeSurfaces.tsx]
+import { View } from "react-native";
+import { useAgent } from "@copilotkit/react-native/headless";
+import { GenerativeUIActivity } from "@copilotkit/react-native/generative-ui";
+import { isChatSurface } from "./agentTurns";
+
+export function HomeSurfaces() {
+  const { agent } = useAgent({ agentId: "home" });
+  // Every surface that renders here: aimed at the chat, and not deleted. Not only
+  // the latest activity message, which can be a deleted surface or one aimed at a
+  // page target, and render nothing.
+  const surfaces = agent.messages.filter(isChatSurface);
+  return (
+    <View>
+      {surfaces.map((message) => (
+        <GenerativeUIActivity key={message.id} message={message} agent={agent} />
+      ))}
+    </View>
+  );
+}
+
+### []
+<GenerativeUISurface id="featured" ui={shopUI} components={["ProductGrid", "ProductCard"]} />
+
+### []
+<copilot-generative-ui-surface id="featured" [ui]="shopUI" [components]="['ProductGrid', 'ProductCard']" />
+
+### []
+<GenerativeUISurface id="featured" ui={shopUI} components={["ProductGrid", "ProductCard"]} />
+
+### []
+<GenerativeUISurface id="featured" :ui="shopUI" :components="['ProductGrid', 'ProductCard']" />
+
+### []
+<GenerativeUISurface id="sidebar-notes" autoScroll={false} />
+
+### []
+<copilot-generative-ui-surface id="sidebar-notes" [autoScroll]="false" />
+
+### []
+const scrollRef = useRef<ScrollView>(null);
+const notesY = useRef<number | undefined>(undefined);
+// Until this time, a new position of the target scrolls to it again.
+const followUntil = useRef(0);
+
+const scrollToNotes = () => {
+  followUntil.current = Date.now() + 1000;
+  // Undefined before the first layout: onLayout scrolls then.
+  if (notesY.current !== undefined) {
+    scrollRef.current?.scrollTo({ y: notesY.current, animated: true });
+  }
+};
+
+<ScrollView ref={scrollRef}>
+  {/* ... */}
+  {/* A direct child of the ScrollView, so its layout y is its offset in the content. */}
+  <View
+    onLayout={(event) => {
+      const { y } = event.nativeEvent.layout;
+      if (y === notesY.current) return; // same position: nothing to correct
+      notesY.current = y;
+      if (Date.now() < followUntil.current) {
+        scrollRef.current?.scrollTo({ y, animated: true });
+      }
+    }}
+  >
+    <GenerativeUISurface id="sidebar-notes" onGenerationStart={scrollToNotes} />
+  </View>
+</ScrollView>;
+
+### []
+<GenerativeUISurface id="sidebar-notes" :auto-scroll="false" />
+
+### []
+[data-generative-ui-surface] {
+  scroll-margin-top: 6rem;
+}
+
+### []
+<GenerativeUISurface
+  key={product.id}
+  id={`recommendations-${product.id}`}
+  description={`The "You might also like" row under ${product.name}. Show related products here. Never include ${product.name} itself.`}
+/>
+
+### []
+@Component({
+  selector: "app-product-page",
+  imports: [CopilotGenerativeUISurface],
+  template: `
+    <copilot-generative-ui-surface
+      [id]="'recommendations-' + product().id"
+      [description]="recommendationsDescription(product())"
+    />
+  `,
+})
+export class ProductPage {
+  readonly product = input.required<Product>();
+
+  protected recommendationsDescription({ name }: Product) {
+    return `The "You might also like" row under ${name}. Show related products here. Never include ${name} itself.`;
+  }
+}
+
+### []
+<GenerativeUISurface
+  key={product.id}
+  id={`recommendations-${product.id}`}
+  description={`The "You might also like" row under ${product.name}. Show related products here. Never include ${product.name} itself.`}
+/>
+
+### []
+<script setup lang="ts">
+import { computed } from "vue";
+import { GenerativeUISurface } from "@copilotkit/vue/v2/generative-ui";
+import type { Product } from "../product";
+
+const props = defineProps<{ product: Product }>();
+const description = computed(
+  () =>
+    `The "You might also like" row under ${props.product.name}. Show related products here. Never include ${props.product.name} itself.`,
+);
+</script>
+
+<template>
+  <GenerativeUISurface :id="`recommendations-${product.id}`" :description="description" />
+</template>
+
+### []
+<CopilotKitProvider
+  runtimeUrl="/api/copilotkit"
+  generativeUI={{
+    ui: shopUI,
+    errorBoundary: {
+      onError: (info) => console.warn(info.kind, info.surfaceId, info.error.message),
+      fallback: ({ retry }) => <button onClick={retry}>Try again</button>,
+    },
+  }}
+>
+
+### [src/app/app.config.ts]
+provideGenerativeUI({
+  ui: shopUI,
+  onError: (info) => console.warn(info.kind, info.surfaceId, info.error.message),
+  // A component with the inputs `message` and `componentId`, and
+  // `retry` if it declares it.
+  errorFallback: MyFallback,
+});
+
+### []
+<CopilotKitProvider runtimeUrl={runtimeUrl}>
+  <GenerativeUIProvider
+    ui={shopUI}
+    errorBoundary={{
+      onError: (info) => console.warn(info.kind, info.surfaceId, info.error.message),
+      fallback: ({ retry }) => (
+        <Pressable onPress={retry}>
+          <Text>Try again</Text>
+        </Pressable>
+      ),
+    }}
+  >
+
+### [src/components/RetryFallback.vue]
+<script setup lang="ts">
+import type { GenerativeUIErrorFallbackProps } from "@copilotkit/vue/v2/generative-ui";
+
+defineProps<GenerativeUIErrorFallbackProps>();
+</script>
+
+<template>
+  <button @click="retry">Try again</button>
+</template>
+
+### []
+<script setup lang="ts">
+import { CopilotKitProvider } from "@copilotkit/vue/v2";
+import type { GenerativeUIErrorInfo } from "@copilotkit/vue/v2/generative-ui";
+import RetryFallback from "./components/RetryFallback.vue";
+import { shopUI } from "./shop-ui";
+
+function onError(info: GenerativeUIErrorInfo) {
+  console.warn(info.kind, info.surfaceId, info.error.message);
+}
+</script>
+
+<template>
+  <CopilotKitProvider
+    runtime-url="/api/copilotkit"
+    :generativeUI="{ ui: shopUI, errorBoundary: { onError, fallback: RetryFallback } }"
+  >
+    <slot />
+  </CopilotKitProvider>
+</template>

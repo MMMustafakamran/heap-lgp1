@@ -1,0 +1,567 @@
+### []
+"""
+LangGraph agent for the CopilotKit Tool Rendering demos.
+
+Backs the three tool-rendering cells:
+  - tool-rendering-default-catchall  (no frontend renderers)
+  - tool-rendering-custom-catchall   (wildcard renderer on frontend)
+  - tool-rendering                   (per-tool + catch-all on frontend)
+
+All three share this backend — they differ only in how the frontend
+renders the same tool calls. The `tool-rendering-reasoning-chain` cell
+has its own agent (`tool_rendering_reasoning_chain_agent.py`) because
+it routes through the OpenAI Responses API for reasoning streaming.
+"""
+
+from random import choice, randint
+
+from langchain.agents import create_agent
+from langchain.agents.middleware import AgentState, before_model
+from langchain.tools import tool
+from langchain_core.messages import AIMessage, ToolMessage
+from langchain_openai import ChatOpenAI
+from langgraph.runtime import Runtime
+from copilotkit import CopilotKitMiddleware
+
+# Multi-tool-per-question prompt.
+#
+# This backend serves the tool-rendering demos, whose JOB is to show the
+# rendering patterns (per-tool, catch-all, default fallback). The agent
+# may call multiple tools per turn when the user asks for them. The
+# `roll_d20` tool accepts a deterministic `value` parameter so the
+# aimock fixtures can script the exact dice sequence the e2e tests
+# assert against.
+SYSTEM_PROMPT = (
+    "You are a travel & lifestyle concierge. Use the mock tools for "
+    "weather, flights, stock prices, or d20 rolls when the user asks; "
+    "otherwise reply in plain text. For flights, default origin to 'SFO' "
+    "if the user only names a destination. Call multiple tools in one "
+    "turn if asked. After tools return, summarize in one short sentence. "
+    "Never fabricate data a tool could provide."
+)
+
+
+@tool
+def get_weather(location: str) -> dict:
+    """Get the current weather for a given location."""
+    return {
+        "city": location,
+        "temperature": 68,
+        "humidity": 55,
+        "wind_speed": 10,
+        "conditions": "Sunny",
+    }
+
+
+
+
+@tool
+def search_flights(origin: str, destination: str) -> dict:
+    """Search mock flights from an origin airport to a destination airport."""
+    return {
+        "origin": origin,
+        "destination": destination,
+        "flights": [
+            {
+                "airline": "United",
+                "flight": "UA231",
+                "depart": "08:15",
+                "arrive": "16:45",
+                "price_usd": 348,
+            },
+            {
+                "airline": "Delta",
+                "flight": "DL412",
+                "depart": "11:20",
+                "arrive": "19:55",
+                "price_usd": 312,
+            },
+            {
+                "airline": "JetBlue",
+                "flight": "B6722",
+                "depart": "17:05",
+                "arrive": "01:30",
+                "price_usd": 289,
+            },
+        ],
+    }
+
+
+@tool
+def get_stock_price(
+    ticker: str,
+    price_usd: float | None = None,
+    change_pct: float | None = None,
+) -> dict:
+    """Get a mock current price for a stock ticker.
+
+    The optional `price_usd` and `change_pct` arguments let the LLM (or
+    aimock fixture) script a deterministic ticker quote for testing —
+    when supplied, the tool echoes them back verbatim. When omitted (or
+    `None`), the tool returns mock random values. Mirrors the
+    deterministic-`value` pattern on `roll_d20`.
+    """
+    return {
+        "ticker": ticker.upper(),
+        "price_usd": (
+            round(float(price_usd), 2)
+            if price_usd is not None
+            else round(100 + randint(0, 400) + randint(0, 99) / 100, 2)
+        ),
+        "change_pct": (
+            round(float(change_pct), 2)
+            if change_pct is not None
+            else round(choice([-1, 1]) * (randint(0, 300) / 100), 2)
+        ),
+    }
+
+
+@tool
+def roll_d20(value: int = 0) -> dict:
+    """Roll a 20-sided die.
+
+    The `value` argument lets the LLM (or aimock fixture) script a
+    deterministic roll for testing — the tool simply echoes it back as
+    the result. When called without `value` (or with 0), the tool
+    returns a random natural d20 roll.
+    """
+    rolled = value if isinstance(value, int) and 1 <= value <= 20 else randint(1, 20)
+    return {"sides": 20, "value": rolled, "result": rolled}
+
+
+@before_model(can_jump_to=["end"])
+def stop_after_tool_failure(state: AgentState, runtime: Runtime) -> dict | None:
+    for message in reversed(state["messages"]):
+        if not isinstance(message, ToolMessage):
+            break
+        if message.status == "error":
+            return {
+                "messages": [
+                    AIMessage(
+                        content="The tool could not complete this request. Please retry."
+                    )
+                ],
+                "jump_to": "end",
+            }
+    return None
+
+
+model = ChatOpenAI(reasoning_effort="none", model="gpt-6-luna")
+
+graph = create_agent(
+    model=model,
+    tools=[get_weather, search_flights, get_stock_price, roll_d20],
+    middleware=[stop_after_tool_failure, CopilotKitMiddleware()],
+    system_prompt=SYSTEM_PROMPT,
+)
+
+### [page.tsx]
+  // Opt in to CopilotKit's built-in default tool-call card. Called with
+  // no config so the package-provided `DefaultToolCallRenderer` is used
+  // as the wildcard renderer — this is the "out-of-the-box" UI the cell
+  // is meant to showcase.
+  useDefaultRenderTool();
+
+### []
+"use client";
+
+// Tool Rendering — DEFAULT CATCH-ALL variant (simplest).
+//
+// This cell is the simplest point in the three-way progression. The
+// backend exposes a handful of mock tools (get_weather, search_flights,
+// get_stock_price, roll_dice) and the frontend ONLY opts into
+// CopilotKit's built-in default tool-call card — no per-tool renderers,
+// no custom wildcard UI.
+//
+// `useDefaultRenderTool()` (called with no config) registers the built-
+// in `DefaultToolCallRenderer` under the `*` wildcard. That renderer
+// shows the tool name, a live status pill (Running → Done), and a
+// collapsible "Arguments / Result" section that fills in as the call
+// progresses. Without this hook the runtime has NO `*` renderer, so
+// `useRenderToolCall` falls through to `null` and tool calls are
+// invisible — the user only sees the assistant's final text summary.
+
+import React from "react";
+import {
+  CopilotKit,
+  CopilotChat,
+  useDefaultRenderTool,
+} from "@copilotkit/react-core/v2";
+import { useSuggestions } from "./suggestions";
+
+export default function ToolRenderingDefaultCatchallDemo() {
+  return (
+    <CopilotKit
+      runtimeUrl="/api/copilotkit"
+      agent="tool-rendering-default-catchall"
+    >
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  // Opt in to CopilotKit's built-in default tool-call card. Called with
+  // no config so the package-provided `DefaultToolCallRenderer` is used
+  // as the wildcard renderer — this is the "out-of-the-box" UI the cell
+  // is meant to showcase.
+  useDefaultRenderTool();
+
+  useSuggestions();
+
+  return (
+    <CopilotChat
+      agentId="tool-rendering-default-catchall"
+      className="h-full rounded-2xl"
+    />
+  );
+}
+
+### [page.tsx]
+  // `useDefaultRenderTool` is a convenience wrapper around
+  // `useRenderTool({ name: "*", ... })` — a single wildcard renderer
+  // that handles every tool call not claimed by a named renderer.
+  useDefaultRenderTool(
+    {
+      render: ({ name, parameters, status, result }) => (
+        <CustomCatchallRenderer
+          name={name}
+          parameters={parameters}
+          status={status as CatchallToolStatus}
+          result={result}
+        />
+      ),
+    },
+    [],
+  );
+
+### []
+"use client";
+
+// Tool Rendering — CUSTOM CATCH-ALL variant (middle of the progression).
+//
+// Same backend tools as `tool-rendering-default-catchall`, but this
+// cell opts out of CopilotKit's built-in default tool-call UI by
+// registering a SINGLE custom wildcard renderer via
+// `useDefaultRenderTool`. The same branded card now paints every tool
+// call — no per-tool renderers yet.
+
+import React from "react";
+import {
+  CopilotKit,
+  CopilotChat,
+  useDefaultRenderTool,
+} from "@copilotkit/react-core/v2";
+import {
+  CustomCatchallRenderer,
+  type CatchallToolStatus,
+} from "./custom-catchall-renderer";
+import { useSuggestions } from "./suggestions";
+
+export default function ToolRenderingCustomCatchallDemo() {
+  return (
+    <CopilotKit
+      runtimeUrl="/api/copilotkit"
+      agent="tool-rendering-custom-catchall"
+    >
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  // `useDefaultRenderTool` is a convenience wrapper around
+  // `useRenderTool({ name: "*", ... })` — a single wildcard renderer
+  // that handles every tool call not claimed by a named renderer.
+  useDefaultRenderTool(
+    {
+      render: ({ name, parameters, status, result }) => (
+        <CustomCatchallRenderer
+          name={name}
+          parameters={parameters}
+          status={status as CatchallToolStatus}
+          result={result}
+        />
+      ),
+    },
+    [],
+  );
+
+  useSuggestions();
+
+  return (
+    <CopilotChat
+      agentId="tool-rendering-custom-catchall"
+      className="h-full rounded-2xl"
+    />
+  );
+}
+
+### [page.tsx]
+useDefaultRenderTool({ render: MyToolRow, group: true });
+
+### [page.tsx]
+// "grouped" (default) | "line" | "stacked" | "turn" | "separate"
+<CopilotChat messageView={{ toolCallDisplay: "line" }} />
+
+### [page.tsx]
+// ToolTimeline: your component, given the group's `calls` and a `renderCall` function
+<CopilotChat
+  messageView={{
+    assistantMessage: { toolCallsView: { group: ToolTimeline } },
+  }}
+/>
+
+### [components/weather-card.tsx]
+export interface WeatherCardProps {
+  loading: boolean;
+  location: string;
+  temperature?: number;
+  humidity?: number;
+  windSpeed?: number;
+  conditions?: string;
+}
+
+export function WeatherCard({
+  loading,
+  location,
+  temperature,
+  humidity,
+  windSpeed,
+  conditions,
+}: WeatherCardProps) {
+  return (
+    <article className="rounded-xl border p-4">
+      <h3 className="font-semibold">{location || "Weather"}</h3>
+      {loading ? (
+        <p>Fetching weather...</p>
+      ) : (
+        <dl>
+          <div>
+            <dt>Conditions</dt>
+            <dd>{conditions ?? "--"}</dd>
+          </div>
+          <div>
+            <dt>Temperature</dt>
+            <dd>{temperature ?? "--"}&deg;F</dd>
+          </div>
+          <div>
+            <dt>Humidity</dt>
+            <dd>{humidity ?? "--"}%</dd>
+          </div>
+          <div>
+            <dt>Wind</dt>
+            <dd>{windSpeed ?? "--"} mph</dd>
+          </div>
+        </dl>
+      )}
+    </article>
+  );
+}
+
+### [components/flight-list-card.tsx]
+export interface Flight {
+  airline?: string;
+  flight?: string;
+  depart?: string;
+  arrive?: string;
+  price_usd?: number;
+}
+
+export interface FlightListCardProps {
+  loading: boolean;
+  origin: string;
+  destination: string;
+  flights: Flight[];
+}
+
+export function FlightListCard({
+  loading,
+  origin,
+  destination,
+  flights,
+}: FlightListCardProps) {
+  return (
+    <article className="rounded-xl border p-4">
+      <h3 className="font-semibold">
+        {origin || "?"} → {destination || "?"}
+      </h3>
+      {loading ? (
+        <p>Searching...</p>
+      ) : (
+        <ul>
+          {flights.map((flight, index) => (
+            <li key={`${flight.flight ?? "flight"}-${index}`}>
+              {flight.airline ?? "--"} {flight.flight ?? ""}:{" "}
+              {flight.depart ?? "?"} → {flight.arrive ?? "?"}
+              {flight.price_usd !== undefined ? ` ($${flight.price_usd})` : ""}
+            </li>
+          ))}
+        </ul>
+      )}
+    </article>
+  );
+}
+
+### [lib/parse-json-result.ts]
+export function parseJsonResult<T>(result: unknown): T {
+  if (!result) return {} as T;
+
+  try {
+    return (typeof result === "string" ? JSON.parse(result) : result) as T;
+  } catch {
+    return {} as T;
+  }
+}
+
+### [app/tool-renderers.tsx]
+"use client";
+
+import { useRenderTool } from "@copilotkit/react-core/v2";
+import { z } from "zod";
+import { WeatherCard } from "../components/weather-card";
+import { FlightListCard, type Flight } from "../components/flight-list-card";
+import { parseJsonResult } from "../lib/parse-json-result";
+
+interface WeatherResult {
+  city?: string;
+  temperature?: number;
+  humidity?: number;
+  wind_speed?: number;
+  conditions?: string;
+}
+
+interface FlightSearchResult {
+  origin?: string;
+  destination?: string;
+  flights?: Flight[];
+}
+
+export function ToolRenderers() {
+  useRenderTool(
+    {
+      name: "get_weather",
+      parameters: z.object({ location: z.string() }),
+      render: ({ parameters, result, status }) => {
+        const parsed = parseJsonResult<WeatherResult>(result);
+        return (
+          <WeatherCard
+            loading={status !== "complete"}
+            location={parameters?.location ?? parsed.city ?? ""}
+            temperature={parsed.temperature}
+            humidity={parsed.humidity}
+            windSpeed={parsed.wind_speed}
+            conditions={parsed.conditions}
+          />
+        );
+      },
+    },
+    [],
+  );
+
+  useRenderTool(
+    {
+      name: "search_flights",
+      parameters: z.object({
+        origin: z.string(),
+        destination: z.string(),
+      }),
+      render: ({ parameters, result, status }) => {
+        const parsed = parseJsonResult<FlightSearchResult>(result);
+        return (
+          <FlightListCard
+            loading={status !== "complete"}
+            origin={parameters?.origin ?? parsed.origin ?? ""}
+            destination={parameters?.destination ?? parsed.destination ?? ""}
+            flights={parsed.flights ?? []}
+          />
+        );
+      },
+    },
+    [],
+  );
+
+  return null;
+}
+
+### [app/page.tsx]
+"use client";
+
+import { CopilotChat, CopilotKit } from "@copilotkit/react-core/v2";
+import { ToolRenderers } from "./tool-renderers";
+
+export default function Page() {
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit" agent="tool-rendering">
+      <ToolRenderers />
+      <CopilotChat agentId="tool-rendering" />
+    </CopilotKit>
+  );
+}
+
+### [page.tsx]
+  // Wildcard catch-all for anything that doesn't match a per-tool
+  // renderer above.
+  useDefaultRenderTool(
+    {
+      render: ({ name, parameters, status, result }) => (
+        <CustomCatchallRenderer
+          name={name}
+          parameters={parameters}
+          status={status as CatchallToolStatus}
+          result={result}
+        />
+      ),
+    },
+    [],
+  );
+
+### [tool_rendering_agent.py]
+from random import choice, randint
+
+from langchain.agents import create_agent
+from langchain.agents.middleware import AgentState, before_model
+from langchain.tools import tool
+from langchain_core.messages import AIMessage, ToolMessage
+from langchain_openai import ChatOpenAI
+from langgraph.runtime import Runtime
+from copilotkit import CopilotKitMiddleware
+
+# Multi-tool-per-question prompt.
+#
+# This backend serves the tool-rendering demos, whose JOB is to show the
+# rendering patterns (per-tool, catch-all, default fallback). The agent
+# may call multiple tools per turn when the user asks for them. The
+# `roll_d20` tool accepts a deterministic `value` parameter so the
+# aimock fixtures can script the exact dice sequence the e2e tests
+# assert against.
+SYSTEM_PROMPT = (
+    "You are a travel & lifestyle concierge. Use the mock tools for "
+    "weather, flights, stock prices, or d20 rolls when the user asks; "
+    "otherwise reply in plain text. For flights, default origin to 'SFO' "
+    "if the user only names a destination. Call multiple tools in one "
+    "turn if asked. After tools return, summarize in one short sentence. "
+    "Never fabricate data a tool could provide."
+)
+
+
+@tool
+def get_weather(location: str) -> dict:
+    """Get the current weather for a given location."""
+    return {
+        "city": location,
+        "temperature": 68,
+        "humidity": 55,
+        "wind_speed": 10,
+        "conditions": "Sunny",
+    }
+
+

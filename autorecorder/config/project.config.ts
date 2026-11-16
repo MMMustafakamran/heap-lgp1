@@ -81,11 +81,11 @@ export interface ProjectConfig {
 }
 
 export const PROJECT: ProjectConfig = {
-  framework: 'langgraph-typescript',
-  frameworkLabel: 'LangGraph (TypeScript / JS)',
-  videoPrefix: 'LANGGRAPH-react',
+  framework: 'langgraph-python',
+  frameworkLabel: 'LangGraph (Python)',
+  videoPrefix: 'LGPY-react',
 
-  docBaseUrl: 'https://docs.copilotkit.ai/langgraph-typescript',
+  docBaseUrl: 'https://docs.copilotkit.ai/langgraph-python',
 
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3080',
   backendUrl: process.env.BACKEND_URL || 'http://localhost:8081',
@@ -93,7 +93,7 @@ export const PROJECT: ProjectConfig = {
   backendHealthPath: '/ok',
 
   frontendStartCmd: './start-all.sh   (frontend: cd frontend && npm run dev, port 3080)',
-  backendStartCmd: './start-all.sh   (agent: cd agent && npx @langchain/langgraph-cli dev --port 8081 --no-browser)',
+  backendStartCmd: './start-all.sh   (agent: cd backend && uv run langgraph dev --port 8081 --no-browser)',
 
   demoSuffix: '',
 

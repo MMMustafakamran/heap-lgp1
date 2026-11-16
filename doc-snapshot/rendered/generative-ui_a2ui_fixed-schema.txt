@@ -1,0 +1,435 @@
+### []
+"""
+LangGraph agent for the Declarative Generative UI (A2UI — Fixed Schema) demo.
+
+Fixed-schema A2UI: the component tree (schema) is authored ahead of time as
+JSON and loaded at startup via `a2ui.load_schema(...)`. The agent only
+streams *data* into the data model at runtime. The frontend registers a
+matching catalog (see `src/app/demos/a2ui-fixed-schema/a2ui/catalog.ts`)
+that pins the schema's component names to real React implementations.
+
+Reference:
+    examples/integrations/langgraph-python/agent/src/a2ui_fixed_schema.py
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+from typing import TypedDict
+
+from copilotkit import CopilotKitMiddleware, a2ui
+from langchain.agents import create_agent
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
+
+CATALOG_ID = "copilotkit://flight-fixed-catalog"
+SURFACE_ID = "flight-fixed-schema"
+
+_SCHEMAS_DIR = Path(__file__).parent / "a2ui_schemas"
+
+# The schema is JSON so it can be authored and reviewed independently of the
+# Python code. `a2ui.load_schema` is just a thin `json.load` wrapper.
+FLIGHT_SCHEMA = a2ui.load_schema(_SCHEMAS_DIR / "flight_schema.json")
+
+
+class Flight(TypedDict):
+    """Shape the LLM should fill in when calling `display_flight`.
+
+    LangGraph serializes this TypedDict into the tool's JSON schema, so
+    defining it narrowly is how we steer the LLM to produce data that fits
+    the frontend `FlightCard` component's props.
+    """
+
+    origin: str
+    destination: str
+    airline: str
+    price: str
+
+
+@tool
+def display_flight(origin: str, destination: str, airline: str, price: str) -> str:
+    """Show a flight card for the given trip.
+
+    Use short airport codes (e.g. "SFO", "JFK") for origin/destination and a
+    price string like "$289".
+
+    After this tool returns, the flight card is already rendered to the user
+    via the A2UI surface — the JSON returned here is the surface descriptor
+    the renderer consumes, NOT a status code. Do NOT call this tool again
+    for the same flight (the user already sees the card). Reply with one
+    short confirmation sentence and stop.
+    """
+    # The A2UI middleware detects the `a2ui_operations` container in this
+    # tool result and forwards the ops to the frontend renderer. The frontend
+    # catalog resolves component names to the local React components.
+    #
+    # Note: schema-swap-on-action (e.g. swapping to a "booked" schema when
+    # the card's button is clicked) will be added once the Python SDK
+    # exposes `action_handlers=` on `a2ui.render`.
+    return a2ui.render(
+        operations=[
+            a2ui.create_surface(SURFACE_ID, catalog_id=CATALOG_ID),
+            a2ui.update_components(SURFACE_ID, FLIGHT_SCHEMA),
+            a2ui.update_data_model(
+                SURFACE_ID,
+                {
+                    "origin": origin,
+                    "destination": destination,
+                    "airline": airline,
+                    "price": price,
+                },
+            ),
+        ],
+    )
+
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[display_flight],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt=(
+        "You help users find flights. When asked about a flight, call "
+        "`display_flight` exactly ONCE with origin, destination, airline, "
+        "and price. The tool's JSON return value is an A2UI surface "
+        "descriptor — the flight card is already rendered to the user; do "
+        "NOT call `display_flight` again for the same trip. After the tool "
+        "returns, reply with one short confirmation sentence and stop."
+    ),
+)
+
+### []
+Card
+ └─ Column
+     ├─ Title        ("Flight Details")
+     ├─ Row          (Airport → Arrow → Airport)
+     ├─ Row          (AirlineBadge · PriceTag)
+     └─ Button       (Book)
+
+### []
+npm install @copilotkit/a2ui-renderer zod
+
+### []
+import { DynamicStringSchema } from "@copilotkit/a2ui-renderer";
+
+### [definitions.ts]
+import { z } from "zod";
+import type { CatalogDefinitions } from "@copilotkit/a2ui-renderer";
+
+/**
+ * Dynamic string: literal OR a data-model path binding. The GenericBinder
+ * resolves path bindings to the actual value at render time.
+ */
+const DynString = z.union([z.string(), z.object({ path: z.string() })]);
+
+export const definitions = {
+  /**
+   * Card override: gives the outer flight-card container a ShadCN look
+   * (rounded-xl, neutral-200 border, soft shadow). The basic catalog's
+   * Card uses inline styles; overriding here lets the demo's renderer
+   * adopt the demo's Tailwind aesthetic without touching the schema JSON.
+   */
+  Card: {
+    description: "A container card with a single child.",
+    props: z.object({
+      child: z.string(),
+    }),
+  },
+  Title: {
+    description: "A prominent heading for the flight card.",
+    props: z.object({
+      text: DynString,
+    }),
+  },
+  Airport: {
+    description: "A 3-letter airport code, displayed large.",
+    props: z.object({
+      code: DynString,
+    }),
+  },
+  Arrow: {
+    description: "A right-pointing arrow used between airports.",
+    props: z.object({}),
+  },
+  AirlineBadge: {
+    description: "A pill-styled airline name tag.",
+    props: z.object({
+      name: DynString,
+    }),
+  },
+  PriceTag: {
+    description: "A stylized price display (e.g. '$289').",
+    props: z.object({
+      amount: DynString,
+    }),
+  },
+  /**
+   * Button override: swaps in an ActionButton renderer that tracks
+   * its own `done` state so clicking "Book flight" visually updates to
+   * a "Booked ✓" confirmation. The basic catalog's Button is stateless,
+   * so without this override the click fires the action but the button
+   * looks unchanged. Mirrors the pattern in beautiful-chat
+   * (src/app/demos/beautiful-chat/declarative-generative-ui/renderers.tsx).
+   */
+  Button: {
+    description:
+      "An interactive button with an action event. Use 'child' with a Text component ID for the label. After click, the button shows a confirmation state.",
+    props: z.object({
+      child: z
+        .string()
+        .describe(
+          "The ID of the child component (e.g. a Text component for the label).",
+        ),
+      variant: z.enum(["primary", "secondary", "ghost"]).optional(),
+      // Union with { event } so GenericBinder resolves this as ACTION → callable () => void.
+      action: z
+        .union([
+          z.object({
+            event: z.object({
+              name: z.string(),
+              context: z.record(z.any()).optional(),
+            }),
+          }),
+          z.null(),
+        ])
+        .optional(),
+    }),
+  },
+} satisfies CatalogDefinitions;
+
+### [renderers.tsx]
+export const renderers: CatalogRenderers<Definitions> = {
+  /**
+   * Card override: ShadCN-style outer container. The basic catalog's Card
+   * uses inline styles; overriding here keeps the demo's tailwind aesthetic.
+   * The flight schema renders Card > Column > [Title, Row, …]; the inner
+   * Column adds the vertical spacing.
+   */
+  Card: ({ props, children }) => (
+    <Card className="w-full max-w-md p-5" data-testid="a2ui-fixed-card">
+      {props.child ? children(props.child) : null}
+    </Card>
+  ),
+  Title: ({ props }) => (
+    <div className="flex items-center justify-between">
+      <div className="space-y-1">
+        <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 dark:text-muted-foreground">
+          Itinerary
+        </p>
+        <h3 className="text-base font-semibold leading-none tracking-tight text-neutral-900 dark:text-foreground">
+          {s(props.text)}
+        </h3>
+      </div>
+      <Badge variant="outline" className="font-mono">
+        1-stop · economy
+      </Badge>
+    </div>
+  ),
+  Airport: ({ props }) => (
+    <div className="flex flex-col items-center">
+      <span className="font-mono text-2xl font-semibold tracking-wider text-neutral-900 dark:text-foreground">
+        {s(props.code)}
+      </span>
+    </div>
+  ),
+  Arrow: () => (
+    <div className="flex flex-1 items-center px-3">
+      <Separator className="flex-1 bg-neutral-200 dark:bg-border" />
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="mx-1 text-neutral-400 dark:text-muted-foreground"
+        aria-hidden
+      >
+        <line x1="5" y1="12" x2="19" y2="12" />
+        <polyline points="12 5 19 12 12 19" />
+      </svg>
+      <Separator className="flex-1 bg-neutral-200 dark:bg-border" />
+    </div>
+  ),
+  AirlineBadge: ({ props }) => (
+    <Badge variant="secondary" className="uppercase tracking-[0.08em]">
+      {s(props.name)}
+    </Badge>
+  ),
+  PriceTag: ({ props }) => (
+    <div className="flex items-baseline gap-1">
+      <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500 dark:text-muted-foreground">
+        Total
+      </span>
+      <span className="font-mono text-base font-semibold text-neutral-900 dark:text-foreground">
+        {s(props.amount)}
+      </span>
+    </div>
+  ),
+  /**
+   * Button override: this is a pure-presentation demo, so the button just
+   * renders its label. The schema declares an `action` for visual fidelity,
+   * but the click handler is inert until the Python SDK exposes
+   * `action_handlers=` on `a2ui.render` (see `src/agents/a2ui_fixed.py`).
+   */
+  Button: ({ props, children }) => (
+    <UIButton className="w-full">
+      {props.child ? children(props.child) : null}
+    </UIButton>
+  ),
+};
+
+### [catalog.ts]
+import { createCatalog } from "@copilotkit/a2ui-renderer";
+
+import { definitions } from "./definitions";
+import { renderers } from "./renderers";
+
+export const CATALOG_ID = "copilotkit://flight-fixed-catalog";
+
+export const catalog = createCatalog(definitions, renderers, {
+  catalogId: CATALOG_ID,
+  includeBasicCatalog: true,
+});
+
+### [a2ui_fixed.py]
+from __future__ import annotations
+
+from pathlib import Path
+from typing import TypedDict
+
+from copilotkit import CopilotKitMiddleware, a2ui
+from langchain.agents import create_agent
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
+
+CATALOG_ID = "copilotkit://flight-fixed-catalog"
+SURFACE_ID = "flight-fixed-schema"
+
+_SCHEMAS_DIR = Path(__file__).parent / "a2ui_schemas"
+
+# The schema is JSON so it can be authored and reviewed independently of the
+# Python code. `a2ui.load_schema` is just a thin `json.load` wrapper.
+FLIGHT_SCHEMA = a2ui.load_schema(_SCHEMAS_DIR / "flight_schema.json")
+
+### [a2ui_fixed.py]
+from __future__ import annotations
+
+from pathlib import Path
+from typing import TypedDict
+
+from copilotkit import CopilotKitMiddleware, a2ui
+from langchain.agents import create_agent
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
+
+CATALOG_ID = "copilotkit://flight-fixed-catalog"
+SURFACE_ID = "flight-fixed-schema"
+
+_SCHEMAS_DIR = Path(__file__).parent / "a2ui_schemas"
+
+# The schema is JSON so it can be authored and reviewed independently of the
+# Python code. `a2ui.load_schema` is just a thin `json.load` wrapper.
+FLIGHT_SCHEMA = a2ui.load_schema(_SCHEMAS_DIR / "flight_schema.json")
+
+
+class Flight(TypedDict):
+    """Shape the LLM should fill in when calling `display_flight`.
+
+    LangGraph serializes this TypedDict into the tool's JSON schema, so
+    defining it narrowly is how we steer the LLM to produce data that fits
+    the frontend `FlightCard` component's props.
+    """
+
+    origin: str
+    destination: str
+    airline: str
+    price: str
+
+
+@tool
+def display_flight(origin: str, destination: str, airline: str, price: str) -> str:
+    """Show a flight card for the given trip.
+
+    Use short airport codes (e.g. "SFO", "JFK") for origin/destination and a
+    price string like "$289".
+
+    After this tool returns, the flight card is already rendered to the user
+    via the A2UI surface — the JSON returned here is the surface descriptor
+    the renderer consumes, NOT a status code. Do NOT call this tool again
+    for the same flight (the user already sees the card). Reply with one
+    short confirmation sentence and stop.
+    """
+    # The A2UI middleware detects the `a2ui_operations` container in this
+    # tool result and forwards the ops to the frontend renderer. The frontend
+    # catalog resolves component names to the local React components.
+    #
+    # Note: schema-swap-on-action (e.g. swapping to a "booked" schema when
+    # the card's button is clicked) will be added once the Python SDK
+    # exposes `action_handlers=` on `a2ui.render`.
+    return a2ui.render(
+        operations=[
+            a2ui.create_surface(SURFACE_ID, catalog_id=CATALOG_ID),
+            a2ui.update_components(SURFACE_ID, FLIGHT_SCHEMA),
+            a2ui.update_data_model(
+                SURFACE_ID,
+                {
+                    "origin": origin,
+                    "destination": destination,
+                    "airline": airline,
+                    "price": price,
+                },
+            ),
+        ],
+    )
+
+### [agent.py (LangGraph StateGraph form)]
+from langchain_openai import ChatOpenAI
+from langgraph.graph import START, MessagesState, StateGraph
+from langgraph.prebuilt import ToolNode, tools_condition
+
+# `display_flight` is the tool defined above — unchanged.
+model = ChatOpenAI(model="gpt-6-luna", reasoning_effort="none").bind_tools([display_flight])
+
+
+def call_model(state: MessagesState):
+    return {"messages": [model.invoke(state["messages"])]}
+
+
+builder = StateGraph(MessagesState)
+builder.add_node("call_model", call_model)
+builder.add_node("tools", ToolNode([display_flight]))
+builder.add_edge(START, "call_model")
+builder.add_conditional_edges("call_model", tools_condition)
+builder.add_edge("tools", "call_model")
+
+# No `checkpointer=` — the LangGraph API server owns persistence and
+# rejects a custom one. See the LangGraph quickstart for the FastAPI case,
+# where you host the graph yourself and do need a checkpointer.
+graph = builder.compile()
+
+### [app/page.tsx]
+<CopilotKit runtimeUrl="/api/copilotkit" a2ui={{ catalog: myCatalog }}>
+  {children}
+</CopilotKit>
+
+### [app/api/copilotkit/route.ts]
+const runtime = new CopilotRuntime({
+  agents: { "a2ui-fixed-schema": agent },
+  a2ui: { injectA2UITool: false, agents: ["a2ui-fixed-schema"] },
+});
+
+### []
+{
+  "Button": {
+    "label": "Book",
+    "action": {
+      "name": "book_flight",
+      "context": [
+        { "key": "flightNumber", "value": { "path": "/flightNumber" } },
+        { "key": "price", "value": { "path": "/price" } }
+      ]
+    }
+  }
+}

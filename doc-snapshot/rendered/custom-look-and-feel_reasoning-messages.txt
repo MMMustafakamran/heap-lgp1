@@ -1,0 +1,235 @@
+### []
+"use client";
+
+// Reasoning — Default
+//
+// Pairs with `reasoning-custom` (the Custom variant) so users can
+// compare default vs custom reasoning rendering side by side. This cell
+// renders <CopilotChat> with NO slot override — reasoning messages are
+// rendered by the built-in `CopilotChatReasoningMessage` component
+// (Thinking… / Thought for X header with an expandable content region).
+//
+// Both demos share the same backend (`reasoning_agent` graph) and the
+// same runtime URL (/api/copilotkit). The only difference is whether the
+// `messageView.reasoningMessage` slot is overridden.
+
+import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
+import { useReasoningDefaultSuggestions } from "./suggestions";
+
+const AGENT_ID = "reasoning-default";
+
+export default function ReasoningDefaultDemo() {
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit" agent={AGENT_ID}>
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  useReasoningDefaultSuggestions();
+  return <CopilotChat agentId={AGENT_ID} className="h-full rounded-2xl" />;
+}
+
+### [page.tsx]
+const AGENT_ID = "reasoning-default";
+
+export default function ReasoningDefaultDemo() {
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit" agent={AGENT_ID}>
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  useReasoningDefaultSuggestions();
+  return <CopilotChat agentId={AGENT_ID} className="h-full rounded-2xl" />;
+}
+
+### []
+<CopilotChat
+  messageView={{
+    reasoningMessage: {
+      header: CustomHeader,
+      contentView: CustomContent,
+    },
+  }}
+/>
+
+### []
+import { CopilotChat } from "@copilotkit/react-core/v2";
+import "@copilotkit/react-core/v2/styles.css";
+
+function CustomHeader({
+  isOpen,
+  label,
+  hasContent,
+  isStreaming,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  isOpen?: boolean;
+  label?: string;
+  hasContent?: boolean;
+  isStreaming?: boolean;
+}) {
+  return (
+    <button
+      className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
+      {...props}
+    >
+      {isStreaming ? "🧠" : "💡"}
+      <span>{label}</span>
+      {hasContent && (
+        <span className="ml-auto text-xs">{isOpen ? "Hide" : "Show"}</span>
+      )}
+    </button>
+  );
+}
+
+<CopilotChat
+  messageView={{
+    reasoningMessage: { header: CustomHeader },
+  }}
+/>
+
+### []
+function CustomContent({
+  isStreaming,
+  hasContent,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement> & {
+  isStreaming?: boolean;
+  hasContent?: boolean;
+}) {
+  if (!hasContent && !isStreaming) return null;
+
+  return (
+    <div className="px-4 pb-3 text-sm text-gray-500 font-mono" {...props}>
+      {children}
+      {isStreaming && <span className="animate-pulse ml-1">▊</span>}
+    </div>
+  );
+}
+
+<CopilotChat
+  messageView={{
+    reasoningMessage: { contentView: CustomContent },
+  }}
+/>
+
+### []
+"use client";
+
+// Reasoning — Custom
+//
+// Pairs with `reasoning-default` so users can compare default vs custom
+// reasoning rendering side by side. Both demos share the same backend
+// (`reasoning_agent` graph) and runtime URL (/api/copilotkit). This cell
+// overrides the `reasoningMessage` slot on the `messageView` slot with
+// `ReasoningBlock` — a tagged amber banner that emphasizes the agent's
+// thinking chain.
+//
+// Reasoning is a first-class message type in v2: see
+// packages/react-core/src/v2/components/chat/CopilotChatMessageView.tsx,
+// which discriminates messages by `message.role === "reasoning"` and
+// renders them via the `reasoningMessage` slot (default component:
+// `CopilotChatReasoningMessage`). The slot override below is the public,
+// stable way to customize that output.
+
+import type { CopilotChatReasoningMessage } from "@copilotkit/react-core/v2";
+import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
+import { ReasoningBlock } from "./reasoning-block";
+import { useReasoningCustomSuggestions } from "./suggestions";
+
+const AGENT_ID = "reasoning-custom";
+
+export default function ReasoningCustomDemo() {
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit" agent={AGENT_ID}>
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  useReasoningCustomSuggestions();
+  return (
+    <CopilotChat
+      agentId={AGENT_ID}
+      className="h-full rounded-2xl"
+      messageView={{
+        reasoningMessage:
+          ReasoningBlock as unknown as typeof CopilotChatReasoningMessage,
+      }}
+    />
+  );
+}
+
+### [page.tsx]
+const AGENT_ID = "reasoning-custom";
+
+export default function ReasoningCustomDemo() {
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit" agent={AGENT_ID}>
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+function Chat() {
+  useReasoningCustomSuggestions();
+  return (
+    <CopilotChat
+      agentId={AGENT_ID}
+      className="h-full rounded-2xl"
+      messageView={{
+        reasoningMessage:
+          ReasoningBlock as unknown as typeof CopilotChatReasoningMessage,
+      }}
+    />
+  );
+}
+
+### []
+import {
+  CopilotChatReasoningMessage,
+} from "@copilotkit/react-core/v2";
+import { CopilotChat } from "@copilotkit/react-core/v2";
+import "@copilotkit/react-core/v2/styles.css";
+
+function MyReasoningLayout(props: React.ComponentProps<typeof CopilotChatReasoningMessage>) {
+  return (
+    <CopilotChatReasoningMessage {...props}>
+      {({ header, toggle }) => (
+        <div className="rounded-lg border bg-yellow-50 my-2">
+          {header}
+          {toggle}
+        </div>
+      )}
+    </CopilotChatReasoningMessage>
+  );
+}
+
+<CopilotChat
+  messageView={{
+    reasoningMessage: MyReasoningLayout,
+  }}
+/>

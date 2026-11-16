@@ -1,5 +1,5 @@
 {
- "root": "langgraph-typescript",
+ "root": "langgraph-python",
  "savedAt": "2026-11-16",
  "pages": {
   "/langgraph-typescript": [],
@@ -371,6 +371,398 @@
    "/langgraph-typescript/vs-code-extension"
   ],
   "/langgraph-typescript/telemetry": [],
-  "/langgraph-typescript/community-frameworks": []
+  "/langgraph-typescript/community-frameworks": [],
+  "/langgraph-python": [
+   "/langgraph-python/intelligence/overview",
+   "/langgraph-python/threads-import"
+  ],
+  "/langgraph-python/prebuilt-components/popup": [
+   "/langgraph-python/custom-look-and-feel/slots",
+   "/langgraph-python/migrate/v2",
+   "/langgraph-python/prebuilt-components/chat",
+   "/langgraph-python/prebuilt-components/sidebar"
+  ],
+  "/langgraph-python/quickstart": [
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/deploy-agentcore",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/self-hosting-local"
+  ],
+  "/langgraph-python/build-with-agents": [],
+  "/langgraph-python/prebuilt-components/sidebar": [
+   "/langgraph-python/custom-look-and-feel/slots",
+   "/langgraph-python/migrate/v2",
+   "/langgraph-python/prebuilt-components/chat",
+   "/langgraph-python/prebuilt-components/copilot-threads-drawer",
+   "/langgraph-python/prebuilt-components/popup"
+  ],
+  "/langgraph-python/prebuilt-components/chat": [
+   "/langgraph-python/custom-look-and-feel/css",
+   "/langgraph-python/custom-look-and-feel/headless-ui",
+   "/langgraph-python/custom-look-and-feel/slots",
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/migrate/v2",
+   "/langgraph-python/prebuilt-components/copilot-threads-drawer",
+   "/langgraph-python/prebuilt-components/popup",
+   "/langgraph-python/prebuilt-components/sidebar"
+  ],
+  "/langgraph-python/prebuilt-components/chat-controls": [
+   "/langgraph-python/custom-look-and-feel/slots",
+   "/langgraph-python/intelligence/capture-interactions",
+   "/langgraph-python/prebuilt-components/popup",
+   "/langgraph-python/prebuilt-components/sidebar",
+   "/langgraph-python/programmatic-control"
+  ],
+  "/langgraph-python/custom-look-and-feel/slots": [
+   "/langgraph-python/custom-look-and-feel/markdown",
+   "/langgraph-python/generative-ui/tool-rendering"
+  ],
+  "/langgraph-python/custom-look-and-feel/markdown": [
+   "/langgraph-python/custom-look-and-feel/slots",
+   "/langgraph-python/generative-ui/tool-rendering"
+  ],
+  "/langgraph-python/custom-look-and-feel/headless-ui": [
+   "/langgraph-python/custom-look-and-feel/css",
+   "/langgraph-python/custom-look-and-feel/slots"
+  ],
+  "/langgraph-python/custom-look-and-feel/reasoning-messages": [],
+  "/langgraph-python/multimodal-attachments": [],
+  "/langgraph-python/custom-look-and-feel/css": [
+   "/langgraph-python/custom-look-and-feel/headless-ui",
+   "/langgraph-python/custom-look-and-feel/slots"
+  ],
+  "/langgraph-python/prebuilt-components/copilot-threads-drawer": [
+   "/langgraph-python/AG-UI-Streams",
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/migrate/v2",
+   "/langgraph-python/prebuilt-components/chat",
+   "/langgraph-python/threads-lifecycle"
+  ],
+  "/langgraph-python/headless-threads": [
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/self-hosting",
+   "/langgraph-python/intelligence/threads-explained",
+   "/langgraph-python/prebuilt-components/copilot-threads-drawer",
+   "/langgraph-python/threads-import",
+   "/langgraph-python/threads-lifecycle"
+  ],
+  "/langgraph-python/generative-ui/reasoning": [],
+  "/langgraph-python/voice": [
+   "/langgraph-python/multimodal-attachments"
+  ],
+  "/langgraph-python/generative-ui/tool-based": [
+   "/langgraph-python/custom-look-and-feel/headless-ui",
+   "/langgraph-python/generative-ui/tool-rendering",
+   "/langgraph-python/human-in-the-loop"
+  ],
+  "/langgraph-python/frontend-tools": [
+   "/langgraph-python/inspector"
+  ],
+  "/langgraph-python/generative-ui/tool-rendering": [],
+  "/langgraph-python/generative-ui/state-rendering": [],
+  "/langgraph-python/generative-ui/components": [
+   "/langgraph-python/generative-ui/components/catalogs",
+   "/langgraph-python/generative-ui/components/from-a2ui",
+   "/langgraph-python/generative-ui/components/markdown-mode",
+   "/langgraph-python/generative-ui/components/state-and-actions",
+   "/langgraph-python/generative-ui/components/surfaces",
+   "/langgraph-python/generative-ui/components/theming",
+   "/langgraph-python/generative-ui/components/transports",
+   "/langgraph-python/inspector",
+   "/langgraph-python/react-native"
+  ],
+  "/langgraph-python/generative-ui/components/surfaces": [
+   "/langgraph-python/generative-ui/components",
+   "/langgraph-python/generative-ui/components/catalogs",
+   "/langgraph-python/react-native"
+  ],
+  "/langgraph-python/generative-ui/components/standard-catalog": [
+   "/langgraph-python/generative-ui/components/catalogs",
+   "/langgraph-python/generative-ui/components/theming",
+   "/langgraph-python/react-native"
+  ],
+  "/langgraph-python/generative-ui/components/theming": [
+   "/langgraph-python/react-native"
+  ],
+  "/langgraph-python/generative-ui/components/state-and-actions": [
+   "/langgraph-python/react-native"
+  ],
+  "/langgraph-python/generative-ui/components/from-a2ui": [
+   "/langgraph-python/generative-ui/components/catalogs",
+   "/langgraph-python/generative-ui/components/markdown-mode",
+   "/langgraph-python/generative-ui/components/state-and-actions",
+   "/langgraph-python/generative-ui/components/surfaces"
+  ],
+  "/langgraph-python/generative-ui/components/transports": [
+   "/langgraph-python/generative-ui/components/markdown-mode"
+  ],
+  "/langgraph-python/generative-ui/a2ui": [
+   "/langgraph-python/generative-ui/a2ui/dynamic-schema",
+   "/langgraph-python/generative-ui/a2ui/fixed-schema",
+   "/langgraph-python/generative-ui/components"
+  ],
+  "/langgraph-python/generative-ui/components/markdown-mode": [
+   "/langgraph-python/generative-ui/components/state-and-actions",
+   "/langgraph-python/generative-ui/components/surfaces",
+   "/langgraph-python/generative-ui/components/transports"
+  ],
+  "/langgraph-python/generative-ui/components/catalogs": [
+   "/langgraph-python/generative-ui/components",
+   "/langgraph-python/generative-ui/components/state-and-actions"
+  ],
+  "/langgraph-python/generative-ui/a2ui/dynamic-schema": [
+   "/langgraph-python/generative-ui/a2ui/fixed-schema"
+  ],
+  "/langgraph-python/generative-ui/a2ui/fixed-schema": [
+   "/langgraph-python/generative-ui/a2ui/dynamic-schema"
+  ],
+  "/langgraph-python/generative-ui/hashbrown": [
+   "/langgraph-python/generative-ui/json-render"
+  ],
+  "/langgraph-python/generative-ui/json-render": [
+   "/langgraph-python/generative-ui/hashbrown"
+  ],
+  "/langgraph-python/generative-ui/mcp-apps": [
+   "/langgraph-python/intelligence/quickstart"
+  ],
+  "/langgraph-python/shared-state": [
+   "/langgraph-python/inspector",
+   "/langgraph-python/shared-state/agent-readonly",
+   "/langgraph-python/shared-state/rendering-in-app",
+   "/langgraph-python/shared-state/streaming"
+  ],
+  "/langgraph-python/shared-state/streaming": [
+   "/langgraph-python/shared-state",
+   "/langgraph-python/shared-state/agent-readonly"
+  ],
+  "/langgraph-python/human-in-the-loop": [
+   "/langgraph-python/human-in-the-loop/headless",
+   "/langgraph-python/human-in-the-loop/useInterrupt",
+   "/langgraph-python/inspector"
+  ],
+  "/langgraph-python/shared-state/agent-readonly": [
+   "/langgraph-python/inspector",
+   "/langgraph-python/shared-state",
+   "/langgraph-python/shared-state/streaming"
+  ],
+  "/langgraph-python/shared-state/rendering-in-app": [
+   "/langgraph-python/shared-state",
+   "/langgraph-python/shared-state/agent-readonly",
+   "/langgraph-python/shared-state/streaming"
+  ],
+  "/langgraph-python/human-in-the-loop/headless": [
+   "/langgraph-python/human-in-the-loop",
+   "/langgraph-python/human-in-the-loop/useInterrupt"
+  ],
+  "/langgraph-python/webmcp": [
+   "/langgraph-python/frontend-tools"
+  ],
+  "/langgraph-python/human-in-the-loop/governed-actions": [
+   "/langgraph-python/frontend-tools",
+   "/langgraph-python/human-in-the-loop",
+   "/langgraph-python/human-in-the-loop/useInterrupt"
+  ],
+  "/langgraph-python/human-in-the-loop/useInterrupt": [
+   "/langgraph-python/human-in-the-loop",
+   "/langgraph-python/human-in-the-loop/headless"
+  ],
+  "/langgraph-python/agent-app-context": [
+   "/langgraph-python/agent-app-context",
+   "/langgraph-python/quickstart"
+  ],
+  "/langgraph-python/configurable": [
+   "/langgraph-python/agent-config",
+   "/langgraph-python/auth"
+  ],
+  "/langgraph-python/generative-ui/open-generative-ui": [
+   "/langgraph-python/frontend-tools"
+  ],
+  "/langgraph-python/guardrails": [
+   "/langgraph-python/auth",
+   "/langgraph-python/human-in-the-loop"
+  ],
+  "/langgraph-python/subgraphs": [],
+  "/langgraph-python/multi-agent/subagents": [
+   "/langgraph-python/shared-state",
+   "/langgraph-python/shared-state/streaming"
+  ],
+  "/langgraph-python/AG-UI-Streams": [
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/bring-your-own-thread-system",
+   "/langgraph-python/intelligence/managed-intelligence-platform",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/self-hosting",
+   "/langgraph-python/intelligence/threads-explained",
+   "/langgraph-python/prebuilt-components/copilot-threads-drawer",
+   "/langgraph-python/threads-import",
+   "/langgraph-python/threads-lifecycle"
+  ],
+  "/langgraph-python/learning": [
+   "/langgraph-python/AG-UI-Streams",
+   "/langgraph-python/cli",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/capture-interactions",
+   "/langgraph-python/intelligence/learned-skills",
+   "/langgraph-python/intelligence/memories",
+   "/langgraph-python/intelligence/overview",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/threads-explained"
+  ],
+  "/langgraph-python/threads-lifecycle": [
+   "/langgraph-python/auth",
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/intelligence/bring-your-own-thread-system",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/threads-explained",
+   "/langgraph-python/threads-import"
+  ],
+  "/langgraph-python/threads-import": [
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/intelligence/threads-explained",
+   "/langgraph-python/prebuilt-components/copilot-threads-drawer",
+   "/langgraph-python/quickstart",
+   "/langgraph-python/threads-lifecycle"
+  ],
+  "/langgraph-python/auth": [
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/human-in-the-loop",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/threads-lifecycle"
+  ],
+  "/langgraph-python/runtime-server-adapter": [
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/intelligence/quickstart"
+  ],
+  "/langgraph-python/inspector": [
+   "/langgraph-python/AG-UI-Streams",
+   "/langgraph-python/agent-config",
+   "/langgraph-python/agentic-protocols/ag-ui",
+   "/langgraph-python/backend/copilot-runtime",
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/frontend-tools",
+   "/langgraph-python/generative-ui/components",
+   "/langgraph-python/headless-threads",
+   "/langgraph-python/intelligence/overview",
+   "/langgraph-python/intelligence/quickstart",
+   "/langgraph-python/learning",
+   "/langgraph-python/quickstart",
+   "/langgraph-python/react-native",
+   "/langgraph-python/shared-state",
+   "/langgraph-python/shared-state/agent-readonly",
+   "/langgraph-python/troubleshooting/debug-mode",
+   "/langgraph-python/troubleshooting/error-debugging",
+   "/langgraph-python/vs-code-extension"
+  ],
+  "/langgraph-python/concepts/architecture": [
+   "/langgraph-python/agentic-protocols/ag-ui",
+   "/langgraph-python/intelligence/overview",
+   "/langgraph-python/quickstart"
+  ],
+  "/langgraph-python/concepts/generative-ui-overview": [
+   "/langgraph-python/generative-ui/a2ui",
+   "/langgraph-python/generative-ui/a2ui/dynamic-schema",
+   "/langgraph-python/generative-ui/a2ui/fixed-schema",
+   "/langgraph-python/generative-ui/mcp-apps",
+   "/langgraph-python/generative-ui/reasoning",
+   "/langgraph-python/generative-ui/state-rendering",
+   "/langgraph-python/generative-ui/tool-based",
+   "/langgraph-python/generative-ui/tool-rendering"
+  ],
+  "/langgraph-python/concepts/which-hook": [
+   "/langgraph-python/frontend-tools",
+   "/langgraph-python/generative-ui/tool-rendering",
+   "/langgraph-python/human-in-the-loop"
+  ],
+  "/langgraph-python/concepts/oss-vs-enterprise": [
+   "/langgraph-python/AG-UI-Streams",
+   "/langgraph-python/backend/copilot-runtime",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/analytics",
+   "/langgraph-python/intelligence/channels",
+   "/langgraph-python/intelligence/intelligence-platform",
+   "/langgraph-python/intelligence/learned-skills",
+   "/langgraph-python/intelligence/managed-intelligence-platform",
+   "/langgraph-python/intelligence/memories",
+   "/langgraph-python/intelligence/overview",
+   "/langgraph-python/intelligence/self-hosting",
+   "/langgraph-python/intelligence/self-hosting-ecs",
+   "/langgraph-python/learning",
+   "/langgraph-python/quickstart"
+  ],
+  "/langgraph-python/agentic-protocols": [
+   "/langgraph-python/agentic-protocols/a2a",
+   "/langgraph-python/agentic-protocols/ag-ui",
+   "/langgraph-python/agentic-protocols/mcp",
+   "/langgraph-python/generative-ui/a2ui",
+   "/langgraph-python/generative-ui/mcp-apps"
+  ],
+  "/langgraph-python/agentic-protocols/ag-ui": [],
+  "/langgraph-python/agentic-protocols/ag-ui-middleware": [
+   "/langgraph-python/agentic-protocols/ag-ui",
+   "/langgraph-python/backend/ag-ui",
+   "/langgraph-python/backend/copilot-runtime"
+  ],
+  "/langgraph-python/agentic-protocols/mcp": [
+   "/langgraph-python/agentic-protocols",
+   "/langgraph-python/backend/copilot-runtime",
+   "/langgraph-python/generative-ui/mcp-apps",
+   "/langgraph-python/generative-ui/tool-rendering",
+   "/langgraph-python/human-in-the-loop"
+  ],
+  "/langgraph-python/agentic-protocols/a2a": [
+   "/langgraph-python/agentic-protocols"
+  ],
+  "/langgraph-python/vs-code-extension": [
+   "/langgraph-python/troubleshooting/event-inspector",
+   "/langgraph-python/troubleshooting/hook-explorer"
+  ],
+  "/langgraph-python/contributing/docs-contributions": [],
+  "/langgraph-python/troubleshooting/common-issues": [
+   "/langgraph-python/backend/agent-runner",
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/deploy/agentcore",
+   "/langgraph-python/inspector",
+   "/langgraph-python/intelligence/self-hosting",
+   "/langgraph-python/model-selection",
+   "/langgraph-python/quickstart",
+   "/langgraph-python/troubleshooting/error-debugging",
+   "/langgraph-python/troubleshooting/error-reference"
+  ],
+  "/langgraph-python/contributing/code-contributions": [
+   "/langgraph-python/contributing/code-contributions/package-linking"
+  ],
+  "/langgraph-python/troubleshooting/error-reference": [
+   "/langgraph-python/backend/runtime-endpoints",
+   "/langgraph-python/backend/self-managed-agents",
+   "/langgraph-python/troubleshooting/common-issues",
+   "/langgraph-python/troubleshooting/error-debugging"
+  ],
+  "/langgraph-python/troubleshooting/error-debugging": [
+   "/langgraph-python/inspector"
+  ],
+  "/langgraph-python/troubleshooting/debug-mode": [
+   "/langgraph-python/troubleshooting/error-debugging"
+  ],
+  "/langgraph-python/troubleshooting/hook-explorer": [
+   "/langgraph-python/troubleshooting/event-inspector",
+   "/langgraph-python/vs-code-extension"
+  ],
+  "/langgraph-python/telemetry": [],
+  "/langgraph-python/troubleshooting/inspector-dev-console": [
+   "/langgraph-python/inspector",
+   "/langgraph-python/migrate/v2",
+   "/langgraph-python/troubleshooting/error-debugging"
+  ],
+  "/langgraph-python/community-frameworks": [],
+  "/langgraph-python/troubleshooting/event-inspector": [
+   "/langgraph-python/inspector",
+   "/langgraph-python/troubleshooting/error-debugging",
+   "/langgraph-python/troubleshooting/hook-explorer",
+   "/langgraph-python/vs-code-extension"
+  ]
  }
 }

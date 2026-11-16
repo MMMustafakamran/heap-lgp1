@@ -1,0 +1,11 @@
+### []
+document.cookie = "cpk_inspector_dismissed_until=; Path=/; Max-Age=0";
+localStorage.removeItem("cpk:inspector:dismissed_until");
+
+### []
+<CopilotKit
+  runtimeUrl="/api/copilotkit"
+  enableInspector={false}
+>
+  {children}
+</CopilotKit>

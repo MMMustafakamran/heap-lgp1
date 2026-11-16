@@ -1,58 +1,25 @@
+// Doc: https://docs.copilotkit.ai/langgraph-python/voice (Backend > Next.js API route), verbatim.
+// src/app/api/copilotkit-voice/[[...slug]]/route.ts
 import type { NextRequest } from "next/server";
 import {
   CopilotRuntime,
-  TranscriptionService,
   createCopilotRuntimeHandler,
 } from "@copilotkit/runtime/v2";
-import type { TranscribeFileOptions } from "@copilotkit/runtime/v2";
 import { LangGraphAgent } from "@copilotkit/runtime/langgraph";
-import { TranscriptionServiceOpenAI } from "@copilotkit/voice";
-import OpenAI from "openai";
+import { createTranscriptionService } from "@/lib/transcription-service";
 
 const LANGGRAPH_URL =
-  process.env.AGENT_URL ||
-  process.env.LANGGRAPH_DEPLOYMENT_URL ||
-  "http://localhost:8123";
+  process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
 
 const voiceDemoAgent = new LangGraphAgent({
-  deploymentUrl: `${LANGGRAPH_URL}/`,
-  graphId: "starterAgent",
+  deploymentUrl: LANGGRAPH_URL,
+  graphId: "sample_agent",
 });
 
-/**
- * Transcription service wrapper that reports a clean, typed auth error when
- * OPENAI_API_KEY is not configured. When the key is present we delegate to
- * the real OpenAI-backed service; any upstream Whisper error keeps its
- * natural categorization.
- */
-class GuardedOpenAITranscriptionService extends TranscriptionService {
-  private delegate: TranscriptionServiceOpenAI | null;
-
-  constructor() {
-    super();
-    const apiKey = process.env.OPENAI_API_KEY;
-    this.delegate = apiKey
-      ? new TranscriptionServiceOpenAI({ openai: new OpenAI({ apiKey }) })
-      : null;
-  }
-
-  async transcribeFile(options: TranscribeFileOptions): Promise<string> {
-    if (!this.delegate) {
-      // "api key" substring → handleTranscribe maps to AUTH_FAILED → 401.
-      throw new Error(
-        "OPENAI_API_KEY not configured for this deployment (api key missing). " +
-          "Set OPENAI_API_KEY to enable voice transcription.",
-      );
-    }
-    return this.delegate.transcribeFile(options);
-  }
-}
-
 // Cache the runtime + handler across invocations so the transcription service
-// is constructed once per Node process instead of per request. The guarded
-// service reads OPENAI_API_KEY lazily in its transcribeFile call path, so
-// deferring construction past module load is not required for cold-start
-// safety under missing-key conditions.
+// is constructed once per Node process instead of per request. A missing
+// OPENAI_TRANSCRIPTION_API_KEY leaves the service undefined (transcription
+// disabled), so construction is safe at first request.
 let cachedHandler: ((req: Request) => Promise<Response>) | null = null;
 function getHandler(): (req: Request) => Promise<Response> {
   if (cachedHandler) return cachedHandler;
@@ -69,7 +36,7 @@ function getHandler(): (req: Request) => Promise<Response> {
       // default-agent lookups resolve against the same graph.
       default: voiceDemoAgent,
     },
-    transcriptionService: new GuardedOpenAITranscriptionService(),
+    transcriptionService: createTranscriptionService(),
   });
 
   cachedHandler = createCopilotRuntimeHandler({

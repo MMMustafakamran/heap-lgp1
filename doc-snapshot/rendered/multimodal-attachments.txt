@@ -1,0 +1,97 @@
+### [page.tsx]
+import { CopilotChat } from "@copilotkit/react-core/v2";
+
+<CopilotChat
+  agentId="my-agent"
+/>
+
+### []
+<CopilotChat
+  attachments={{
+    enabled: true,
+    // Omit `accept` to allow all file types (default: "*/*").
+    // Restrict with a MIME filter if needed:
+    accept: "image/*,audio/*,video/*,application/pdf",
+    maxSize: 10 * 1024 * 1024,      // 10MB limit (default: 20MB)
+  }}
+/>
+
+### []
+<CopilotChat
+  attachments={{
+    enabled: true,
+    onUpload: async (file) => {
+      const buffer = await file.arrayBuffer();
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+      return {
+        type: "data",
+        value: base64,
+        mimeType: file.type,
+      };
+    },
+  }}
+/>
+
+### []
+<CopilotChat
+  attachments={{
+    enabled: true,
+    onUpload: async (file) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const { url } = await res.json();
+      return {
+        type: "url",
+        value: url,
+        mimeType: file.type,
+      };
+    },
+  }}
+/>
+
+### []
+onUpload: async (file) => {
+  const url = await uploadToStorage(file);
+  return {
+    type: "url",
+    value: url,
+    mimeType: file.type,
+    metadata: {
+      uploadedBy: currentUser.id,
+      category: "support-ticket",
+    },
+  };
+},
+
+### []
+<CopilotChat
+  attachments={{
+    enabled: true,
+    maxConcurrentUploads: 3, // three files at a time
+    onUpload: async (file) => uploadToStorage(file),
+  }}
+/>
+
+### []
+<CopilotChat
+  attachments={{
+    enabled: true,
+    accept: "image/*",
+    maxSize: 5 * 1024 * 1024, // 5MB
+    onUploadFailed: (error) => {
+      // error.reason: "file-too-large" | "invalid-type" | "upload-failed"
+      // error.file: the original File object
+      // error.message: human-readable description
+      toast.error(error.message);
+    },
+  }}
+/>
+
+### []
+<CopilotChat
+  attachments={{ enabled: true }}
+  onError={(event) => {
+    console.error(`[${event.code}]`, event.error.message);
+  }}
+/>

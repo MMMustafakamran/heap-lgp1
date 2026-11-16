@@ -43,11 +43,11 @@ export const SKIP_RECORDING: Record<string, string> = {
 
 export const PAGES = definePages([
   {
-    id: 'quickstart', name: 'Quickstart (use an existing agent, TypeScript)', videoName: 'Quickstart',
+    id: 'quickstart', name: 'Quickstart (use an existing agent, Python LangSmith)', videoName: 'Quickstart',
     docPath: 'quickstart', route: '',
-    ideFile: 'frontend/VERSIONS.md', startLine: 1, endLine: 18,
+    ideFile: 'frontend/VERSIONS.md', startLine: 1, endLine: 24,
     extraTabs: [
-      { filePath: 'agent/src/agent.ts', startLine: 1, endLine: 24 },
+      { filePath: 'backend/main.py', startLine: 1, endLine: 26 },
       { filePath: 'frontend/app/api/copilotkit/[[...slug]]/route.ts', startLine: 1, endLine: 30 },
       { filePath: 'frontend/app/providers.tsx', startLine: 1, endLine: 11 },
       { filePath: 'frontend/app/page.tsx', startLine: 1, endLine: 13 },

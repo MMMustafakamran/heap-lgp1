@@ -1,0 +1,26 @@
+### [main.py]
+from copilotkit import LangGraphAGUIAgent
+
+def build_agent(tenant_id: str) -> LangGraphAGUIAgent:
+    return LangGraphAGUIAgent(
+        name="sample_agent",
+        description="Tenant-scoped agent",
+        graph=graph,
+        config={
+            "configurable": {"tenant_id": tenant_id},
+            "recursion_limit": 50,
+        },
+    )
+
+### []
+from langchain_core.runnables import RunnableConfig
+
+async def agent_node(state: AgentState, config: RunnableConfig):
+    tenant_id = config["configurable"]["tenant_id"]
+    return state
+
+### [agent.ts]
+const result = await graph.invoke(input, {
+  context: { tenantId: verifiedTenantId },
+  recursionLimit: 50,
+});

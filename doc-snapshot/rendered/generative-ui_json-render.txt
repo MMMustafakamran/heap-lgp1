@@ -1,0 +1,43 @@
+### []
+"use client";
+
+import { CopilotKit } from "@copilotkit/react-core/v2";
+import { AGENT_ID, Chat } from "./chat";
+
+export default function ByocJsonRenderDemo() {
+  return (
+    <CopilotKit
+      runtimeUrl="/api/copilotkit-declarative-json-render"
+      agent={AGENT_ID}
+    >
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+}
+
+### [example agent output]
+{
+  "root": "revenue-card",
+  "elements": {
+    "revenue-card": {
+      "type": "MetricCard",
+      "props": { "label": "Total revenue", "value": "$184,302", "trend": "+12%" },
+      "children": ["by-region"]
+    },
+    "by-region": {
+      "type": "BarChart",
+      "props": {
+        "title": "Revenue by region",
+        "description": null,
+        "data": [
+          { "label": "North America", "value": 112000 },
+          { "label": "EMEA", "value": 72302 }
+        ]
+      }
+    }
+  }
+}

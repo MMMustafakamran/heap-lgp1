@@ -1,0 +1,95 @@
+### []
+uv add copilotkit
+
+### []
+poetry add copilotkit
+
+### []
+pip install copilotkit --extra-index-url https://copilotkit.gateway.scarf.sh/simple/
+
+### []
+conda install copilotkit -c copilotkit-channel
+
+### [frontend_tools.py]
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt="You are a helpful, concise assistant.",
+)
+
+### []
+useInterrupt({
+  agentId: "gen-ui-interrupt",
+  enabled: (event) => event.value.type === "ask",
+  render: ({ event, resolve }) => (
+    <AskCard question={event.value.content} onAnswer={resolve} />
+  ),
+});
+
+useInterrupt({
+  agentId: "gen-ui-interrupt",
+  enabled: (event) => event.value.type === "approval",
+  render: ({ event, resolve }) => (
+    <ApproveCard content={event.value.content} onAnswer={resolve} />
+  ),
+});
+
+### []
+useInterrupt({
+  agentId: "gen-ui-interrupt",
+  handler: async ({ event, resolve }) => {
+    const dept = await lookupUserDepartment();
+    if (event.value.accessDepartment === dept || dept === "admin") {
+      resolve({ code: "AUTH_BY_DEPARTMENT" });
+      return; // agent will resume; card unmounts when the run starts
+    }
+    return { dept };
+  },
+  render: ({ result, event, resolve }) => (
+    <RequestAccessCard
+      dept={result?.dept}
+      onRequest={() => resolve({ code: "REQUEST_AUTH" })}
+      onCancel={() => resolve({ code: "CANCEL" })}
+    />
+  ),
+});
+
+### []
+outcome.type === "interrupt"
+outcome.interrupts  // Interrupt[]
+
+### []
+function ApprovalInterrupt() {
+  useInterrupt({
+    render: ({ interrupt, resolve, cancel }) => (
+      <div className="p-3 border rounded">
+        <p>{interrupt?.message ?? "Approve this action?"}</p>
+        <div className="mt-2 flex gap-2">
+          <button onClick={() => resolve({ approved: true })}>Approve</button>
+          <button onClick={() => cancel()}>Cancel</button>
+        </div>
+      </div>
+    ),
+  });
+  return null;
+}
+
+### []
+useInterrupt({
+  render: ({ interrupts, resolve, cancel }) => (
+    <ul>
+      {interrupts.map((i) => (
+        <li key={i.id}>
+          {i.message}
+          <button onClick={() => resolve({ ok: true }, i.id)}>Approve</button>
+          <button onClick={() => cancel(i.id)}>Cancel</button>
+        </li>
+      ))}
+    </ul>
+  ),
+});

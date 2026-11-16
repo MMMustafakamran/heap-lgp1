@@ -1,0 +1,83 @@
+### []
+Here is an estimate you can play with:
+
+```a2ui
+{"version":"1.0","createSurface":{"surfaceId":"plan-estimator","dataModel":{"seats":10,"price":"$290 / month"},"components":[{"id":"root","component":"Card","children":["seats","price"]}]}}
+{"version":"1.0","updateComponents":{"surfaceId":"plan-estimator","components":[{"id":"seats","component":"Slider","label":"Seats","min":1,"max":50,"value":{"@path":"/seats"}},{"id":"price","component":"Text","text":{"@path":"/price"}}]}}
+```
+
+Move the slider to change the seat count.
+
+### [app/providers.tsx]
+import { CopilotKitProvider } from "@copilotkit/react-core/v2";
+import { standardUI } from "@copilotkit/react-core/v2/generative-ui";
+
+<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: standardUI, transport: "markdown" }}>
+  {children}
+</CopilotKitProvider>;
+
+### [src/app/app.config.ts]
+import { provideCopilotKit } from "@copilotkit/angular";
+import { provideGenerativeUI, standardUI } from "@copilotkit/angular/generative-ui";
+
+providers: [
+  provideCopilotKit({ runtimeUrl: "/api/copilotkit" }),
+  provideGenerativeUI({ ui: standardUI, transport: "markdown" }),
+],
+
+### [src/App.vue]
+<script setup lang="ts">
+import { CopilotKitProvider } from "@copilotkit/vue/v2";
+import { standardUI } from "@copilotkit/vue/v2/generative-ui";
+</script>
+
+<template>
+  <CopilotKitProvider runtime-url="/api/copilotkit" :generativeUI="{ ui: standardUI, transport: 'markdown' }">
+    <slot />
+  </CopilotKitProvider>
+</template>
+
+### []
+<CopilotKitProvider
+  runtimeUrl="/api/copilotkit"
+  generativeUI={{ ui: standardUI, transport: "markdown", sendContext: false }}
+>
+
+### []
+provideGenerativeUI({ ui: standardUI, transport: "markdown", sendContext: false }),
+
+### []
+<CopilotKitProvider
+  runtime-url="/api/copilotkit"
+  :generativeUI="{ ui: standardUI, transport: 'markdown', sendContext: false }"
+>
+
+### []
+{
+  "1.0": {
+    "supportedCatalogIds": ["copilotkit/standard@1"],
+    "inlineCatalogs": [
+      {
+        "catalogId": "copilotkit/standard@1",
+        "protocolVersion": "1.0",
+        "components": { "Card": { "props": { "type": "object" } } },
+        "functions": {},
+        "instructions": "You can show interactive UI in your reply ..."
+      }
+    ]
+  },
+  "metadata": {
+    "extensions": {
+      "copilotkit_format": 3,
+      "copilotkit_transport": "markdown",
+      "copilotkit_targets": [{ "id": "chat", "kind": "chat" }],
+      "copilotkit_surfaces": {},
+      "copilotkit_contextSent": false
+    }
+  }
+}
+
+### []
+ui = input.forwarded_props["copilotkit"]["ui"]
+catalog = ui["1.0"]["inlineCatalogs"][0]
+system = f"{MY_PROMPT}\n\n{catalog['instructions']}\n\nComponents:\n{json.dumps(catalog['components'])}"

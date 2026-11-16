@@ -44,12 +44,13 @@ const mcpAppsAgent = new LangGraphAgent({
 // `activity` event that the built-in `MCPAppsActivityRenderer` renders
 // inline in the chat.
 const runtime = new CopilotRuntime({
-  // @ts-ignore -- Published CopilotRuntime agents type wraps Record in
-  // MaybePromise<NonEmptyRecord<...>> which rejects plain Records; fixed in
-  // source, pending release.
+  // @ts-ignore
   agents: {
-    "headless-complete": headlessCompleteAgent,
     "mcp-apps": mcpAppsAgent,
+    // headless-complete shares this runtime because its cell also exercises
+    // MCP Apps rendering (via a hand-rolled `useRenderActivityMessage` in
+    // `use-rendered-messages.tsx`).
+    "headless-complete": headlessCompleteAgent,
   },
   mcpApps: {
     servers: [

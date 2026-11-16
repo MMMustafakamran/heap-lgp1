@@ -1,0 +1,149 @@
+### []
+"""
+Default LangGraph agent — neutral "helpful, concise assistant".
+
+This is the fallthrough graph for demos that don't require anything more
+specialized. Cells that need tailored behavior (chart viz, weather-only,
+etc.) should have their own dedicated graph under `src/agents/` and
+explicit wiring in the CopilotKit route.
+"""
+
+# CVDIAG runtime bootstrap (L1-H, folded into L1-I for LGP). MUST be the first
+# non-stdlib import: importing this module configures the root logger so the
+# agents._* CVDIAG loggers actually emit, resolves the verbosity tier (§6
+# fail-closed DEBUG guard), and builds the threaded PocketBase writer — once, at
+# process start. main.py is langgraph's default graph entrypoint (sample_agent)
+# and is verified present by entrypoint.sh, so it is the reliable single
+# bootstrap chokepoint for the LGP process.
+import _shared.cvdiag_bootstrap  # noqa: F401  (import side effects = the bootstrap)
+
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt="You are a helpful, concise assistant.",
+)
+
+### [page.tsx]
+import { CopilotKit } from "@copilotkit/react-core/v2";
+import { VoiceChat } from "./voice-chat";
+
+export default function VoiceDemoPage() {
+  return (
+    <CopilotKit
+      runtimeUrl="/api/copilotkit-voice"
+      agent="voice-demo"
+      useSingleEndpoint={false}
+      // The dev-only `<cpk-web-inspector>` overlay (auto-enabled on
+      // localhost via shouldShowDevConsole) intercepts pointer events
+      // on top of the voice sample-audio button, so dev/D5 probe runs
+      // can't click it through Playwright. Production isn't localhost
+      // so the inspector never mounts there — voice is D5 in prod and
+      // D4 locally for this reason alone. Disable explicitly here so
+      // the demo behaves the same in both environments.
+      enableInspector={false}
+    >
+      <VoiceChat />
+    </CopilotKit>
+  );
+}
+
+### [sample-audio-button.tsx]
+export function SampleAudioButton({
+  onTranscribed,
+  sampleText,
+}: SampleAudioButtonProps) {
+  return (
+    <button
+      type="button"
+      data-testid="voice-sample-audio-button"
+      onClick={() => onTranscribed(sampleText)}
+      title={`Inserts: "${sampleText}"`}
+      className="inline-flex w-fit items-center gap-2 rounded-md border border-black/10 bg-white px-3 py-1.5 text-xs font-medium hover:bg-black/5 dark:border-white/10 dark:bg-black/30 dark:hover:bg-white/10"
+    >
+      <span aria-hidden>🎙</span>
+      <span>Try a sample audio</span>
+    </button>
+  );
+}
+
+### [route.ts]
+import type { NextRequest } from "next/server";
+import {
+  CopilotRuntime,
+  createCopilotRuntimeHandler,
+} from "@copilotkit/runtime/v2";
+import { LangGraphAgent } from "@copilotkit/runtime/langgraph";
+import { createTranscriptionService } from "@/lib/transcription-service";
+
+const LANGGRAPH_URL =
+  process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123";
+
+const voiceDemoAgent = new LangGraphAgent({
+  deploymentUrl: LANGGRAPH_URL,
+  graphId: "sample_agent",
+});
+
+// Cache the runtime + handler across invocations so the transcription service
+// is constructed once per Node process instead of per request. A missing
+// OPENAI_TRANSCRIPTION_API_KEY leaves the service undefined (transcription
+// disabled), so construction is safe at first request.
+let cachedHandler: ((req: Request) => Promise<Response>) | null = null;
+function getHandler(): (req: Request) => Promise<Response> {
+  if (cachedHandler) return cachedHandler;
+
+  const runtime = new CopilotRuntime({
+    // @ts-ignore -- Published CopilotRuntime agents type wraps Record in
+    // MaybePromise<NonEmptyRecord<...>> which rejects plain Records; fixed in
+    // source, pending release.
+    agents: {
+      // The page mounts <CopilotKit agent="voice-demo">; resolve that to
+      // the neutral sample_agent graph.
+      "voice-demo": voiceDemoAgent,
+      // useAgent() with no args defaults to "default"; alias so any internal
+      // default-agent lookups resolve against the same graph.
+      default: voiceDemoAgent,
+    },
+    transcriptionService: createTranscriptionService(),
+  });
+
+  cachedHandler = createCopilotRuntimeHandler({
+    runtime,
+    basePath: "/api/copilotkit-voice",
+  });
+  return cachedHandler;
+}
+
+// Next.js App Router bindings. This file lives at
+// `src/app/api/copilotkit-voice/[[...slug]]/route.ts` — the catchall slug
+// pattern forwards every sub-path (`/info`, `/agent/:id/run`,
+// `/transcribe`, ...) to the V2 handler so its URL router can dispatch.
+export const POST = (req: NextRequest) => getHandler()(req);
+export const GET = (req: NextRequest) => getHandler()(req);
+export const PUT = (req: NextRequest) => getHandler()(req);
+export const DELETE = (req: NextRequest) => getHandler()(req);
+
+### [transcription-service.ts]
+import { TranscriptionServiceOpenAI } from "@copilotkit/voice";
+import { OpenAI } from "openai";
+
+const OPENAI_TRANSCRIPTION_URL = "https://api.openai.com/v1";
+
+export function createTranscriptionService(
+  env: NodeJS.ProcessEnv = process.env,
+): TranscriptionServiceOpenAI | undefined {
+  const apiKey = env.OPENAI_TRANSCRIPTION_API_KEY;
+  if (!apiKey) return undefined;
+
+  return new TranscriptionServiceOpenAI({
+    openai: new OpenAI({
+      apiKey,
+      baseURL: env.OPENAI_TRANSCRIPTION_BASE_URL ?? OPENAI_TRANSCRIPTION_URL,
+    }),
+  });
+}

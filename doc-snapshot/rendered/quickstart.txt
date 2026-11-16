@@ -1,0 +1,45 @@
+### []
+npm install @copilotkit/sdk-js zod@3
+
+### []
+npm view langchain@1 peerDependencies
+
+### []
+npm install --save-exact @copilotkit/sdk-js zod@3 langchain@1.5.9
+
+### []
+Can you tell me a joke?
+
+### []
+Can you help me understand AI?
+
+### []
+What do you think about React?
+
+### []
+npx copilotkit@latest create
+
+### []
+npm install
+
+### []
+cp .env.example .env
+
+### [.env]
+OPENAI_API_KEY=your_openai_api_key
+
+### [.env]
+ANTHROPIC_API_KEY=your_anthropic_api_key
+COPILOTKIT_AGENT_MODEL=anthropic:claude-sonnet-4-6
+
+### []
+npm run dev
+
+### []
+pnpm dev
+
+### []
+yarn dev
+
+### []
+bun dev

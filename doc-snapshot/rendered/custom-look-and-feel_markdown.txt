@@ -1,0 +1,58 @@
+### [page.tsx]
+<CopilotChat
+  messageView={{
+    assistantMessage: {
+      markdownRenderer: {
+        /* ... */
+      },
+    },
+  }}
+/>
+
+### [page.tsx]
+import { CopilotChat } from "@copilotkit/react-core/v2";
+
+export function Chat() {
+  return (
+    <CopilotChat
+      messageView={{
+        assistantMessage: {
+          markdownRenderer: {
+            components: {
+              a: ({ node, children, ...props }) => (
+                <a {...props} className="my-link">
+                  {children}
+                </a>
+              ),
+              h2: ({ node, children, ...props }) => (
+                <h2 {...props} className="my-heading">
+                  {children}
+                </h2>
+              ),
+            },
+          },
+        },
+      }}
+    />
+  );
+}
+
+### [page.tsx]
+<CopilotChat
+  messageView={{
+    assistantMessage: { markdownRenderer: "text-sm leading-7" },
+  }}
+/>
+
+### [page.tsx]
+const PlainText = ({ content }: { content: string }) => (
+  <pre className="whitespace-pre-wrap">{content}</pre>
+);
+
+<CopilotChat
+  messageView={{ assistantMessage: { markdownRenderer: PlainText } }}
+/>;
+
+### []
+error TS2353: Object literal may only specify known properties,
+and '"reference-chip"' does not exist in type 'Components'.

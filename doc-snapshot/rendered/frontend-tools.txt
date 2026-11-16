@@ -1,0 +1,95 @@
+### []
+"""LangGraph agent backing the Frontend Tools demo.
+
+This cell demonstrates `useFrontendTool` with a synchronous handler.
+The backend graph registers no tools of its own — CopilotKit forwards
+the frontend tool schema(s) to the agent at runtime, and the handler
+executes in the browser. CopilotKitMiddleware is attached so frontend
+tools, shared state, and agent context flow into every turn.
+
+Like the sibling `frontend_tools_async` cell, the agent has no custom
+behavior beyond a permissive system prompt — the demo's value is in
+showing the wiring contract, not the agent logic.
+"""
+
+# region: middleware
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt="You are a helpful, concise assistant.",
+)
+# endregion
+
+### []
+uv add copilotkit
+
+### []
+poetry add copilotkit
+
+### []
+pip install copilotkit --extra-index-url https://copilotkit.gateway.scarf.sh/simple/
+
+### []
+conda install copilotkit -c copilotkit-channel
+
+### [frontend_tools.py]
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt="You are a helpful, concise assistant.",
+)
+
+### [page.tsx]
+import React, { useState } from "react";
+import {
+  CopilotKit,
+  CopilotSidebar,
+  useFrontendTool,
+} from "@copilotkit/react-core/v2";
+import { z } from "zod";
+import { Background, DEFAULT_BACKGROUND } from "./background";
+import { useFrontendToolsSuggestions } from "./suggestions";
+
+function Chat() {
+  const [background, setBackground] = useState<string>(DEFAULT_BACKGROUND);
+
+  useFrontendTool({
+    name: "change_background",
+    description:
+      "Change the page background. Accepts any valid CSS background value — colors, linear or radial gradients, etc.",
+    parameters: z.object({
+      background: z
+        .string()
+        .describe("The CSS background value. Prefer gradients."),
+    }),
+    handler: async ({ background }) => {
+      setBackground(background);
+      return { status: "success" };
+    },
+  });
+
+### [page.tsx]
+    handler: async ({ background }) => {
+      setBackground(background);
+      return { status: "success" };
+    },
+
+### []
+useFrontendTools(
+  reports.map((report) => ({
+    name: `open_${report.id}`,
+    description: `Open the ${report.title} report`,
+    handler: async () => navigate(`/reports/${report.id}`),
+  })),
+  [navigate],
+);

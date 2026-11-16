@@ -1,0 +1,7 @@
+### []
+const { agent } = useAgent({
+  agentId: "sample_agent",
+});
+
+// Access agent state as usual - subgraph streaming is handled automatically
+const state = agent.state;

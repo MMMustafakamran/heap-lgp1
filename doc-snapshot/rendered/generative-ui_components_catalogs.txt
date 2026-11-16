@@ -1,0 +1,362 @@
+### [app/catalog.tsx]
+import { z } from "zod";
+import {
+  createGenerativeUI,
+  type GenerativeUIComponentProps,
+} from "@copilotkit/react-core/v2/generative-ui";
+
+function ProductGrid({ title, children }: GenerativeUIComponentProps<typeof shopUI, "ProductGrid">) {
+  return (
+    <section>
+      {title ? <h3>{title}</h3> : null}
+      <div className="grid grid-cols-2 gap-4">{children}</div>
+    </section>
+  );
+}
+
+function ProductCard({ name, price, imageUrl }: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  return (
+    <article>
+      <img src={imageUrl} alt={name} />
+      <h4>{name}</h4>
+      <p>${price}</p>
+    </article>
+  );
+}
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  components: {
+    ProductGrid: {
+      component: ProductGrid,
+      description: "A grid of products. Put the ids of ProductCard components in children.",
+      props: z.object({ title: z.string().optional() }),
+      slots: { children: "multiple" },
+    },
+    ProductCard: {
+      component: ProductCard,
+      description: "One product. Copy every value from a product of a tool result.",
+      props: z.object({ name: z.string(), price: z.number(), imageUrl: z.string() }),
+    },
+  },
+});
+
+### [src/app/shop-ui.ts]
+import { Component, input } from "@angular/core";
+import { z } from "zod";
+import {
+  CopilotGenerativeUIChildren,
+  createGenerativeUI,
+  type GenerativeUIChildren,
+} from "@copilotkit/angular/generative-ui";
+
+@Component({
+  selector: "app-product-grid",
+  imports: [CopilotGenerativeUIChildren],
+  template: `
+    <section>
+      @if (title(); as title) {
+        <h3>{{ title }}</h3>
+      }
+      <div class="grid grid-cols-2 gap-4">
+        <ng-container *copilotGenerativeUIChildren="children()" />
+      </div>
+    </section>
+  `,
+})
+export class ProductGrid {
+  readonly title = input<string>();
+  readonly children = input<GenerativeUIChildren>();
+}
+
+@Component({
+  selector: "app-product-card",
+  template: `
+    <article>
+      <img [src]="imageUrl()" [alt]="name()" />
+      <h4>{{ name() }}</h4>
+      <p>{{ "$" + price() }}</p>
+    </article>
+  `,
+})
+export class ProductCard {
+  readonly name = input.required<string>();
+  readonly price = input.required<number>();
+  readonly imageUrl = input.required<string>();
+}
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  components: {
+    ProductGrid: {
+      component: ProductGrid,
+      description: "A grid of products. Put the ids of ProductCard components in children.",
+      props: z.object({ title: z.string().optional() }),
+      slots: { children: "multiple" },
+    },
+    ProductCard: {
+      component: ProductCard,
+      description: "One product. Copy every value from a product of a tool result.",
+      props: z.object({ name: z.string(), price: z.number(), imageUrl: z.string() }),
+    },
+  },
+});
+
+### [src/shopUI.tsx]
+import { Image, StyleSheet, Text, View } from "react-native";
+import { z } from "zod";
+import {
+  createGenerativeUI,
+  type GenerativeUIComponentProps,
+} from "@copilotkit/react-native/generative-ui";
+
+function ProductGrid({ title, children }: GenerativeUIComponentProps<typeof shopUI, "ProductGrid">) {
+  return (
+    <View>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      <View style={styles.grid}>{children}</View>
+    </View>
+  );
+}
+
+function ProductCard({ name, price, imageUrl }: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  return (
+    <View style={styles.card}>
+      <Image source={{ uri: imageUrl }} style={styles.image} accessibilityLabel={name} />
+      <Text style={styles.name}>{name}</Text>
+      <Text>${price}</Text>
+    </View>
+  );
+}
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  components: {
+    ProductGrid: {
+      component: ProductGrid,
+      description: "A grid of products. Put the ids of ProductCard components in children.",
+      props: z.object({ title: z.string().optional() }),
+      slots: { children: "multiple" },
+    },
+    ProductCard: {
+      component: ProductCard,
+      description: "One product. Copy every value from a product of a tool result.",
+      props: z.object({ name: z.string(), price: z.number(), imageUrl: z.string() }),
+    },
+  },
+});
+
+const styles = StyleSheet.create({
+  title: { fontSize: 17, fontWeight: "600", marginBottom: 8 },
+  grid: { flexDirection: "row", flexWrap: "wrap" },
+  // A fixed width, not a percentage: when the agent sends an `accessibility`
+  // envelope, the card sits in a wrapper View, and a percentage would resolve
+  // against that wrapper rather than the grid (see below).
+  // Margins rather than `gap`, which needs React Native 0.71.
+  card: { width: 160, marginRight: 12, marginBottom: 12 },
+  image: { aspectRatio: 1, borderRadius: 8 },
+  name: { fontWeight: "600", marginTop: 4 },
+});
+
+### [src/components/ProductGrid.vue]
+<script setup lang="ts">
+defineProps<{ title?: string }>();
+</script>
+
+<template>
+  <section>
+    <h3 v-if="title">{{ title }}</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <slot name="children" />
+    </div>
+  </section>
+</template>
+
+### [src/components/ProductCard.vue]
+<script setup lang="ts">
+defineProps<{ name: string; price: number; imageUrl: string }>();
+</script>
+
+<template>
+  <article>
+    <img :src="imageUrl" :alt="name" />
+    <h4>{{ name }}</h4>
+    <p>{{ "$" + price }}</p>
+  </article>
+</template>
+
+### [src/shop-ui.ts]
+import { z } from "zod";
+import { createGenerativeUI } from "@copilotkit/vue/v2/generative-ui";
+import ProductCard from "./components/ProductCard.vue";
+import ProductGrid from "./components/ProductGrid.vue";
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  components: {
+    ProductGrid: {
+      component: ProductGrid,
+      description: "A grid of products. Put the ids of ProductCard components in children.",
+      props: z.object({ title: z.string().optional() }),
+      slots: { children: "multiple" },
+    },
+    ProductCard: {
+      component: ProductCard,
+      description: "One product. Copy every value from a product of a tool result.",
+      props: z.object({ name: z.string(), price: z.number(), imageUrl: z.string() }),
+    },
+  },
+});
+
+### []
+<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: shopUI }}>
+
+### [src/app/app.config.ts]
+providers: [
+  provideCopilotKit({ runtimeUrl: "/api/copilotkit" }),
+  provideGenerativeUI({ ui: shopUI }),
+],
+
+### [App.tsx]
+import { Platform } from "react-native";
+import { CopilotKitProvider } from "@copilotkit/react-native/headless";
+import { GenerativeUIProvider } from "@copilotkit/react-native/generative-ui";
+import { shopUI } from "./src/shopUI";
+import { ShopScreen } from "./src/ShopScreen";
+
+// The Android emulator reaches your machine at 10.0.2.2, not localhost.
+const runtimeUrl =
+  Platform.OS === "android"
+    ? "http://10.0.2.2:8200/api/copilotkit"
+    : "http://localhost:8200/api/copilotkit";
+
+export default function App() {
+  return (
+    <CopilotKitProvider runtimeUrl={runtimeUrl}>
+      <GenerativeUIProvider ui={shopUI}>
+        <ShopScreen />
+      </GenerativeUIProvider>
+    </CopilotKitProvider>
+  );
+}
+
+### []
+<CopilotKitProvider runtime-url="/api/copilotkit" :generativeUI="{ ui: shopUI }">
+
+### []
+function ProductCard(props: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  props.price; // number
+  props.color; // type error: not a prop of ProductCard
+}
+
+### []
+import type { GenerativeUIComponentInputs } from "@copilotkit/angular/generative-ui";
+
+type ProductCardInputs = GenerativeUIComponentInputs<typeof shopUI, "ProductCard">;
+
+export class ProductCard {
+  readonly price = input.required<ProductCardInputs["price"]>(); // number
+  readonly color = input<ProductCardInputs["color"]>(); // type error: not a prop of ProductCard
+}
+
+### []
+import type { GenerativeUIComponentProps } from "@copilotkit/react-native/generative-ui";
+
+function ProductCard(props: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  props.price; // number
+  props.color; // type error: not a prop of ProductCard
+}
+
+### []
+import { h } from "vue";
+import type { GenerativeUIComponentProps } from "@copilotkit/vue/v2/generative-ui";
+
+function ProductCard(props: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  props.price; // number
+  props.color; // type error: not a prop of ProductCard
+  return h("article", props.name);
+}
+
+### []
+import { z } from "zod";
+
+props: z.object({ name: z.string(), price: z.number() }),
+
+### []
+import * as v from "valibot";
+import { toStandardJsonSchema } from "@valibot/to-json-schema";
+
+props: toStandardJsonSchema(v.object({ name: v.string(), price: v.number() })),
+
+### []
+import { createGenerativeUI, standardUI } from "@copilotkit/react-core/v2/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/app@1",
+  extends: [standardUI, cartUI],
+  components: { Hero: { component: Hero, props: z.object({ title: z.string() }) } },
+});
+
+### []
+import { createGenerativeUI, standardUI } from "@copilotkit/angular/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/app@1",
+  extends: [standardUI, cartUI],
+  components: { Hero: { component: Hero, props: z.object({ title: z.string() }) } },
+});
+
+### []
+import { createGenerativeUI } from "@copilotkit/react-native/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/app@1",
+  extends: [shopUI, cartUI],
+  components: { Hero: { component: Hero, props: z.object({ title: z.string() }) } },
+});
+
+### []
+import { createGenerativeUI, standardUI } from "@copilotkit/vue/v2/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/app@1",
+  extends: [standardUI, cartUI],
+  components: { Hero: { component: Hero, props: z.object({ title: z.string() }) } },
+});
+
+### []
+import { exportA2UICatalog } from "@copilotkit/react-core/v2/generative-ui";
+
+const catalog = exportA2UICatalog(appUI, { title: "Acme app" });
+fs.writeFileSync("acme-catalog.json", JSON.stringify(catalog, null, 2));
+
+### []
+import { exportA2UICatalog } from "@copilotkit/angular/generative-ui";
+
+const catalog = exportA2UICatalog(appUI, { title: "Acme app" });
+fs.writeFileSync("acme-catalog.json", JSON.stringify(catalog, null, 2));
+
+### []
+import { exportA2UICatalog } from "@copilotkit/react-native/generative-ui";
+
+const catalog = exportA2UICatalog(appUI, { title: "Acme app" });
+console.log(JSON.stringify(catalog, null, 2));
+
+### []
+import { exportA2UICatalog } from "@copilotkit/vue/v2/generative-ui";
+
+const catalog = exportA2UICatalog(appUI, { title: "Acme app" });
+fs.writeFileSync("acme-catalog.json", JSON.stringify(catalog, null, 2));
+
+### []
+const ui = createGenerativeUI({
+  id: "acme/panel@1",
+  components: {
+    Panel: {
+      component: Panel,
+      props: z.object({ title: z.string(), color: z.string().optional() }),
+      slots: { children: "multiple" },
+      parameterOrder: ["title", "children"],
+    },
+  },
+});

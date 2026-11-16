@@ -1,0 +1,32 @@
+### []
+from copilotkit import a2ui
+
+a2ui.create_surface(surface_id, catalog_id=...)
+a2ui.update_components(surface_id, components)
+a2ui.update_data_model(surface_id, {"items": data})
+a2ui.render(operations=[...])  # wraps in a2ui_operations and serializes
+
+### [app/page.tsx]
+import { CopilotKit } from "@copilotkit/react-core/v2";
+
+<CopilotKit runtimeUrl="/api/copilotkit" a2ui={{ catalog: myCatalog }}>
+  {children}
+</CopilotKit>;
+
+### [app/api/copilotkit/[[...slug]]/route.ts]
+import { CopilotRuntime, InMemoryAgentRunner } from "@copilotkit/runtime/v2";
+
+const runtime = new CopilotRuntime({
+  agents: { default: myAgent },
+  a2ui: { injectA2UITool: true },
+  runner: new InMemoryAgentRunner(),
+});
+
+### []
+.a2ui-surface {
+  --a2ui-color-surface: #fafafa; /* card, modal, chip and button backgrounds */
+  --a2ui-color-border: #e5e5e5; /* borders, tab rule, divider */
+  --a2ui-color-muted: #737373; /* captions and secondary text */
+  --a2ui-color-error: #dc2626; /* validation errors */
+  --a2ui-primary-color: #2563eb; /* primary buttons, selected chips, active tab */
+}

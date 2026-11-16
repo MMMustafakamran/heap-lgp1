@@ -1,564 +1,564 @@
 {
- "root": "langgraph-typescript",
- "savedAt": "2026-11-08",
+ "root": "langgraph-python",
+ "savedAt": "2026-11-16",
  "pages": [
   {
-   "url": "/langgraph-typescript",
+   "url": "/langgraph-python",
    "name": "Introduction",
    "group": ""
   },
   {
-   "url": "/langgraph-typescript/quickstart",
+   "url": "/langgraph-python/quickstart",
    "name": "Quickstart",
    "group": ""
   },
   {
-   "url": "/langgraph-typescript/build-with-agents",
+   "url": "/langgraph-python/build-with-agents",
    "name": "Build with agents",
    "group": ""
   },
   {
-   "url": "/langgraph-typescript/intelligence/overview",
+   "url": "/langgraph-python/intelligence/overview",
    "name": "Intelligence",
    "group": ""
   },
   {
-   "url": "/langgraph-typescript/prebuilt-components/chat",
+   "url": "/langgraph-python/prebuilt-components/chat",
    "name": "CopilotChat",
    "group": "Basics > Chat > Prebuilt Components"
   },
   {
-   "url": "/langgraph-typescript/prebuilt-components/sidebar",
+   "url": "/langgraph-python/prebuilt-components/sidebar",
    "name": "CopilotSidebar",
    "group": "Basics > Chat > Prebuilt Components"
   },
   {
-   "url": "/langgraph-typescript/prebuilt-components/popup",
+   "url": "/langgraph-python/prebuilt-components/popup",
    "name": "CopilotPopup",
    "group": "Basics > Chat > Prebuilt Components"
   },
   {
-   "url": "/langgraph-typescript/prebuilt-components/chat-controls",
+   "url": "/langgraph-python/prebuilt-components/chat-controls",
    "name": "Open, close, and feedback",
    "group": "Basics > Chat > Prebuilt Components"
   },
   {
-   "url": "/langgraph-typescript/custom-look-and-feel/css",
+   "url": "/langgraph-python/custom-look-and-feel/css",
    "name": "CSS Customization",
    "group": "Basics > Chat > Custom Look and Feel"
   },
   {
-   "url": "/langgraph-typescript/custom-look-and-feel/slots",
+   "url": "/langgraph-python/custom-look-and-feel/slots",
    "name": "Slots (Subcomponents)",
    "group": "Basics > Chat > Custom Look and Feel"
   },
   {
-   "url": "/langgraph-typescript/custom-look-and-feel/markdown",
+   "url": "/langgraph-python/custom-look-and-feel/markdown",
    "name": "Markdown Rendering",
    "group": "Basics > Chat > Custom Look and Feel"
   },
   {
-   "url": "/langgraph-typescript/custom-look-and-feel/headless-ui",
+   "url": "/langgraph-python/custom-look-and-feel/headless-ui",
    "name": "Headless UI",
    "group": "Basics > Chat > Custom Look and Feel"
   },
   {
-   "url": "/langgraph-typescript/custom-look-and-feel/reasoning-messages",
+   "url": "/langgraph-python/custom-look-and-feel/reasoning-messages",
    "name": "Reasoning Messages",
    "group": "Basics > Chat > Custom Look and Feel"
   },
   {
-   "url": "/langgraph-typescript/multimodal-attachments",
+   "url": "/langgraph-python/multimodal-attachments",
    "name": "Multimodal Attachments",
    "group": "Basics > Chat"
   },
   {
-   "url": "/langgraph-typescript/voice",
+   "url": "/langgraph-python/voice",
    "name": "Voice",
    "group": "Basics > Chat"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/reasoning",
+   "url": "/langgraph-python/generative-ui/reasoning",
    "name": "Reasoning",
    "group": "Basics > Chat"
   },
   {
-   "url": "/langgraph-typescript/prebuilt-components/copilot-threads-drawer",
+   "url": "/langgraph-python/prebuilt-components/copilot-threads-drawer",
    "name": "Threads Drawer",
    "group": "Basics > Threads"
   },
   {
-   "url": "/langgraph-typescript/headless-threads",
+   "url": "/langgraph-python/headless-threads",
    "name": "Headless Threads",
    "group": "Basics > Threads"
   },
   {
-   "url": "/langgraph-typescript/frontend-tools",
+   "url": "/langgraph-python/frontend-tools",
    "name": "Frontend-tools",
    "group": "Basics"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/tool-based",
+   "url": "/langgraph-python/generative-ui/tool-based",
    "name": "Components as Tools",
    "group": "Generative UI > Controlled"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/tool-rendering",
+   "url": "/langgraph-python/generative-ui/tool-rendering",
    "name": "Tool Call Rendering",
    "group": "Generative UI > Controlled"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/state-rendering",
+   "url": "/langgraph-python/generative-ui/state-rendering",
    "name": "State Rendering",
    "group": "Generative UI > Controlled"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components",
+   "url": "/langgraph-python/generative-ui/components",
    "name": "Components and surfaces",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/surfaces",
+   "url": "/langgraph-python/generative-ui/components/surfaces",
    "name": "Surfaces",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/catalogs",
+   "url": "/langgraph-python/generative-ui/components/catalogs",
    "name": "Catalogs",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/standard-catalog",
+   "url": "/langgraph-python/generative-ui/components/standard-catalog",
    "name": "Standard catalog",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/state-and-actions",
+   "url": "/langgraph-python/generative-ui/components/state-and-actions",
    "name": "State and actions",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/theming",
+   "url": "/langgraph-python/generative-ui/components/theming",
    "name": "Theming",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/transports",
+   "url": "/langgraph-python/generative-ui/components/transports",
    "name": "Transports",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/markdown-mode",
+   "url": "/langgraph-python/generative-ui/components/markdown-mode",
    "name": "Markdown mode",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/components/from-a2ui",
+   "url": "/langgraph-python/generative-ui/components/from-a2ui",
    "name": "Adopt from A2UI",
    "group": "Generative UI > Declarative > Components and surfaces"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/a2ui",
+   "url": "/langgraph-python/generative-ui/a2ui",
    "name": "A2UI",
    "group": "Generative UI > Declarative > A2UI"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/a2ui/dynamic-schema",
+   "url": "/langgraph-python/generative-ui/a2ui/dynamic-schema",
    "name": "Dynamic Schema A2UI",
    "group": "Generative UI > Declarative > A2UI"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/a2ui/fixed-schema",
+   "url": "/langgraph-python/generative-ui/a2ui/fixed-schema",
    "name": "Fixed Schema A2UI",
    "group": "Generative UI > Declarative > A2UI"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/json-render",
+   "url": "/langgraph-python/generative-ui/json-render",
    "name": "JSON Render",
    "group": "Generative UI > Declarative"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/hashbrown",
+   "url": "/langgraph-python/generative-ui/hashbrown",
    "name": "Hashbrown",
    "group": "Generative UI > Declarative"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/mcp-apps",
+   "url": "/langgraph-python/generative-ui/mcp-apps",
    "name": "MCP Apps",
    "group": "Generative UI > Open-ended"
   },
   {
-   "url": "/langgraph-typescript/generative-ui/open-generative-ui",
+   "url": "/langgraph-python/generative-ui/open-generative-ui",
    "name": "Open Generative UI",
    "group": "Generative UI > Open-ended"
   },
   {
-   "url": "/langgraph-typescript/shared-state",
+   "url": "/langgraph-python/shared-state",
    "name": "Shared State",
    "group": "Interactivity > Shared state"
   },
   {
-   "url": "/langgraph-typescript/shared-state/rendering-in-app",
+   "url": "/langgraph-python/shared-state/rendering-in-app",
    "name": "Render agent state in your app",
    "group": "Interactivity > Shared state"
   },
   {
-   "url": "/langgraph-typescript/shared-state/streaming",
+   "url": "/langgraph-python/shared-state/streaming",
    "name": "State Streaming",
    "group": "Interactivity > Shared state"
   },
   {
-   "url": "/langgraph-typescript/shared-state/agent-readonly",
+   "url": "/langgraph-python/shared-state/agent-readonly",
    "name": "Agent Read-Only Context",
    "group": "Interactivity > Shared state"
   },
   {
-   "url": "/langgraph-typescript/human-in-the-loop",
+   "url": "/langgraph-python/human-in-the-loop",
    "name": "HITL Overview",
    "group": "Interactivity > Human-in-the-loop"
   },
   {
-   "url": "/langgraph-typescript/human-in-the-loop/useInterrupt",
+   "url": "/langgraph-python/human-in-the-loop/useInterrupt",
    "name": "Pausing the Agent for Input",
    "group": "Interactivity > Human-in-the-loop"
   },
   {
-   "url": "/langgraph-typescript/human-in-the-loop/headless",
+   "url": "/langgraph-python/human-in-the-loop/headless",
    "name": "Headless Interrupts",
    "group": "Interactivity > Human-in-the-loop"
   },
   {
-   "url": "/langgraph-typescript/human-in-the-loop/governed-actions",
+   "url": "/langgraph-python/human-in-the-loop/governed-actions",
    "name": "Governed Action Approval UI",
    "group": "Interactivity > Human-in-the-loop"
   },
   {
-   "url": "/langgraph-typescript/webmcp",
+   "url": "/langgraph-python/webmcp",
    "name": "WebMCP",
    "group": "Interactivity"
   },
   {
-   "url": "/langgraph-typescript/agent-app-context",
+   "url": "/langgraph-python/agent-app-context",
    "name": "Readables",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/configurable",
+   "url": "/langgraph-python/configurable",
    "name": "Configurable",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/subgraphs",
+   "url": "/langgraph-python/subgraphs",
    "name": "Subgraphs",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/guardrails",
+   "url": "/langgraph-python/guardrails",
    "name": "Guardrails & DLP",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/deploy-agentcore",
+   "url": "/langgraph-python/deploy-agentcore",
    "name": "AWS AgentCore",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/deploy-langsmith",
+   "url": "/langgraph-python/deploy-langsmith",
    "name": "LangSmith Platform",
-   "group": "Agent capabilities > LangGraph (TypeScript)"
+   "group": "Agent capabilities > LangGraph (Python)"
   },
   {
-   "url": "/langgraph-typescript/multi-agent/subagents",
+   "url": "/langgraph-python/multi-agent/subagents",
    "name": "Sub-agents",
    "group": "Agent capabilities"
   },
   {
-   "url": "/langgraph-typescript/intelligence/quickstart",
+   "url": "/langgraph-python/intelligence/quickstart",
    "name": "Quickstart",
    "group": "Intelligence > Get started"
   },
   {
-   "url": "/langgraph-typescript/intelligence/intelligence-platform",
+   "url": "/langgraph-python/intelligence/intelligence-platform",
    "name": "Architecture",
    "group": "Intelligence > Get started"
   },
   {
-   "url": "/langgraph-typescript/intelligence/plans",
+   "url": "/langgraph-python/intelligence/plans",
    "name": "Plans",
    "group": "Intelligence > Get started"
   },
   {
-   "url": "/langgraph-typescript/AG-UI-Streams",
+   "url": "/langgraph-python/AG-UI-Streams",
    "name": "Overview",
    "group": "Intelligence > Features > AG-UI Streams"
   },
   {
-   "url": "/langgraph-typescript/intelligence/bring-your-own-thread-system",
+   "url": "/langgraph-python/intelligence/bring-your-own-thread-system",
    "name": "Bring your own thread system",
    "group": "Intelligence > Features > AG-UI Streams"
   },
   {
-   "url": "/langgraph-typescript/threads-import",
+   "url": "/langgraph-python/threads-import",
    "name": "Add to Existing Threads",
    "group": "Intelligence > Features > AG-UI Streams"
   },
   {
-   "url": "/langgraph-typescript/threads-lifecycle",
+   "url": "/langgraph-python/threads-lifecycle",
    "name": "Thread & History Lifecycle",
    "group": "Intelligence > Features > AG-UI Streams"
   },
   {
-   "url": "/langgraph-typescript/intelligence/threads-explained",
+   "url": "/langgraph-python/intelligence/threads-explained",
    "name": "Streams & Framework Threads",
    "group": "Intelligence > Features > AG-UI Streams"
   },
   {
-   "url": "/langgraph-typescript/learning",
+   "url": "/langgraph-python/learning",
    "name": "Automatic Learning",
    "group": "Intelligence > Features > Automatic Learning"
   },
   {
-   "url": "/langgraph-typescript/intelligence/learned-skills",
+   "url": "/langgraph-python/intelligence/learned-skills",
    "name": "Skill delivery",
    "group": "Intelligence > Features > Automatic Learning"
   },
   {
-   "url": "/langgraph-typescript/intelligence/memories",
+   "url": "/langgraph-python/intelligence/memories",
    "name": "User Memories",
    "group": "Intelligence > Features"
   },
   {
-   "url": "/langgraph-typescript/intelligence/trajectories",
+   "url": "/langgraph-python/intelligence/trajectories",
    "name": "Trajectories",
    "group": "Intelligence > Features > Trajectories"
   },
   {
-   "url": "/langgraph-typescript/intelligence/trajectories-quickstart",
+   "url": "/langgraph-python/intelligence/trajectories-quickstart",
    "name": "Quickstart",
    "group": "Intelligence > Features > Trajectories"
   },
   {
-   "url": "/langgraph-typescript/intelligence/capture-interactions",
+   "url": "/langgraph-python/intelligence/capture-interactions",
    "name": "Capture interactions",
    "group": "Intelligence > Features > Trajectories"
   },
   {
-   "url": "/langgraph-typescript/intelligence/captured-data",
+   "url": "/langgraph-python/intelligence/captured-data",
    "name": "Captured data",
    "group": "Intelligence > Features > Trajectories"
   },
   {
-   "url": "/langgraph-typescript/intelligence/trajectories-reference",
+   "url": "/langgraph-python/intelligence/trajectories-reference",
    "name": "API reference",
    "group": "Intelligence > Features > Trajectories"
   },
   {
-   "url": "/langgraph-typescript/intelligence/standalone-collector",
+   "url": "/langgraph-python/intelligence/standalone-collector",
    "name": "Standalone collector",
    "group": "Intelligence > Features"
   },
   {
-   "url": "/langgraph-typescript/intelligence/analytics",
+   "url": "/langgraph-python/intelligence/analytics",
    "name": "Product Analytics",
    "group": "Intelligence > Features"
   },
   {
-   "url": "/langgraph-typescript/intelligence/channels",
+   "url": "/langgraph-python/intelligence/channels",
    "name": "Channels",
    "group": "Intelligence > Features"
   },
   {
-   "url": "/langgraph-typescript/intelligence/managed-intelligence-platform",
+   "url": "/langgraph-python/intelligence/managed-intelligence-platform",
    "name": "Cloud-hosted",
    "group": "Intelligence > Hosting"
   },
   {
-   "url": "/langgraph-typescript/intelligence/self-hosting",
+   "url": "/langgraph-python/intelligence/self-hosting",
    "name": "Self-hosted",
    "group": "Intelligence > Hosting"
   },
   {
-   "url": "/langgraph-typescript/intelligence/self-hosting-ecs",
+   "url": "/langgraph-python/intelligence/self-hosting-ecs",
    "name": "AWS ECS/Fargate",
    "group": "Intelligence > Hosting"
   },
   {
-   "url": "/langgraph-typescript/intelligence/self-hosting-local",
+   "url": "/langgraph-python/intelligence/self-hosting-local",
    "name": "Local evaluation",
    "group": "Intelligence > Hosting"
   },
   {
-   "url": "/langgraph-typescript/backend/copilot-runtime",
+   "url": "/langgraph-python/backend/copilot-runtime",
    "name": "Copilot Runtime",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/runtime-endpoints",
+   "url": "/langgraph-python/backend/runtime-endpoints",
    "name": "Runtime HTTP endpoints",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/custom-agent",
+   "url": "/langgraph-python/backend/custom-agent",
    "name": "Use any model router",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/custom-ag-ui-agent",
+   "url": "/langgraph-python/backend/custom-ag-ui-agent",
    "name": "Write your own AG-UI agent",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/agent-runner",
+   "url": "/langgraph-python/backend/agent-runner",
    "name": "AgentRunner and persistence",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/message-history",
+   "url": "/langgraph-python/backend/message-history",
    "name": "Message history",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/self-managed-agents",
+   "url": "/langgraph-python/backend/self-managed-agents",
    "name": "Self-managed agents",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/backend/ag-ui",
+   "url": "/langgraph-python/backend/ag-ui",
    "name": "Connect AG-UI agents",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/runtime-server-adapter",
+   "url": "/langgraph-python/runtime-server-adapter",
    "name": "Deploy to any runtime",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/auth",
+   "url": "/langgraph-python/auth",
    "name": "Authentication",
    "group": "Backend > Runtime"
   },
   {
-   "url": "/langgraph-typescript/deploy/agentcore",
+   "url": "/langgraph-python/deploy/agentcore",
    "name": "AWS AgentCore",
    "group": "Backend > Deployment"
   },
   {
-   "url": "/langgraph-typescript/deploy/aws-lambda",
+   "url": "/langgraph-python/deploy/aws-lambda",
    "name": "AWS Lambda",
    "group": "Backend > Deployment"
   },
   {
-   "url": "/langgraph-typescript/deploy/langsmith",
+   "url": "/langgraph-python/deploy/langsmith",
    "name": "LangSmith Platform",
    "group": "Backend > Deployment"
   },
   {
-   "url": "/langgraph-typescript/inspector",
+   "url": "/langgraph-python/inspector",
    "name": "Inspector",
    "group": "Backend > Debugging"
   },
   {
-   "url": "/langgraph-typescript/vs-code-extension",
+   "url": "/langgraph-python/vs-code-extension",
    "name": "VS Code Extension",
    "group": "Backend > Debugging"
   },
   {
-   "url": "/langgraph-typescript/concepts/architecture",
+   "url": "/langgraph-python/concepts/architecture",
    "name": "Architecture",
    "group": "Learn > Concepts"
   },
   {
-   "url": "/langgraph-typescript/concepts/generative-ui-overview",
+   "url": "/langgraph-python/concepts/generative-ui-overview",
    "name": "Generative UI",
    "group": "Learn > Concepts"
   },
   {
-   "url": "/langgraph-typescript/concepts/which-hook",
+   "url": "/langgraph-python/concepts/which-hook",
    "name": "Which Hook for Which Job",
    "group": "Learn > Concepts"
   },
   {
-   "url": "/langgraph-typescript/concepts/oss-vs-enterprise",
+   "url": "/langgraph-python/concepts/oss-vs-enterprise",
    "name": "Open source vs Intelligence",
    "group": "Learn > Concepts"
   },
   {
-   "url": "/langgraph-typescript/agentic-protocols",
+   "url": "/langgraph-python/agentic-protocols",
    "name": "Agentic Protocols",
    "group": "Learn > Concepts > Agentic Protocols"
   },
   {
-   "url": "/langgraph-typescript/agentic-protocols/ag-ui",
+   "url": "/langgraph-python/agentic-protocols/ag-ui",
    "name": "AG-UI",
    "group": "Learn > Concepts > Agentic Protocols"
   },
   {
-   "url": "/langgraph-typescript/agentic-protocols/ag-ui-middleware",
+   "url": "/langgraph-python/agentic-protocols/ag-ui-middleware",
    "name": "AG-UI Middleware",
    "group": "Learn > Concepts > Agentic Protocols"
   },
   {
-   "url": "/langgraph-typescript/agentic-protocols/mcp",
+   "url": "/langgraph-python/agentic-protocols/mcp",
    "name": "MCP",
    "group": "Learn > Concepts > Agentic Protocols"
   },
   {
-   "url": "/langgraph-typescript/agentic-protocols/a2a",
+   "url": "/langgraph-python/agentic-protocols/a2a",
    "name": "A2A",
    "group": "Learn > Concepts > Agentic Protocols"
   },
   {
-   "url": "/langgraph-typescript/contributing/code-contributions",
+   "url": "/langgraph-python/contributing/code-contributions",
    "name": "Code Contributions",
    "group": "Other > Contributing"
   },
   {
-   "url": "/langgraph-typescript/contributing/docs-contributions",
+   "url": "/langgraph-python/contributing/docs-contributions",
    "name": "Documentation Contributions",
    "group": "Other > Contributing"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/common-issues",
+   "url": "/langgraph-python/troubleshooting/common-issues",
    "name": "Common Copilot Issues",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/error-reference",
+   "url": "/langgraph-python/troubleshooting/error-reference",
    "name": "Error message reference",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/error-debugging",
+   "url": "/langgraph-python/troubleshooting/error-debugging",
    "name": "Error Debugging & Observability",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/inspector-dev-console",
+   "url": "/langgraph-python/troubleshooting/inspector-dev-console",
    "name": "Inspector and dev console",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/debug-mode",
+   "url": "/langgraph-python/troubleshooting/debug-mode",
    "name": "Debug Mode",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/event-inspector",
+   "url": "/langgraph-python/troubleshooting/event-inspector",
    "name": "AG-UI Event Inspector",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/troubleshooting/hook-explorer",
+   "url": "/langgraph-python/troubleshooting/hook-explorer",
    "name": "Hook Explorer",
    "group": "Other > Troubleshooting"
   },
   {
-   "url": "/langgraph-typescript/telemetry",
+   "url": "/langgraph-python/telemetry",
    "name": "Open-source telemetry",
    "group": "Other"
   },
   {
-   "url": "/langgraph-typescript/community-frameworks",
+   "url": "/langgraph-python/community-frameworks",
    "name": "Community frameworks",
    "group": "Other"
   }

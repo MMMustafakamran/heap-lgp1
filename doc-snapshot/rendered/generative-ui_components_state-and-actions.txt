@@ -1,0 +1,403 @@
+### [app/catalog.tsx]
+const cartSchema = z.object({
+  items: z.array(z.object({ productId: z.string(), quantity: z.number() })),
+});
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  state: { cart: cartSchema },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string(), inCart: z.number() }),
+      bind: {
+        inCart: (state, { productId }) =>
+          state.cart.items.find((item) => item.productId === productId)?.quantity ?? 0,
+      },
+    },
+  },
+});
+
+### [src/app/shop-ui.ts]
+const cartSchema = z.object({
+  items: z.array(z.object({ productId: z.string(), quantity: z.number() })),
+});
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  state: { cart: cartSchema },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string(), inCart: z.number() }),
+      bind: {
+        inCart: (state, { productId }) =>
+          state.cart.items.find((item) => item.productId === productId)?.quantity ?? 0,
+      },
+    },
+  },
+});
+
+### [src/shopUI.tsx]
+const cartSchema = z.object({
+  items: z.array(z.object({ productId: z.string(), quantity: z.number() })),
+});
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  state: { cart: cartSchema },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string(), inCart: z.number() }),
+      bind: {
+        inCart: (state, { productId }) =>
+          state.cart.items.find((item) => item.productId === productId)?.quantity ?? 0,
+      },
+    },
+  },
+});
+
+### [src/shop-ui.ts]
+const cartSchema = z.object({
+  items: z.array(z.object({ productId: z.string(), quantity: z.number() })),
+});
+
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  state: { cart: cartSchema },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string(), inCart: z.number() }),
+      bind: {
+        inCart: (state, { productId }) =>
+          state.cart.items.find((item) => item.productId === productId)?.quantity ?? 0,
+      },
+    },
+  },
+});
+
+### []
+import { useGenerativeUIState } from "@copilotkit/react-core/v2/generative-ui";
+
+function CartState({ cart }: { cart: Cart }) {
+  useGenerativeUIState(shopUI, "cart", { items: cart.items });
+  return null;
+}
+
+### []
+import { Component, inject } from "@angular/core";
+import { connectGenerativeUIState } from "@copilotkit/angular/generative-ui";
+import { CartStore } from "./cart.store";
+import { shopUI } from "./shop-ui";
+
+@Component({ /* ... */ })
+export class CartState {
+  readonly #cart = inject(CartStore);
+
+  constructor() {
+    connectGenerativeUIState(shopUI, "cart", () => ({ items: this.#cart.items() }));
+  }
+}
+
+### []
+import { useGenerativeUIState } from "@copilotkit/react-native/generative-ui";
+
+function CartState({ cart }: { cart: Cart }) {
+  useGenerativeUIState(shopUI, "cart", { items: cart.items });
+  return null;
+}
+
+### []
+<script setup lang="ts">
+import { useGenerativeUIState } from "@copilotkit/vue/v2/generative-ui";
+import { useCartStore } from "./cart-store";
+import { shopUI } from "./shop-ui";
+
+const cart = useCartStore();
+useGenerativeUIState(shopUI, "cart", () => ({ items: cart.items }));
+</script>
+
+### [app/catalog.tsx]
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  functions: {
+    addToCart: {
+      description: "Add a product to the cart",
+      parameters: z.object({ productId: z.string(), quantity: z.number().default(1) }),
+    },
+  },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string() }),
+      events: { onAddToCart: {} },
+    },
+  },
+});
+
+### []
+import { useGenerativeUIFunction } from "@copilotkit/react-core/v2/generative-ui";
+
+function CartActions({ cart }: { cart: Cart }) {
+  useGenerativeUIFunction(shopUI, "addToCart", ({ productId, quantity }) => {
+    cart.addItem(productId, quantity);
+    return { added: productId };
+  });
+  return null;
+}
+
+### [src/app/shop-ui.ts]
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  functions: {
+    addToCart: {
+      description: "Add a product to the cart",
+      parameters: z.object({ productId: z.string(), quantity: z.number().default(1) }),
+    },
+  },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string() }),
+      events: { onAddToCart: {} },
+    },
+  },
+});
+
+### []
+import { Component, inject } from "@angular/core";
+import { registerGenerativeUIFunction } from "@copilotkit/angular/generative-ui";
+import { CartStore } from "./cart.store";
+import { shopUI } from "./shop-ui";
+
+@Component({ /* ... */ })
+export class CartActions {
+  readonly #cart = inject(CartStore);
+
+  constructor() {
+    registerGenerativeUIFunction(shopUI, "addToCart", ({ productId, quantity }) => {
+      this.#cart.addItem(productId, quantity);
+      return { added: productId };
+    });
+  }
+}
+
+### [src/shopUI.tsx]
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  functions: {
+    addToCart: {
+      description: "Add a product to the cart",
+      parameters: z.object({ productId: z.string(), quantity: z.number().default(1) }),
+    },
+  },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string() }),
+      events: { onAddToCart: {} },
+    },
+  },
+});
+
+### []
+import { useGenerativeUIFunction } from "@copilotkit/react-native/generative-ui";
+
+function CartActions({ cart }: { cart: Cart }) {
+  useGenerativeUIFunction(shopUI, "addToCart", ({ productId, quantity }) => {
+    cart.addItem(productId, quantity);
+    return { added: productId };
+  });
+  return null;
+}
+
+### [src/shop-ui.ts]
+export const shopUI = createGenerativeUI({
+  id: "acme/shop@1",
+  functions: {
+    addToCart: {
+      description: "Add a product to the cart",
+      parameters: z.object({ productId: z.string(), quantity: z.number().default(1) }),
+    },
+  },
+  components: {
+    ProductCard: {
+      component: ProductCard,
+      props: z.object({ productId: z.string(), name: z.string() }),
+      events: { onAddToCart: {} },
+    },
+  },
+});
+
+### []
+<script setup lang="ts">
+import { useGenerativeUIFunction } from "@copilotkit/vue/v2/generative-ui";
+import { useCartStore } from "./cart-store";
+import { shopUI } from "./shop-ui";
+
+const cart = useCartStore();
+useGenerativeUIFunction(shopUI, "addToCart", ({ productId, quantity }) => {
+  cart.addItem(productId, quantity);
+  return { added: productId };
+});
+</script>
+
+### []
+import { useState } from "react";
+import type { GenerativeUIComponentProps } from "@copilotkit/react-core/v2/generative-ui";
+
+function ProductCard({ productId, name, onAddToCart }: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  const [error, setError] = useState<string>();
+  return (
+    <article>
+      <h4>{name}</h4>
+      <button
+        onClick={async () => {
+          const result = await onAddToCart?.({ productId });
+          if (result) setError(result.ok ? undefined : result.error.message);
+        }}
+      >
+        Add to cart
+      </button>
+      {error ? <p role="alert">{error}</p> : null}
+    </article>
+  );
+}
+
+### []
+import { Component, input, signal } from "@angular/core";
+import type { GenerativeUIEventHandler } from "@copilotkit/angular/generative-ui";
+import { shopUI } from "./shop-ui";
+
+@Component({
+  selector: "app-product-card",
+  template: `
+    <article>
+      <h4>{{ name() }}</h4>
+      @if (onAddToCart(); as addToCart) {
+        <button (click)="add(addToCart)">Add to cart</button>
+      }
+      @if (error(); as error) {
+        <p role="alert">{{ error }}</p>
+      }
+    </article>
+  `,
+})
+export class ProductCard {
+  readonly productId = input.required<string>();
+  readonly name = input.required<string>();
+  readonly onAddToCart = input<GenerativeUIEventHandler<typeof shopUI, "onAddToCart">>();
+protected readonly error = signal<string | undefined>(undefined);
+
+  protected async add(addToCart: GenerativeUIEventHandler<typeof shopUI, "onAddToCart">) {
+    const result = await addToCart({ productId: this.productId() });
+    this.error.set(result.ok ? undefined : result.error.message);
+  }
+}
+
+### []
+import { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import type { GenerativeUIComponentProps } from "@copilotkit/react-native/generative-ui";
+
+function ProductCard({ productId, name, onAddToCart }: GenerativeUIComponentProps<typeof shopUI, "ProductCard">) {
+  const [error, setError] = useState<string>();
+  return (
+    <View>
+      <Text>{name}</Text>
+      <Pressable
+        accessibilityRole="button"
+        onPress={async () => {
+          const result = await onAddToCart?.({ productId });
+          if (result) setError(result.ok ? undefined : result.error.message);
+        }}
+      >
+        <Text>Add to cart</Text>
+      </Pressable>
+      {error ? <Text accessibilityRole="alert">{error}</Text> : null}
+    </View>
+  );
+}
+
+### [src/components/ProductCard.vue]
+<script setup lang="ts">
+import { ref } from "vue";
+import type { GenerativeUIInvokeResult } from "@copilotkit/vue/v2/generative-ui";
+
+const props = defineProps<{
+  productId: string;
+  name: string;
+  onAddToCart?: (args: { productId: string }) => Promise<GenerativeUIInvokeResult>;
+}>();
+const error = ref<string>();
+
+async function add() {
+  const result = await props.onAddToCart?.({ productId: props.productId });
+  if (result && !result.ok) error.value = result.error.message;
+}
+</script>
+
+<template>
+  <article>
+    <h4>{{ name }}</h4>
+    <button v-if="onAddToCart" @click="add">Add to cart</button>
+    <p v-if="error" role="alert">{{ error }}</p>
+  </article>
+</template>
+
+### []
+functions: {
+  addToCart: { parameters: z.object({ productId: z.string() }), allowedCallers: "rendererOrAgent", returnType: "object" },
+  track: { parameters: z.object({ event: z.string() }), returnType: "void" },
+  reload: { parameters: z.object({}), allowedCallers: "agentOnly" },
+},
+
+### []
+events: {
+  onChoose: {
+    description: "The user picked a plan",
+    parameters: z.object({ plan: z.string() }),
+  },
+},
+
+### []
+CheckoutForm: {
+  component: CheckoutForm,
+  props: z.object({ email: z.string().optional() }),
+  writable: ["email"],
+},
+
+### []
+function CheckoutForm({ email, setEmail }: GenerativeUIComponentProps<typeof shopUI, "CheckoutForm">) {
+  return <input value={email ?? ""} onChange={(event) => setEmail(event.target.value)} />;
+}
+
+### []
+import { Component, model } from "@angular/core";
+
+@Component({
+  selector: "app-checkout-form",
+  template: `<input [value]="email() ?? ''" (input)="email.set($any($event.target).value)" />`,
+})
+export class CheckoutForm {
+  readonly email = model<string>();
+}
+
+### []
+import { TextInput } from "react-native";
+import type { GenerativeUIComponentProps } from "@copilotkit/react-native/generative-ui";
+
+function CheckoutForm({ email, setEmail }: GenerativeUIComponentProps<typeof shopUI, "CheckoutForm">) {
+  return <TextInput value={email ?? ""} onChangeText={setEmail} keyboardType="email-address" />;
+}
+
+### [src/components/CheckoutForm.vue]
+<script setup lang="ts">
+const email = defineModel<string>("email");
+</script>
+
+<template>
+  <input v-model="email" />
+</template>

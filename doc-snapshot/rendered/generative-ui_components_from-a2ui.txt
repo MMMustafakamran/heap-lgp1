@@ -1,0 +1,140 @@
+### []
+import { basicCatalogV1 } from "@copilotkit/a2ui-renderer";
+
+<CopilotKit runtimeUrl="/api/copilotkit" a2ui={{ catalog: basicCatalogV1 }}>
+  {/* Your app */}
+</CopilotKit>
+
+### []
+import { z } from "zod";
+import {
+  createCatalog,
+  DynamicStringSchemaV1,
+} from "@copilotkit/a2ui-renderer";
+
+const myCatalog = createCatalog(
+  { Greeting: { props: z.object({ name: DynamicStringSchemaV1 }) } },
+  { Greeting: ({ props }) => <p>Hello {props.name}</p> },
+  {
+    catalogId: "acme/greetings@1",
+    protocolVersion: "1.0",
+    includeBasicCatalog: true,
+  },
+);
+
+### [Before]
+<CopilotKit runtimeUrl="/api/copilotkit" a2ui={{ catalog: myCatalog }}>
+
+### [After]
+<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: appUI }}>
+
+### [Before]
+provideCopilotKit({ runtimeUrl: "/api/copilotkit", a2ui: { catalog: myCatalog } }),
+
+### [After]
+provideCopilotKit({ runtimeUrl: "/api/copilotkit" }),
+provideGenerativeUI({ ui: appUI }),
+
+### [Before]
+<CopilotKitProvider runtime-url="/api/copilotkit" :a2ui="{ catalog: vueBasicCatalog }">
+
+### [After]
+<CopilotKitProvider runtime-url="/api/copilotkit" :generativeUI="{ ui: appUI }">
+
+### [Runtime, before]
+const runtime = new CopilotRuntime({
+  agents,
+  a2ui: { injectA2UITool: false, agents: ["shop"] },
+});
+
+### [Runtime, after]
+// Nothing: a run that carries a catalog gets the render_ui tool and the guide.
+// To force or limit it: generativeUI: true, or generativeUI: { agents: ["shop"] }.
+const runtime = new CopilotRuntime({ agents });
+
+### [Before]
+import { createCatalog, DynamicStringSchema } from "@copilotkit/a2ui-renderer";
+
+const definitions = {
+  Airport: {
+    props: z.object({ code: DynamicStringSchema, city: DynamicStringSchema }),
+  },
+  Arrow: { props: z.object({}) },
+};
+const renderers = { Airport, Arrow };
+export const myCatalog = createCatalog(definitions, renderers, {
+  catalogId: "acme/flights",
+  includeBasicCatalog: true,
+});
+
+### [Before]
+import { createAngularCatalog, DynamicStringSchema } from "@copilotkit/angular/a2ui";
+
+const definitions = {
+  Airport: {
+    props: z.object({ code: DynamicStringSchema, city: DynamicStringSchema }),
+  },
+  Arrow: { props: z.object({}) },
+};
+const renderers = { Airport, Arrow };
+export const myCatalog = createAngularCatalog(definitions, renderers, {
+  catalogId: "acme/flights",
+  includeBasicCatalog: true,
+});
+
+### [After]
+import {
+  createGenerativeUI,
+  standardUI,
+} from "@copilotkit/react-core/v2/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/flights@1",
+  extends: [standardUI],
+  components: {
+    Airport: {
+      component: Airport,
+      description: "An airport by IATA code, with its city under it.",
+      props: z.object({ code: z.string(), city: z.string() }),
+    },
+    Arrow: { component: Arrow, description: "An arrow between two airports." },
+  },
+});
+
+### [After]
+import {
+  createGenerativeUI,
+  standardUI,
+} from "@copilotkit/angular/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/flights@1",
+  extends: [standardUI],
+  components: {
+    Airport: {
+      component: Airport,
+      description: "An airport by IATA code, with its city under it.",
+      props: z.object({ code: z.string(), city: z.string() }),
+    },
+    Arrow: { component: Arrow, description: "An arrow between two airports." },
+  },
+});
+
+### [After]
+import {
+  createGenerativeUI,
+  standardUI,
+} from "@copilotkit/vue/v2/generative-ui";
+
+export const appUI = createGenerativeUI({
+  id: "acme/flights@1",
+  extends: [standardUI],
+  components: {
+    Airport: {
+      component: Airport,
+      description: "An airport by IATA code, with its city under it.",
+      props: z.object({ code: z.string(), city: z.string() }),
+    },
+    Arrow: { component: Arrow, description: "An arrow between two airports." },
+  },
+});

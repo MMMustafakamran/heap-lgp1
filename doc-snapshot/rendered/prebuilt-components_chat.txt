@@ -1,0 +1,32 @@
+### []
+"""LangGraph agent backing the Agentic Chat demo.
+
+Minimal sample agent — no backend tools. Frontend may inject tools at runtime
+via CopilotKit's LangGraph middleware.
+"""
+
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt="You are a helpful, concise assistant.",
+)
+
+### []
+import { CopilotKit, CopilotChat } from "@copilotkit/react-core/v2";
+import "@copilotkit/react-core/v2/styles.css";
+
+### [page.tsx]
+    <CopilotKit runtimeUrl="/api/copilotkit" agent="agentic_chat">
+      <Chat />
+    </CopilotKit>
+
+### [page.tsx]
+function Chat() {
+  useAgenticChatSuggestions();
+  return <CopilotChat agentId="agentic_chat" />;
+}

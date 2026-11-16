@@ -1,0 +1,110 @@
+### []
+"""LangGraph agent backing the Shared State (Agent Read-Only) demo.
+
+Demonstrates the `useAgentContext` hook from @copilotkit/react-core/v2:
+the frontend provides READ-ONLY context *to* the agent. This is the
+reverse direction of writable-shared-state — the UI cannot be edited by
+the agent, but the agent reads this context on every turn via
+`CopilotKitMiddleware`, which routes the context entries into the
+model's message history.
+
+No custom state, no tools: this is the minimal shape of the
+useAgentContext pattern. The agent just reads whatever context the
+frontend registered and answers accordingly.
+"""
+
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+
+from copilotkit import CopilotKitMiddleware
+
+
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt=(
+        "You are a helpful, concise assistant. The frontend may provide "
+        "read-only context about the user (e.g. name, timezone, recent "
+        "activity) via the `useAgentContext` hook. Always consult that "
+        "context when it is relevant — address the user by name if known, "
+        "respect their timezone when mentioning times, and reference "
+        "recent activity when it helps you answer. Keep responses short."
+    ),
+)
+
+### []
+uv add copilotkit
+
+### []
+poetry add copilotkit
+
+### []
+pip install copilotkit --extra-index-url https://copilotkit.gateway.scarf.sh/simple/
+
+### []
+conda install copilotkit -c copilotkit-channel
+
+### [readonly_state_agent_context.py]
+graph = create_agent(
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt=(
+        "You are a helpful, concise assistant. The frontend may provide "
+        "read-only context about the user (e.g. name, timezone, recent "
+        "activity) via the `useAgentContext` hook. Always consult that "
+        "context when it is relevant — address the user by name if known, "
+        "respect their timezone when mentioning times, and reference "
+        "recent activity when it helps you answer. Keep responses short."
+    ),
+)
+
+### [page.tsx]
+  useAgentContext({
+    description: "The currently logged-in user's display name",
+    value: userName,
+  });
+  useAgentContext({
+    description: "The user's IANA timezone (used when mentioning times)",
+    value: userTimezone,
+  });
+  useAgentContext({
+    description: "The user's recent activity in the app, newest first",
+    value: recentActivity,
+  });
+
+### [page.tsx]
+import React, { useState } from "react";
+import {
+  CopilotKit,
+  CopilotPopup,
+  useAgentContext,
+} from "@copilotkit/react-core/v2";
+
+import { ACTIVITIES, DemoLayout } from "./demo-layout";
+import { useReadonlyStateAgentContextSuggestions } from "./suggestions";
+
+export default function ReadonlyStateAgentContextDemo() {
+  return (
+    <CopilotKit
+      runtimeUrl="/api/copilotkit"
+      agent="readonly-state-agent-context"
+    >
+      <DemoContent />
+      <CopilotPopup
+        agentId="readonly-state-agent-context"
+        defaultOpen={true}
+        labels={{ chatInputPlaceholder: "Ask about your context..." }}
+      />
+    </CopilotKit>
+  );
+}
+
+function DemoContent() {
+  const [userName, setUserName] = useState("Atai");
+  const [userTimezone, setUserTimezone] = useState("America/Los_Angeles");
+  const [recentActivity, setRecentActivity] = useState<string[]>([
+    ACTIVITIES[0],
+    ACTIVITIES[2],
+  ]);

@@ -1,0 +1,172 @@
+### []
+"""
+LangGraph agent for the CopilotKit MCP Apps demo.
+
+This agent has no bespoke tools — the CopilotKit runtime is wired with
+``mcpApps: { servers: [...] }`` pointing at the public Excalidraw MCP
+server (see ``src/app/api/copilotkit-mcp-apps/route.ts``). The runtime
+auto-applies the MCP Apps middleware, which exposes the remote MCP
+server's tools to this agent at request time and emits the activity
+events that CopilotKit's built-in ``MCPAppsActivityRenderer`` renders in
+the chat as a sandboxed iframe.
+
+Reference:
+https://docs.copilotkit.ai/integrations/langgraph/generative-ui/mcp-apps
+"""
+
+from langchain.agents import create_agent
+from langchain_openai import ChatOpenAI
+from copilotkit import CopilotKitMiddleware
+
+SYSTEM_PROMPT = """\
+You draw simple diagrams in Excalidraw via the MCP tool.
+
+SPEED MATTERS. Produce a correct-enough diagram fast; do not optimize
+for polish. Target: one tool call, done in seconds.
+
+When the user asks for a diagram:
+1. Call `create_view` ONCE with 3-5 elements total: shapes + arrows +
+   an optional title text.
+2. Use straightforward shapes (rectangle, ellipse, diamond) with plain
+   `label` fields (`{"text": "...", "fontSize": 18}`) on them.
+3. Connect with arrows. Endpoints can be element centers or simple
+   coordinates — you don't need edge anchors / fixedPoint bindings.
+4. Include ONE `cameraUpdate` at the END of the elements array that
+   frames the whole diagram. Use an approved 4:3 size (600x450 or
+   800x600). No opening camera needed.
+5. Reply with ONE short sentence describing what you drew.
+
+Every element needs a unique string `id` (e.g. `"b1"`, `"a1"`,
+`"title"`). Standard sizes: rectangles 160x70, ellipses/diamonds
+120x80, 40-80px gap between shapes.
+
+Do NOT:
+- Call `read_me`. You already know the basic shape API.
+- Make multiple `create_view` calls.
+- Iterate or refine. Ship on the first shot.
+- Add decorative colors / fills / zone backgrounds unless the user
+  explicitly asks for them.
+- Add labels on arrows unless crucial.
+
+If the user asks for something specific (colors, more elements,
+particular layout), follow their lead — but still in ONE call.
+"""
+
+
+graph = create_agent(
+    # gpt-6-luna for speed — Excalidraw element emission is simple
+    # JSON and we're biasing hard toward sub-30s generation. A faster
+    # model produces shorter, quicker outputs with acceptable layouts.
+    model=ChatOpenAI(reasoning_effort="none", model="gpt-6-luna"),
+    tools=[],
+    middleware=[CopilotKitMiddleware()],
+    system_prompt=SYSTEM_PROMPT,
+)
+
+### [route.ts]
+// The `mcpApps.servers` config is all you need server-side. The runtime
+// auto-applies the MCP Apps middleware to every registered agent: on each
+// MCP tool call it fetches the associated UI resource and emits an
+// `activity` event that the built-in `MCPAppsActivityRenderer` renders
+// inline in the chat.
+const runtime = new CopilotRuntime({
+  // @ts-ignore
+  agents: {
+    "mcp-apps": mcpAppsAgent,
+    // headless-complete shares this runtime because its cell also exercises
+    // MCP Apps rendering (via a hand-rolled `useRenderActivityMessage` in
+    // `use-rendered-messages.tsx`).
+    "headless-complete": headlessCompleteAgent,
+  },
+  mcpApps: {
+    servers: [
+      {
+        type: "http",
+        url: process.env.MCP_SERVER_URL || "https://mcp.excalidraw.com",
+        // Always pin a stable `serverId`. Without it CopilotKit hashes the
+        // URL, and a URL change silently breaks restoration of persisted
+        // MCP Apps in prior conversation threads.
+        serverId: "excalidraw",
+      },
+    ],
+  },
+});
+
+### [app/api/copilotkit/[[...slug]]/route.ts]
+import {
+  BuiltInAgent,
+  CopilotKitIntelligence,
+  CopilotRuntime,
+  createCopilotRuntimeHandler,
+} from "@copilotkit/runtime/v2";
+
+const agent = new BuiltInAgent({
+  model: "openai/gpt-6-luna",
+  prompt: "You are a helpful assistant.",
+});
+
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  // Intelligence stores threads and runs. Do not pass `runner` as well.
+  intelligence: new CopilotKitIntelligence({
+    apiKey: process.env.CPK_INTELLIGENCE_API_KEY!,
+  }),
+  // Replace this fixed user with the user from your verified session.
+  identifyUser: () => ({ id: "demo-user", name: "Demo User" }),
+  // Unchanged from the in-memory setup.
+  mcpApps: {
+    servers: [
+      {
+        type: "http",
+        url: "https://mcp.excalidraw.com/mcp",
+        serverId: "excalidraw",
+      },
+    ],
+  },
+});
+
+const handler = createCopilotRuntimeHandler({
+  runtime,
+  basePath: "/api/copilotkit",
+});
+
+export const GET = handler;
+export const POST = handler;
+export const PATCH = handler;
+export const DELETE = handler;
+
+### [page.tsx]
+  // No `renderActivityMessages`, no `useRenderActivityMessage` — the
+  // CopilotKitProvider auto-registers the built-in `MCPAppsActivityRenderer`
+  // for the "mcp-apps" activity type. A plain <CopilotChat /> is enough.
+  return (
+    <CopilotKit runtimeUrl="/api/copilotkit-mcp-apps" agent="mcp-apps">
+      <div className="flex justify-center items-center h-screen w-full">
+        <div className="h-full w-full max-w-4xl">
+          <Chat />
+        </div>
+      </div>
+    </CopilotKit>
+  );
+
+### []
+<CopilotKit runtimeUrl="/api/copilotkit" mcpApps={{ allowSameOriginFallback: true }}>
+  {children}
+</CopilotKit>
+
+### []
+{
+  type: "http",
+  url: "http://localhost:3101/mcp",
+  serverId: "my-http-server"
+}
+
+### []
+{
+  type: "sse",
+  url: "https://mcp.example.com/sse",
+  headers: {
+    "Authorization": "Bearer token"
+  },
+  serverId: "my-sse-server"
+}

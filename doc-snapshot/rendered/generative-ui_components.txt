@@ -1,0 +1,591 @@
+### []
+npm install @copilotkit/react-core @copilotkit/runtime @tanstack/ai @tanstack/ai-openai
+
+### [.env.local]
+OPENAI_API_KEY=sk-...
+
+### []
+npm install @copilotkit/angular @angular/cdk @copilotkit/runtime @tanstack/ai @tanstack/ai-openai
+npm install -D tsx
+
+### []
+export OPENAI_API_KEY=sk-...
+
+### []
+npm install @copilotkit/react-native @copilotkit/runtime @tanstack/ai @tanstack/ai-openai "zod@^3.25"
+npm install -D tsx
+
+### []
+export OPENAI_API_KEY=sk-...
+
+### []
+npm install @copilotkit/vue @copilotkit/runtime @tanstack/ai @tanstack/ai-openai
+npm install -D tsx
+
+### []
+export OPENAI_API_KEY=sk-...
+
+### [app/api/copilotkit/[[...slug]]/route.ts]
+import { chat } from "@tanstack/ai";
+import { openaiText } from "@tanstack/ai-openai";
+import {
+  BuiltInAgent,
+  convertInputToTanStackAI,
+  CopilotRuntime,
+  createCopilotRuntimeHandler,
+  InMemoryAgentRunner,
+} from "@copilotkit/runtime/v2";
+
+const agent = new BuiltInAgent({
+  type: "tanstack",
+  factory: ({ input, abortController }) => {
+    const { messages, systemPrompts, tools } = convertInputToTanStackAI(input);
+    return chat({
+      adapter: openaiText("gpt-6-luna"),
+      messages,
+      systemPrompts: [
+        "You are a helpful assistant. When a visual answer helps, render it with generative UI.",
+        ...systemPrompts,
+      ],
+      tools,
+      abortController,
+    });
+  },
+});
+
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  runner: new InMemoryAgentRunner(),
+});
+
+const handler = createCopilotRuntimeHandler({ runtime, basePath: "/api/copilotkit" });
+
+export const GET = handler;
+export const POST = handler;
+
+### [server.ts]
+import { createServer } from "node:http";
+import { chat } from "@tanstack/ai";
+import { openaiText } from "@tanstack/ai-openai";
+import {
+  BuiltInAgent,
+  convertInputToTanStackAI,
+  CopilotRuntime,
+  InMemoryAgentRunner,
+} from "@copilotkit/runtime/v2";
+import { createCopilotNodeListener } from "@copilotkit/runtime/v2/node";
+
+const agent = new BuiltInAgent({
+  type: "tanstack",
+  factory: ({ input, abortController }) => {
+    const { messages, systemPrompts, tools } = convertInputToTanStackAI(input);
+    return chat({
+      adapter: openaiText("gpt-6-luna"),
+      messages,
+      systemPrompts: [
+        "You are a helpful assistant. When a visual answer helps, render it with generative UI.",
+        ...systemPrompts,
+      ],
+      tools,
+      abortController,
+    });
+  },
+});
+
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  runner: new InMemoryAgentRunner(),
+});
+
+createServer(
+  createCopilotNodeListener({ runtime, basePath: "/api/copilotkit", cors: true }),
+).listen(8200, () => {
+  console.log("Copilot Runtime listening at http://localhost:8200/api/copilotkit");
+});
+
+### [server.ts]
+import { createServer } from "node:http";
+import { chat } from "@tanstack/ai";
+import { openaiText } from "@tanstack/ai-openai";
+import {
+  BuiltInAgent,
+  convertInputToTanStackAI,
+  CopilotRuntime,
+  InMemoryAgentRunner,
+} from "@copilotkit/runtime/v2";
+import { createCopilotNodeListener } from "@copilotkit/runtime/v2/node";
+
+const agent = new BuiltInAgent({
+  type: "tanstack",
+  factory: ({ input, abortController }) => {
+    const { messages, systemPrompts, tools } = convertInputToTanStackAI(input);
+    return chat({
+      adapter: openaiText("gpt-6-luna"),
+      messages,
+      systemPrompts: [
+        "You are a helpful assistant. When a visual answer helps, render it with generative UI.",
+        ...systemPrompts,
+      ],
+      tools,
+      abortController,
+    });
+  },
+});
+
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  runner: new InMemoryAgentRunner(),
+});
+
+createServer(
+  createCopilotNodeListener({ runtime, basePath: "/api/copilotkit", cors: true }),
+).listen(8200, () => {
+  console.log("Copilot Runtime listening at http://localhost:8200/api/copilotkit");
+});
+
+### [server.ts]
+import { createServer } from "node:http";
+import { chat } from "@tanstack/ai";
+import { openaiText } from "@tanstack/ai-openai";
+import {
+  BuiltInAgent,
+  convertInputToTanStackAI,
+  CopilotRuntime,
+  InMemoryAgentRunner,
+} from "@copilotkit/runtime/v2";
+import { createCopilotNodeListener } from "@copilotkit/runtime/v2/node";
+
+const agent = new BuiltInAgent({
+  type: "tanstack",
+  factory: ({ input, abortController }) => {
+    const { messages, systemPrompts, tools } = convertInputToTanStackAI(input);
+    return chat({
+      adapter: openaiText("gpt-6-luna"),
+      messages,
+      systemPrompts: [
+        "You are a helpful assistant. When a visual answer helps, render it with generative UI.",
+        ...systemPrompts,
+      ],
+      tools,
+      abortController,
+    });
+  },
+});
+
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  runner: new InMemoryAgentRunner(),
+});
+
+createServer(
+  createCopilotNodeListener({ runtime, basePath: "/api/copilotkit", cors: true }),
+).listen(8200, () => {
+  console.log("Copilot Runtime listening at http://localhost:8200/api/copilotkit");
+});
+
+### [app/providers.tsx]
+"use client";
+import { CopilotKitProvider } from "@copilotkit/react-core/v2";
+import { standardUI } from "@copilotkit/react-core/v2/generative-ui";
+import "@copilotkit/react-core/v2/styles.css";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: standardUI }}>
+      {children}
+    </CopilotKitProvider>
+  );
+}
+
+### [app/layout.tsx]
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+
+### [app/page.tsx]
+"use client";
+import { CopilotChat } from "@copilotkit/react-core/v2";
+
+export default function Page() {
+  return <CopilotChat />;
+}
+
+### [src/app/app.config.ts]
+import { ApplicationConfig } from "@angular/core";
+import { provideCopilotKit } from "@copilotkit/angular";
+import { provideGenerativeUI, standardUI } from "@copilotkit/angular/generative-ui";
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideCopilotKit({ runtimeUrl: "http://localhost:8200/api/copilotkit" }),
+    provideGenerativeUI({ ui: standardUI }),
+  ],
+};
+
+### [src/styles.css]
+@import "@copilotkit/angular/styles.css";
+
+### [src/app/app.ts]
+import { Component } from "@angular/core";
+import { CopilotChat } from "@copilotkit/angular";
+
+@Component({
+  selector: "app-root",
+  imports: [CopilotChat],
+  template: `<copilot-chat />`,
+})
+export class App {}
+
+### []
+npm install chart.js maplibre-gl lucide
+
+### [src/plansUI.tsx]
+import { StyleSheet, Text, View } from "react-native";
+import { z } from "zod";
+import {
+  createGenerativeUI,
+  type GenerativeUIComponentProps,
+} from "@copilotkit/react-native/generative-ui";
+
+function PlanList({ title, children }: GenerativeUIComponentProps<typeof plansUI, "PlanList">) {
+  return (
+    <View style={styles.list}>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      {children}
+    </View>
+  );
+}
+
+function PlanCard({ name, price, features }: GenerativeUIComponentProps<typeof plansUI, "PlanCard">) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.name}>{name}</Text>
+      <Text>${price} / month</Text>
+      {features.map((feature, index) => (
+        <Text key={`${index}-${feature}`} style={styles.feature}>
+          • {feature}
+        </Text>
+      ))}
+    </View>
+  );
+}
+
+export const plansUI = createGenerativeUI({
+  id: "acme/plans@1",
+  components: {
+    PlanList: {
+      component: PlanList,
+      description: "A vertical list of plans. Put the ids of PlanCard components in children.",
+      props: z.object({ title: z.string().optional() }),
+      slots: { children: "multiple" },
+    },
+    PlanCard: {
+      component: PlanCard,
+      description: "One pricing plan: its name, its monthly price in dollars, and its main features.",
+      props: z.object({ name: z.string(), price: z.number(), features: z.array(z.string()) }),
+    },
+  },
+});
+
+const styles = StyleSheet.create({
+  // Margins rather than `gap`, which needs React Native 0.71.
+  list: { marginVertical: 8 },
+  title: { fontSize: 17, fontWeight: "600" },
+  card: { marginTop: 8, padding: 12, borderRadius: 12, backgroundColor: "#f4f4f5" },
+  name: { fontWeight: "700" },
+  feature: { color: "#52525b" },
+});
+
+### [App.tsx]
+import { Platform } from "react-native";
+import { CopilotKitProvider } from "@copilotkit/react-native/headless";
+import { GenerativeUIProvider } from "@copilotkit/react-native/generative-ui";
+import { plansUI } from "./src/plansUI";
+import { ChatScreen } from "./src/ChatScreen";
+
+const runtimeUrl =
+  Platform.OS === "android"
+    ? "http://10.0.2.2:8200/api/copilotkit"
+    : "http://localhost:8200/api/copilotkit";
+
+export default function App() {
+  return (
+    <CopilotKitProvider runtimeUrl={runtimeUrl}>
+      <GenerativeUIProvider ui={plansUI}>
+        <ChatScreen />
+      </GenerativeUIProvider>
+    </CopilotKitProvider>
+  );
+}
+
+### [src/agentTurns.ts]
+import {
+  CopilotKitCoreErrorCode,
+  type useAgent,
+  type useCopilotKit,
+} from "@copilotkit/react-native/headless";
+import {
+  isGenerativeUIActivity,
+  type GenerativeUIActivityMessage,
+} from "@copilotkit/react-native/generative-ui";
+
+type CopilotKit = ReturnType<typeof useCopilotKit>["copilotkit"];
+type Agent = ReturnType<typeof useAgent>["agent"];
+
+/**
+ * The errors that end a run. A failed tool call is not one of them
+ * (TOOL_HANDLER_FAILED, TOOL_ARGUMENT_PARSE_FAILED): its error goes back to
+ * the model as the result of the call, and the run goes on.
+ */
+const RUN_FAILURES: ReadonlySet<CopilotKitCoreErrorCode> = new Set([
+  CopilotKitCoreErrorCode.AGENT_RUN_FAILED,
+  CopilotKitCoreErrorCode.AGENT_RUN_FAILED_EVENT,
+  CopilotKitCoreErrorCode.AGENT_RUN_ERROR_EVENT,
+  CopilotKitCoreErrorCode.AGENT_THREAD_LOCKED,
+]);
+
+// Date.now() alone repeats within a millisecond; with a counter, ids do not.
+let sent = 0;
+
+/**
+ * Sends one user message and runs the agent. Resolves with the run's error,
+ * or undefined; it never rejects. It counts every run failure of this agent
+ * while it waits, so start one run of an agent at a time.
+ */
+export async function runTurn(
+  copilotkit: CopilotKit,
+  agent: Agent,
+  content: string,
+) {
+  const before = agent.messages.map((message) => message.id);
+  const { threadId } = agent;
+let failure: Error | undefined;
+  const subscription = copilotkit.subscribe({
+    onError: ({ error, code, context }) => {
+      if (context.agentId === agent.agentId && RUN_FAILURES.has(code)) {
+        failure ??= error;
+      }
+    },
+  });
+  try {
+    sent += 1;
+    agent.addMessage({
+      id: `user-${Date.now()}-${sent}`,
+      role: "user",
+      content,
+    });
+    await copilotkit.runAgent({ agent });
+  } catch (error) {
+    failure ??= error instanceof Error ? error : new Error(String(error));
+  } finally {
+    subscription.unsubscribe();
+  }
+  try {
+    if (failure) takeBack(agent, before, threadId);
+  } catch (error) {
+    console.error("Could not take the failed turn back:", error);
+  }
+  return failure;
+}
+
+/**
+ * Removes the messages added since `before` (their ids), such as the user
+ * message and a partial reply. It keeps the surfaces: the provider keeps
+ * every surface that a run rendered, and the model still sees it, so the
+ * screen shows it too.
+ */
+export function takeBack(
+  agent: Agent,
+  before: readonly string[],
+threadId: string | undefined,
+) {
+  // The agent moved to another thread: those messages are not this turn's.
+  if (agent.threadId !== threadId) return;
+  const kept = new Set(before);
+  agent.setMessages(
+    agent.messages.filter(
+(message) => kept.has(message.id) || isGenerativeUIActivity(message),
+    ),
+  );
+}
+
+/**
+ * An activity message that GenerativeUIActivity draws: its surface is aimed at
+ * the chat (the target it shows) and the agent has not deleted it.
+ */
+export function isChatSurface(message: GenerativeUIActivityMessage) {
+  if (!isGenerativeUIActivity(message)) return false;
+  const content = message.content as {
+    target?: unknown;
+    operations?: unknown;
+} | null;
+  const operations = Array.isArray(content?.operations)
+    ? content.operations
+    : [];
+  return (
+    content?.target === "chat" &&
+    !operations.some(
+      (op) => typeof op === "object" && op !== null && "deleteSurface" in op,
+    )
+  );
+}
+
+### [src/ChatScreen.tsx]
+import { useRef, useState } from "react";
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useAgent, useCopilotKit } from "@copilotkit/react-native/headless";
+import {
+  GenerativeUIActivity,
+  isGenerativeUIActivity,
+} from "@copilotkit/react-native/generative-ui";
+import { isChatSurface, runTurn } from "./agentTurns";
+
+// A separator rather than `gap`, which needs React Native 0.71.
+const Separator = () => <View style={{ height: 8 }} />;
+
+export function ChatScreen() {
+  const [text, setText] = useState("");
+  const [error, setError] = useState<string>();
+  const { copilotkit } = useCopilotKit();
+  // Until the runtime connects, `agent` is a stand-in (`isReady` is false). The
+  // registered agent replaces it, so a message sent to the stand-in is lost.
+  const { agent, isReady } = useAgent({ agentId: "default" });
+  // Set at once, so a second tap before the next render does not send twice.
+  const sending = useRef(false);
+  const [isSending, setIsSending] = useState(false);
+  // One run of this agent at a time, including a run that a click on a surface
+  // started.
+const busy = isSending || agent.isRunning;
+  const canSend = isReady && !busy;
+
+  // A row only for what renders: a surface aimed at a named area renders in its
+  // GenerativeUISurface, and a deleted surface renders nothing.
+  const messages = agent.messages.filter(
+    (message) =>
+isChatSurface(message) ||
+((message.role === "user" || message.role === "assistant") &&
+        typeof message.content === "string" &&
+        message.content.length > 0),
+  );
+
+  const send = async () => {
+    const content = text.trim();
+if (!content || !canSend || sending.current) return;
+    sending.current = true;
+    setIsSending(true);
+    setText("");
+    setError(undefined);
+    try {
+      const failure = await runTurn(copilotkit, agent, content);
+      if (failure) {
+        // runTurn took the message back. Put its text back, unless the user typed again.
+        setText((current) => (current === "" ? content : current));
+        setError(failure.message);
+      }
+    } finally {
+      sending.current = false;
+      setIsSending(false);
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, paddingTop: 48 }}>
+      <FlatList
+        data={messages}
+        keyExtractor={(message) => message.id}
+        contentContainerStyle={{ padding: 12 }}
+        ItemSeparatorComponent={Separator}
+        renderItem={({ item }) =>
+          isGenerativeUIActivity(item) ? (
+            <GenerativeUIActivity message={item} agent={agent} />
+          ) : (
+            <Text
+              style={{
+                alignSelf: item.role === "user" ? "flex-end" : "flex-start",
+              }}
+            >
+              {String(item.content)}
+            </Text>
+          )
+        }
+      />
+      {error ? (
+        <Text
+          accessibilityRole="alert"
+          style={{ color: "#dc2626", paddingHorizontal: 12 }}
+        >
+          Could not send: {error}
+        </Text>
+      ) : null}
+      <View style={{ flexDirection: "row", padding: 8 }}>
+        <TextInput
+          style={{ flex: 1, borderWidth: 1, borderRadius: 8, padding: 8 }}
+          value={text}
+          onChangeText={setText}
+          placeholder={isReady ? "Type a message..." : "Connecting..."}
+        />
+        <TouchableOpacity
+          onPress={send}
+          disabled={!canSend}
+          accessibilityState={{ disabled: !canSend, busy }}
+          style={{ padding: 8, opacity: canSend ? 1 : 0.4 }}
+        >
+          <Text>{busy ? "Replying..." : "Send"}</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+### [src/main.ts]
+import { createApp } from "vue";
+import App from "./App.vue";
+import "@copilotkit/vue/styles.css";
+
+createApp(App).mount("#app");
+
+### [src/App.vue]
+<script setup lang="ts">
+import { CopilotChat, CopilotKitProvider } from "@copilotkit/vue/v2";
+import { standardUI } from "@copilotkit/vue/v2/generative-ui";
+</script>
+
+<template>
+  <CopilotKitProvider
+    runtime-url="http://localhost:8200/api/copilotkit"
+    :generativeUI="{ ui: standardUI }"
+  >
+    <div style="height: 100vh">
+      <CopilotChat />
+    </div>
+  </CopilotKitProvider>
+</template>
+
+### []
+npm install chart.js maplibre-gl
+
+### [src/main.ts]
+import { createApp } from "vue";
+import { GenerativeUIChart } from "@copilotkit/vue/v2/generative-ui/chart";
+import { GenerativeUIMap } from "@copilotkit/vue/v2/generative-ui/map";
+import App from "./App.vue";
+import "@copilotkit/vue/styles.css";
+
+createApp(App).use(GenerativeUIChart).use(GenerativeUIMap).mount("#app");
+
+### []
+Compare the Starter, Team, and Enterprise plans in a table

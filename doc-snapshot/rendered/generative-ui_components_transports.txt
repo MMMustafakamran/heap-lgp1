@@ -1,0 +1,44 @@
+### []
+<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: standardUI }}>
+
+### []
+provideGenerativeUI({ ui: standardUI }),
+
+### []
+<GenerativeUIProvider ui={shopUI}>
+
+### []
+<CopilotKitProvider runtime-url="/api/copilotkit" :generativeUI="{ ui: standardUI }">
+
+### [app/api/copilotkit/route.ts]
+const runtime = new CopilotRuntime({
+  agents: { default: agent },
+  generativeUI: true,
+});
+
+### []
+<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: standardUI, transport: "markdown" }}>
+
+### []
+provideGenerativeUI({ ui: standardUI, transport: "markdown" }),
+
+### []
+<CopilotKitProvider runtime-url="/api/copilotkit" :generativeUI="{ ui: standardUI, transport: 'markdown' }">
+
+### []
+<CopilotKitProvider
+  runtimeUrl="/api/copilotkit"
+  generativeUI={{ ui: standardUI, agentIds: ["shop"] }}
+>
+
+### []
+provideGenerativeUI({ ui: standardUI, agentIds: ["shop"] }),
+
+### []
+<GenerativeUIProvider ui={shopUI} agentIds={["shop"]}>
+
+### []
+<CopilotKitProvider
+  runtime-url="/api/copilotkit"
+  :generativeUI="{ ui: standardUI, agentIds: ['shop'] }"
+>
