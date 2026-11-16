@@ -1499,3 +1499,36 @@ Object.assign(FINDING_EVIDENCE, {
   'components-surfaces': [{ text: 'render_ui', caption: 'render_ui has no renderer, surface never updates' }],
   configurable: [{ text: 'def build_agent(tenant_id: str)', caption: 'graph / AgentState undefined, no wiring' }],
 });
+
+/** Shared state streaming (Python): the agent writes into the Document pane, not the chat. Wait for the pane text. */
+export const runDocumentStreamAction: PageActionHandler = async (page, config, _root, ctx) => {
+  const pane = page.locator('main').first();
+  await pane.waitFor({ state: 'visible', timeout: 60000 });
+  const before = ((await pane.innerText().catch(() => '')) || '').length;
+  await sendPrompt(page, config.prompt, { timeoutMs: 15000 });
+  mark('action');
+  let last = before, stable = 0;
+  for (let i = 0; i < 90 && stable < 4; i++) {
+    await sleep(1000);
+    const n = ((await pane.innerText().catch(() => '')) || '').length;
+    stable = n > before + 60 && n === last ? stable + 1 : 0;
+    last = n;
+  }
+  void checkpoint('document', 'Document pane filled by the streamed state', () => pane.innerText().catch(() => ''));
+  if (last <= before + 60) ctx.fail('The Document pane never filled (no streamed state).');
+  await sleep(2500);
+};
+
+/** Programmatic control: click the page's "Run agent" button, wait for the agent's reply. */
+export const runAgentTriggerAction: PageActionHandler = async (page, _config, _root, ctx) => {
+  const btn = page.getByRole('button', { name: 'Run agent' }).first();
+  await btn.waitFor({ state: 'visible', timeout: 60000 });
+  await sleep(2000);
+  mark('click');
+  const before = await (await import('../core/actions')).getAssistantMessageCount(page);
+  await glideClick(page, btn);
+  const ok = await waitForAgentResponseCompletion(page, 2500, before).then(() => true).catch(() => false);
+  void checkpoint('reply', 'agent reply after Run agent', lastReply(page));
+  if (!ok) ctx.fail('No agent reply after clicking "Run agent".');
+  await sleep(2500);
+};

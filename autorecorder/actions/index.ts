@@ -34,8 +34,7 @@ import {
   runOpenGenUiAction,
   runRenderingInAppFindingAction,
   runWebMcpFindingAction,
-  SCRIPTED,
-} from './langgraph.actions';
+  SCRIPTED, runAgentTriggerAction, runDocumentStreamAction } from './langgraph.actions';
 
 /** Keys are page ids from `config/pages.config.ts`. Doctor flags any orphans. */
 export const ACTION_MAP: Record<string, PageActionHandler> = {
@@ -74,7 +73,9 @@ export const ACTION_MAP: Record<string, PageActionHandler> = {
   'open-generative-ui': runOpenGenUiAction, // waits for the whole run so the clip ends on the visualiser
   display: runTempNoteAction,
   interactive: runTempNotePickSlotAction,
-  'programmatic-control': runTempNotePickSlotAction,
+  'programmatic-control': runAgentTriggerAction,
+  'state-streaming': runDocumentStreamAction,
+  'state-rendering': runDocumentStreamAction,
   'agent-config': runTempNoteAction,
   'frontend-cards': runFrontendCardsAction,
   'workflow-execution': runStandardWithFinding,
