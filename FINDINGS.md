@@ -22,6 +22,7 @@ Stack: `@copilotkit/react-core`/`runtime` 1.88.0 (npm latest, CI 2026-11-16), `l
 
 ### [Components: Surfaces](https://docs.copilotkit.ai/langgraph-python/generative-ui/components/surfaces)
 **#4** The featured products surface never updates.
+**Doc:** "When a user asks \"show me cheap running shoes\", the shoes belong in the product row of the page, not in a chat bubble."
 **Result:** the agent calls `render_ui`; console `The agent called the tool "render_ui", and no renderer is registered for it`; the area stays "Classic Tee / Canvas Tote" (3/3 probes).
 
 ### [Configurable](https://docs.copilotkit.ai/langgraph-python/configurable)
