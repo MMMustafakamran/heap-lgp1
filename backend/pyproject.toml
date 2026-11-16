@@ -1,0 +1,7 @@
+[project]
+name = "my-agent"
+version = "0.1.0"
+requires-python = ">=3.12"
+# Doc: uv add langgraph langchain-openai langchain-core python-dotenv
+# HARNESS: langgraph-cli[inmem] runs the LangSmith-tab server (`langgraph dev`); the page says "test and deploy with LangSmith" but never names the CLI install.
+dependencies = ["langgraph", "langchain-openai", "langchain-core", "python-dotenv", "langgraph-cli[inmem]"]

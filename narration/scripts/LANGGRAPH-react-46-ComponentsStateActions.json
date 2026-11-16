@@ -1,0 +1,35 @@
+{
+ "clip": "LANGGRAPH-react-46-ComponentsStateActions",
+ "finding": "langgraph-react 43",
+ "level": 1,
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the state and actions page for LangGraph TypeScript, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, umm, the page never shows what a LangGraph TypeScript agent needs."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "+",
+   "text": "This part wasn't on the page, the agent, so I had to guess it myself."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. It should show the product card with an add to cart button, but uh, the reply stays empty, no card."
+  },
+  {
+   "at": "notepad",
+   "text": "So basically, the page needs an agent but never gives one, and on my guessed agent it only works some of the time."
+  },
+  {
+   "at": "+",
+   "text": "Alright, that's the issue, kindly sort it out."
+  }
+ ]
+}

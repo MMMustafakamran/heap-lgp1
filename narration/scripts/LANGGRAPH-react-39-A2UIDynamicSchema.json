@@ -1,0 +1,31 @@
+{
+ "clip": "LANGGRAPH-react-39-A2UIDynamicSchema",
+ "finding": "34",
+ "level": 2,
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so, this is the dynamic schema A2UI page in the CopilotKit docs, for LangGraph TypeScript, and I have implemented this page in my project."
+  },
+  {
+   "at": "ide",
+   "text": "My project, the code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo."
+  },
+  {
+   "at": "action",
+   "text": "So I asked it to show my team performance. Umm, this one takes a while, a second model designs the dashboard."
+  },
+  {
+   "at": "error",
+   "text": "No dashboard shows up, just a red A2UI render error, cannot read properties of undefined."
+  },
+  {
+   "at": "failure",
+   "text": "And the agent still says it showed the dashboard. Alright, that's the issue, kindly sort it out."
+  }
+ ]
+}

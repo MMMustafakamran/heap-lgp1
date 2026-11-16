@@ -1,0 +1,46 @@
+{
+ "clip": "LANGGRAPH-react-12-Reasoning",
+ "finding": "11",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so, this is the reasoning page in the CopilotKit docs, for LangGraph TypeScript, and I have implemented this page in my project."
+  },
+  {
+   "at": "ide",
+   "text": "My project, the code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo."
+  },
+  {
+   "at": "action",
+   "text": "So I asked it what is seventeen times twenty-three, think step by step. The agent behind it is the reasoning agent file from the page's code tab, as it is."
+  },
+  {
+   "at": "error",
+   "text": "The answer comes back, three ninety-one. But then the chat shows an error, cannot send run finished while text messages are still active."
+  },
+  {
+   "at": "evidence#1",
+   "text": "Back on the doc, this line says no configuration is needed, the card just appears. Umm, not what happens here."
+  },
+  {
+   "at": "notepad",
+   "text": "So basically, every answer ends with this run finished error in the chat, and the agent run is marked as failed."
+  },
+  {
+   "at": "+",
+   "text": "And the agent is the exact reasoning agent from the page's code tab, so uh, it's the doc's own setup that breaks here."
+  },
+  {
+   "at": "failure",
+   "text": "And this is the terminal with the frontend log. Yeah, same error there, cannot send run finished while text messages are still active."
+  },
+  {
+   "at": "+",
+   "text": "That's what's breaking here, kindly have it fixed."
+  }
+ ]
+}
