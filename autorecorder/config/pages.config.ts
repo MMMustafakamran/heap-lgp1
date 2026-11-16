@@ -14,6 +14,8 @@ import { definePages } from '../core/types';
 
 /** Registered but not recorded, with the reason printed on every run. */
 export const SKIP_RECORDING: Record<string, string> = {
+  'use-interrupt': 'N/A: the page says "Not supported on LangGraph (Python)" (same rule as the JS harness, owner 2026-11-11)',
+  'headless-interrupts': 'N/A: the page says "Not supported on LangGraph (Python)" (same rule as the JS harness, owner 2026-11-11)',
   subgraphs: 'no runnable code on the page (one useAgent snippet, no subgraph): report N/A, no clip',
 };
 

@@ -773,12 +773,13 @@
    "child": true,
    "docPath": "human-in-the-loop/useInterrupt",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "N/A",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: the page says \"Not supported on LangGraph (Python)\"."
   },
   {
    "id": "human-in-the-loop-headless",
@@ -788,13 +789,13 @@
    "child": true,
    "docPath": "human-in-the-loop/headless",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "N/A",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
    },
-   "notes": "Note: now working."
+   "notes": "Note: the page says \"Not supported on LangGraph (Python)\"."
   },
   {
    "id": "human-in-the-loop-governed-actions",
