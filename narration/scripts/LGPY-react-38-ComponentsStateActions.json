@@ -1,0 +1,30 @@
+{
+ "clip": "LGPY-react-38-ComponentsStateActions",
+ "finding": "16",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the state and actions page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, the product cards with add to cart should render, uh, but they never show up."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for running shoes, it should show product cards, but nothing renders at all."
+  },
+  {
+   "at": "notepad",
+   "text": "So yeah, the agent calls render UI and there's no renderer for it, so no cards, and this started with today's version."
+  },
+  {
+   "at": "+",
+   "text": "So umm, this one needs fixing, please look into it."
+  }
+ ]
+}

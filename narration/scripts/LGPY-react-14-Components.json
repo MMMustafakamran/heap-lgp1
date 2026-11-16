@@ -1,0 +1,30 @@
+{
+ "clip": "LGPY-react-14-Components",
+ "finding": "16",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the Components page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, it says the table fills in as a real component, umm, but nothing renders."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for a plan comparison, it should show a table component, but it's just a plain text answer."
+  },
+  {
+   "at": "notepad",
+   "text": "So basically, the agent calls render UI, but no renderer is registered for it, so no component shows up. It worked on the older version, it breaks with today's packages."
+  },
+  {
+   "at": "+",
+   "text": "So yeah, please take a look and fix this."
+  }
+ ]
+}

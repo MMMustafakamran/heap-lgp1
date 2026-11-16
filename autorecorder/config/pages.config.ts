@@ -217,6 +217,7 @@ export const PAGES = definePages([
     id: 'hashbrown', name: 'Generative UI - Hashbrown', videoName: 'Hashbrown',
     docPath: 'generative-ui/hashbrown', route: 'declarative-hashbrown',
     ideFile: 'frontend/app/declarative-hashbrown/page.tsx', startLine: 1, endLine: 30,
+    extraTabs: [{ filePath: 'backend/byoc_hashbrown.py', startLine: 1, endLine: 15, addedText: 'middleware=[CopilotKitMiddleware()],' }],
     prompt: "Show me a sales summary with a chart",
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },

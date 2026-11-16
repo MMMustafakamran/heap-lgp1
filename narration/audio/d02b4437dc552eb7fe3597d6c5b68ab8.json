@@ -1,0 +1,9 @@
+{
+ "text": "Moving on to the demo. I asked for a plan comparison, it should show a table component, but it's just a plain text answer.",
+ "model": "s2.1-pro-free",
+ "refSha256": "2c9d0ecf4608feacc07c88e869cd4dec601481306a939b7be92fc1bff521a727",
+ "duration": 8.499,
+ "file": "d02b4437dc552eb7fe3597d6c5b68ab8.mp3",
+ "clip": "LGPY-react-14-Components",
+ "at": "demo"
+}

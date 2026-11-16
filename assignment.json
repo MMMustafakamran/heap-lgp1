@@ -435,12 +435,16 @@
    "child": false,
    "docPath": "generative-ui/components",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    16
+   ],
+   "notes": "Issue: with CopilotKit 1.88 the agent calls render_ui but no renderer is registered, the answer comes back as plain text, no component."
   },
   {
    "id": "generative-ui-components-surfaces",
@@ -499,12 +503,16 @@
    "child": false,
    "docPath": "generative-ui/components/state-and-actions",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    16
+   ],
+   "notes": "Issue: with CopilotKit 1.88 render_ui has no renderer, no product cards render."
   },
   {
    "id": "generative-ui-components-theming",
@@ -648,12 +656,16 @@
    "child": false,
    "docPath": "generative-ui/hashbrown",
    "reachable": "sidebar",
-   "status": "✅",
+   "status": "⚠️",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    17
+   ],
+   "notes": "Issue: the page gives no LangGraph Python agent, had to write it by hand; with it the dashboard renders."
   },
   {
    "id": "generative-ui-open-generative-ui",
@@ -668,7 +680,8 @@
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: now working. VISUALIZATION_DESIGN_SKILL is never defined on the page."
   },
   {
    "id": "generative-ui-mcp-apps",

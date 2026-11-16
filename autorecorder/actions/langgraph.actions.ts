@@ -1536,3 +1536,27 @@ export const runAgentTriggerAction: PageActionHandler = async (page, _config, _r
 // The first registerDocEvidence above copied the JS KNOWN_ISSUE set (it skipped a2ui-dynamic).
 // Register the Python map again: the newest source wins. Configurable is doc-only, so it keeps its highlight.
 registerDocEvidence(FINDING_EVIDENCE);
+
+// FINDINGS.md #16 (CopilotKit 1.88): render_ui has no renderer on Components and State and actions.
+Object.assign(FINDING_NOTES, {
+  components: [
+    'doc says the table fills in as a real component while the agent writes it',
+    'here the agent calls render_ui but no renderer is registered for it',
+    'so it just answers with a plain text table,no component',
+    'worked on copilotkit 1.85, breaks with todays 1.88',
+  ].join('\n'),
+  'components-state-actions': [
+    'doc says the product cards render with an add to cart button',
+    'agent calls render_ui and nothing renders,no renderer registered',
+    'no cards show up at all',
+    'worked on copilotkit 1.85, breaks with todays 1.88',
+  ].join('\n'),
+});
+Object.assign(FINDING_EVIDENCE, {
+  components: [{ text: 'The table fills in while the agent writes it.', caption: 'No component renders on 1.88 (render_ui has no renderer)' }],
+  'components-state-actions': [{ text: '"Add to cart" must add to the cart, with no message to the agent.', caption: 'No product cards render on 1.88' }],
+});
+registerDocEvidence(FINDING_EVIDENCE);
+
+// FINDINGS.md #17 Hashbrown: team doc already ⚠️ (no Python agent on the page): level 2, short clip.
+KNOWN_ISSUE.add('hashbrown');

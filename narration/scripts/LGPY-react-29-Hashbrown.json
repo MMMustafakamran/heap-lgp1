@@ -1,0 +1,26 @@
+{
+ "clip": "LGPY-react-29-Hashbrown",
+ "finding": "17",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the Hashbrown page for LangGraph Python, and I'm reporting a small issue on this page."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "+",
+   "text": "This part, the Python agent, wasn't on the page, I had to add it myself."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. The main part works, the dashboard renders, but uh, only after writing the agent by hand, the page never gives one."
+  },
+  {
+   "at": "+",
+   "text": "So yeah, kindly check this and fix it."
+  }
+ ]
+}
