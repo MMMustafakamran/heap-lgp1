@@ -1,0 +1,34 @@
+{
+ "clip": "LGPY-react-32-A2UIDynamicSchema",
+ "finding": "1",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the A2UI dynamic schema page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, it says that's all the default path needs, but there's no Python agent for it, and it crashes."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "+",
+   "text": "This part, the agent with the CopilotKit middleware, wasn't on the page, I had to add it myself."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for my team performance, it should show a dashboard, but there's an error, bound to a different event loop, and no dashboard."
+  },
+  {
+   "at": "notepad",
+   "text": "So umm, the default path should just work, but every single run crashes in the generate A2UI tool, and the page never shows the Python agent."
+  },
+  {
+   "at": "+",
+   "text": "That's the problem here, please have a look."
+  }
+ ]
+}

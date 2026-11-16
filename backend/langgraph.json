@@ -33,7 +33,9 @@
     "open_gen_ui": "./open_gen_ui.py:graph",
     "open_gen_ui_advanced": "./open_gen_ui_advanced.py:graph",
     "mcp_apps": "./mcp_apps.py:graph",
-    "interrupt_flow": "./interrupt_flow.py:graph"
+    "interrupt_flow": "./interrupt_flow.py:graph",
+    "guardrails": "./guardrails_agent.py:graph",
+    "programmatic_control": "./programmatic_control.py:graph"
   },
   "env": ".env"
 }

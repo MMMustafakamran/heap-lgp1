@@ -4,6 +4,11 @@ What each `drift.mjs --sync` took into the snapshot (newest first).
 
 ## 2026-11-16
 
+- programmatic-control: NEW new (+301 / -0)
+- human-in-the-loop/interrupt-flow: NEW new (+452 / -0)
+
+## 2026-11-16
+
 - prebuilt-components/chat: NEW new (+88 / -0)
 - prebuilt-components/chat-controls: NEW new (+163 / -0)
 - prebuilt-components/copilot-threads-drawer: NEW new (+336 / -0)

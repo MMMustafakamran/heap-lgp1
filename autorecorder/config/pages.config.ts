@@ -14,30 +14,6 @@ import { definePages } from '../core/types';
 
 /** Registered but not recorded, with the reason printed on every run. */
 export const SKIP_RECORDING: Record<string, string> = {
-  // Temperature-fix copies (FINDINGS.md #1): the docs moved to gpt-6-luna, which accepts temperature: 0.
-  'frontend-tools-fixed': 'temperature fix no longer needed: #1 closed (2026-11-08)',
-  'hitl-fixed': 'temperature fix no longer needed: #1 closed (2026-11-08)',
-  'subagents-fixed': 'temperature fix no longer needed: #1 closed (2026-11-08)',
-  'agent-config': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'reasoning-messages': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'a2ui': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'a2ui-advanced': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'a2ui-styling': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'display': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'frontend-cards': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'interactive': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'interrupt-flow': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'inspector': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'prebuilt-overview': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'programmatic-control': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'shared-state': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'in-app-read': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'predictive-state': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'workflow-execution': 'not in the team testing doc LangGraph list (owner, 2026-11-08)',
-  'use-interrupt': 'N/A: the page says "Not supported on LangGraph (TypeScript)" (owner, 2026-11-11)',
-  'headless-interrupts': 'N/A: the page says "Not supported on LangGraph (TypeScript)" (owner, 2026-11-11)',
-  'in-app-write': 'unreachable page: not in the sidebar, not linked (QA-RULES 9)',
-  guardrails: 'python-only page: report cell is "The code is written only in Python.", no clip (REPORT.md 3)',
   subgraphs: 'no runnable code on the page (one useAgent snippet, no subgraph): report N/A, no clip',
 };
 
@@ -56,9 +32,19 @@ export const PAGES = definePages([
     waitAfterPromptMs: 3000,
   },
   {
+    id: 'quickstart-fastapi', name: 'Quickstart (use an existing agent, Python FastAPI)', videoName: 'QuickstartFastAPI',
+    docPath: 'quickstart', route: 'quickstart-fastapi',
+    ideFile: 'backend/fastapi_main.py', startLine: 1, endLine: 61,
+    extraTabs: [
+      { filePath: 'frontend/app/api/copilotkit-fastapi/[[...slug]]/route.ts', startLine: 1, endLine: 29 },
+      { filePath: 'frontend/app/quickstart-fastapi/page.tsx', startLine: 1, endLine: 20 },
+    ],
+    prompt: 'Can you tell me a joke?',
+  },
+  {
     id: 'frontend-tools', name: 'App Control - Frontend Tools', videoName: 'FrontendTools',
     docPath: 'frontend-tools', route: 'frontend-tools',
-    ideFile: 'agent/src/frontend-tools.ts', startLine: 36, endLine: 53,
+    ideFile: 'backend/frontend_tools.py', startLine: 1, endLine: 11,
     extraTabs: [{ filePath: 'frontend/app/frontend-tools/page.tsx', startLine: 1, endLine: 42 }],
     prompt: 'Change the background to a sunset gradient.',
   },
@@ -66,14 +52,14 @@ export const PAGES = definePages([
     id: 'human-in-the-loop', name: 'Human in the Loop - useHumanInTheLoop', videoName: 'HumanInTheLoop',
     docPath: 'human-in-the-loop', route: 'hitl-in-chat',
     ideFile: 'frontend/app/hitl-in-chat/page.tsx', startLine: 51, endLine: 74,
-    extraTabs: [{ filePath: 'agent/src/frontend-tools.ts', startLine: 36, endLine: 53 }],
+    extraTabs: [{ filePath: 'backend/frontend_tools.py', startLine: 1, endLine: 11 }],
     prompt: 'Please book an intro call with the sales team to discuss pricing.',
   },
   {
     id: 'use-interrupt', name: 'Human in the Loop - useInterrupt', videoName: 'UseInterrupt',
     docPath: 'human-in-the-loop/useInterrupt', route: 'gen-ui-interrupt',
     ideFile: 'frontend/app/gen-ui-interrupt/page.tsx', startLine: 28, endLine: 72,
-    extraTabs: [{ filePath: 'agent/src/showcase/interrupt-agent.ts', startLine: 100, endLine: 179 }],
+    extraTabs: [{ filePath: 'backend/interrupt_agent.py', startLine: 1, endLine: 70 }],
     prompt: 'Book an intro call with the sales team to discuss pricing.',
   },
   {
@@ -85,7 +71,7 @@ export const PAGES = definePages([
   {
     id: 'interrupt-flow', name: 'Human in the Loop - Interrupts (interrupt flow)', videoName: 'InterruptFlow',
     docPath: 'human-in-the-loop/interrupt-flow', route: 'human-in-the-loop/interrupt-flow',
-    ideFile: 'agent/src/interrupt-flow.ts', startLine: 1, endLine: 50,
+    ideFile: 'backend/interrupt_flow.py', startLine: 1, endLine: 42,
     extraTabs: [{ filePath: 'frontend/app/human-in-the-loop/interrupt-flow/page.tsx', startLine: 1, endLine: 31 }],
     prompt: 'Hi there',
   },
@@ -98,7 +84,7 @@ export const PAGES = definePages([
   {
     id: 'state-streaming', name: 'Shared State - State Streaming', videoName: 'StateStreaming',
     docPath: 'shared-state/streaming', route: 'shared-state-streaming',
-    ideFile: 'agent/src/showcase/shared-state-streaming.ts', startLine: 118, endLine: 140,
+    ideFile: 'backend/shared_state_streaming.py', startLine: 1, endLine: 70,
     extraTabs: [{ filePath: 'frontend/app/shared-state-streaming/page.tsx', startLine: 25, endLine: 43 }],
     prompt: 'Write a short poem about autumn leaves.',
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
@@ -146,7 +132,7 @@ export const PAGES = definePages([
   {
     id: 'subagents', name: 'Multi-Agent - Sub-Agents', videoName: 'SubAgents',
     docPath: 'multi-agent/subagents', route: 'subagents',
-    ideFile: 'agent/src/showcase/subagents.ts', startLine: 100, endLine: 130,
+    ideFile: 'backend/subagents.py', startLine: 1, endLine: 70,
     prompt: 'Write a short blog post about why cats are great.',
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },
@@ -162,33 +148,7 @@ export const PAGES = definePages([
     ideFile: 'frontend/app/webmcp/OrderSearch.tsx', startLine: 1, endLine: 35,
     prompt: 'Which of my orders are shipped?',
   },
-  // --- FINDINGS.md #1 fixed: same pages on harness agents without temperature: 0 ---
-  {
-    id: 'frontend-tools-fixed', name: 'App Control - Frontend Tools (temperature fix)', videoName: 'FrontendTools-Fixed',
-    docPath: 'frontend-tools', route: 'frontend-tools-harness',
-    ideFile: 'agent/src/frontend-tools.harness.ts', startLine: 38, endLine: 46,
-    prompt: 'Change the background to a sunset gradient.',
-  },
-  {
-    id: 'hitl-fixed', name: 'Human in the Loop - useHumanInTheLoop (temperature fix)', videoName: 'HumanInTheLoop-Fixed',
-    docPath: 'human-in-the-loop', route: 'hitl-in-chat-harness',
-    ideFile: 'agent/src/frontend-tools.harness.ts', startLine: 38, endLine: 46,
-    prompt: 'Please book an intro call with the sales team to discuss pricing.',
-  },
-  {
-    id: 'subagents-fixed', name: 'Multi-Agent - Sub-Agents (temperature fix)', videoName: 'SubAgents-Fixed',
-    docPath: 'multi-agent/subagents', route: 'subagents-harness',
-    ideFile: 'agent/src/showcase/subagents.harness.ts', startLine: 105, endLine: 111,
-    prompt: 'Write a short blog post about why cats are great.',
-    timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
-  },
   // --- Batch 2: the remaining runnable pages of the LangGraph JS track (37) ---
-  {
-    id: 'prebuilt-overview', name: 'Prebuilt Components (overview)', videoName: 'PrebuiltComponents',
-    docPath: 'prebuilt-components', route: 'agentic-chat',
-    ideFile: 'frontend/app/agentic-chat/page.tsx', startLine: 1, endLine: 24,
-    prompt: "Write a short sonnet about AI.",
-  },
   {
     id: 'prebuilt-chat', name: 'Prebuilt Components - Chat', videoName: 'PrebuiltChat',
     docPath: 'prebuilt-components/chat', route: 'agentic-chat',
@@ -245,25 +205,6 @@ export const PAGES = definePages([
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },
   {
-    id: 'display', name: 'Generative UI - Display components', videoName: 'Display',
-    docPath: 'generative-ui/display', route: 'gen-ui-tool-based',
-    ideFile: 'frontend/app/gen-ui-tool-based/page.tsx', startLine: 12, endLine: 52,
-    prompt: "Show me a bar chart of quarterly sales for Q1, Q2, Q3, Q4.",
-  },
-  {
-    id: 'interactive', name: 'Generative UI - Interactive components', videoName: 'Interactive',
-    docPath: 'generative-ui/interactive', route: 'gen-ui-interrupt',
-    ideFile: 'frontend/app/gen-ui-interrupt/page.tsx', startLine: 33, endLine: 73,
-    prompt: "Book an intro call with the sales team to discuss pricing.",
-  },
-  {
-    id: 'frontend-cards', name: 'Generative UI - Frontend-Driven Cards', videoName: 'FrontendCards',
-    docPath: 'generative-ui/frontend-cards', route: 'generative-ui/frontend-cards/harness',
-    ideFile: 'frontend/app/generative-ui/frontend-cards/page.tsx', startLine: 1, endLine: 15,
-    extraTabs: [{ filePath: 'frontend/app/generative-ui/frontend-cards/harness/page.tsx', startLine: 1, endLine: 38 }],
-    prompt: "-",
-  },
-  {
     id: 'json-render', name: 'Generative UI - JSON Render', videoName: 'JsonRender',
     docPath: 'generative-ui/json-render', route: 'declarative-json-render',
     ideFile: 'frontend/app/declarative-json-render/page.tsx', startLine: 1, endLine: 19,
@@ -288,13 +229,7 @@ export const PAGES = definePages([
     id: 'a2ui', name: 'Generative UI - A2UI', videoName: 'A2UI',
     docPath: 'generative-ui/a2ui', route: 'declarative-gen-ui',
     ideFile: 'frontend/app/declarative-gen-ui/page.tsx', startLine: 1, endLine: 43,
-    prompt: "Show me my sales dashboard for this quarter.",
-    timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
-  },
-  {
-    id: 'a2ui-advanced', name: 'Generative UI - A2UI Advanced', videoName: 'A2UIAdvanced',
-    docPath: 'generative-ui/a2ui/advanced', route: 'generative-ui/a2ui/advanced',
-    ideFile: 'frontend/hooks/use-a2ui-progress.tsx', startLine: 1, endLine: 22,
+    extraTabs: [{ filePath: 'backend/a2ui_dynamic.py', startLine: 1, endLine: 23, addedText: 'middleware=[CopilotKitMiddleware()],' }],
     prompt: "Show me my sales dashboard for this quarter.",
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },
@@ -302,6 +237,7 @@ export const PAGES = definePages([
     id: 'a2ui-dynamic', name: 'Generative UI - A2UI Dynamic Schema', videoName: 'A2UIDynamicSchema',
     docPath: 'generative-ui/a2ui/dynamic-schema', route: 'declarative-gen-ui',
     ideFile: 'frontend/app/declarative-gen-ui/page.tsx', startLine: 1, endLine: 43,
+    extraTabs: [{ filePath: 'backend/a2ui_dynamic.py', startLine: 1, endLine: 23, addedText: 'middleware=[CopilotKitMiddleware()],' }],
     prompt: "Show my team performance.",
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },
@@ -310,13 +246,6 @@ export const PAGES = definePages([
     docPath: 'generative-ui/a2ui/fixed-schema', route: 'a2ui-fixed-schema',
     ideFile: 'frontend/app/a2ui-fixed-schema/page.tsx', startLine: 1, endLine: 41,
     prompt: "Find me a flight from SFO to JFK on United for $289.",
-    timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
-  },
-  {
-    id: 'a2ui-styling', name: 'Generative UI - A2UI Styling', videoName: 'A2UIStyling',
-    docPath: 'generative-ui/a2ui/styling', route: 'generative-ui/a2ui/styling/dark',
-    ideFile: 'frontend/a2ui/theme-dark.css', startLine: 1, endLine: 13,
-    prompt: "Show me my sales dashboard for this quarter.",
     timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
   },
   {
@@ -368,31 +297,6 @@ export const PAGES = definePages([
     prompt: "What do you know about me from my context?",
   },
   {
-    id: 'in-app-read', name: 'Shared State - In-app agent read', videoName: 'InAppAgentRead',
-    docPath: 'shared-state/in-app-agent-read', route: 'shared-state/in-app-agent-read',
-    ideFile: 'agent/src/language-agent.ts', startLine: 1, endLine: 30,
-    prompt: "Hi, who are you?",
-  },
-  {
-    id: 'in-app-write', name: 'Shared State - In-app agent write', videoName: 'InAppAgentWrite',
-    docPath: 'shared-state/in-app-agent-write', route: 'shared-state/in-app-agent-write',
-    ideFile: 'frontend/app/shared-state/in-app-agent-write/page.tsx', startLine: 1, endLine: 35,
-    prompt: "Hi, who are you?",
-  },
-  {
-    id: 'predictive-state', name: 'Shared State - Predictive state updates', videoName: 'PredictiveState',
-    docPath: 'shared-state/predictive-state-updates', route: 'shared-state/predictive-state',
-    ideFile: 'agent/src/predictive-agent.ts', startLine: 20, endLine: 60,
-    prompt: "Plan a 3 step trip to Paris and track the steps.",
-    timeouts: { replyStartMs: 180000, replyStreamMs: 180000 },
-  },
-  {
-    id: 'workflow-execution', name: 'Shared State - Workflow Execution', videoName: 'WorkflowExecution',
-    docPath: 'shared-state/workflow-execution', route: 'shared-state/workflow-execution',
-    ideFile: 'agent/src/workflow-agent.ts', startLine: 10, endLine: 50,
-    prompt: "What is the capital of France?",
-  },
-  {
     id: 'governed-actions', name: 'Human in the Loop - Governed Actions', videoName: 'GovernedActions',
     docPath: 'human-in-the-loop/governed-actions', route: 'human-in-the-loop/governed-actions',
     ideFile: 'frontend/app/human-in-the-loop/governed-actions/governed.tsx', startLine: 20, endLine: 60,
@@ -401,13 +305,13 @@ export const PAGES = definePages([
   {
     id: 'agent-app-context', name: 'Agent App Context (Readables)', videoName: 'AgentAppContext',
     docPath: 'agent-app-context', route: 'agent-app-context/custom',
-    ideFile: 'agent/src/app-context.ts', startLine: 15, endLine: 55,
+    ideFile: 'backend/app_context.py', startLine: 1, endLine: 52,
     prompt: "Who are my colleagues? List their roles.",
   },
   {
     id: 'agent-config', name: 'Agent Config (temperature fix)', videoName: 'AgentConfig',
     docPath: 'agent-config', route: 'agent-config-harness',
-    ideFile: 'agent/src/showcase/agent-config.harness.ts', startLine: 165, endLine: 185,
+    ideFile: 'backend/agent_config_harness.py', startLine: 1, endLine: 14,
     prompt: "Hi! Explain what an API is.",
   },
   {
@@ -418,9 +322,13 @@ export const PAGES = definePages([
   },
   {
     id: 'programmatic-control', name: 'Programmatic Control', videoName: 'ProgrammaticControl',
-    docPath: 'programmatic-control', route: 'interrupt-headless',
-    ideFile: 'frontend/app/interrupt-headless/page.tsx', startLine: 70, endLine: 130,
-    prompt: "Book an intro call with the sales team to discuss pricing.",
+    docPath: 'programmatic-control', route: 'programmatic-control',
+    ideFile: 'frontend/app/programmatic-control/AgentTrigger.tsx', startLine: 1, endLine: 40,
+    extraTabs: [
+      { filePath: 'backend/programmatic_control.py', startLine: 1, endLine: 12 },
+      { filePath: 'frontend/app/programmatic-control/page.tsx', startLine: 1, endLine: 18 },
+    ],
+    prompt: 'Say hi in five words.',
   },
   // --- Rows from the team testing doc not covered above ---
   {
@@ -464,7 +372,7 @@ export const PAGES = definePages([
   {
     id: 'readables-prebuilt', name: 'Agent App Context (Readables) - Prebuilt agent', videoName: 'ReadablesPrebuilt',
     docPath: 'agent-app-context', route: 'agent-app-context/prebuilt',
-    ideFile: 'agent/src/app-context-prebuilt.ts', startLine: 1, endLine: 10,
+    ideFile: 'backend/app_context_prebuilt.py', startLine: 1, endLine: 14,
     prompt: "Who are my colleagues? List their roles.",
   },
   {
@@ -482,9 +390,11 @@ export const PAGES = definePages([
   },
   {
     id: 'guardrails', name: 'Agent Capabilities - Guardrails and DLP', videoName: 'Guardrails',
-    docPath: 'guardrails', route: '', docOnly: true,
-    ideFile: 'frontend/VERSIONS.md', startLine: 1, endLine: 5,
-    prompt: '-',
+    // HARNESS route: the page is backend-only; chat on backend/guardrails_agent.py (doc agent.py + guardrails.py).
+    docPath: 'guardrails', route: 'guardrails',
+    ideFile: 'backend/guardrails_agent.py', startLine: 1, endLine: 32,
+    extraTabs: [{ filePath: 'backend/guardrails.py', startLine: 1, endLine: 60 }],
+    prompt: 'My email is jane.doe@example.com and my card is 4111 1111 1111 1111. Repeat both back to me exactly.',
   },
   // --- Added 2026-11-08: Voice + Threads (team doc "Threads" row) ---
   {

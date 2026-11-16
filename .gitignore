@@ -33,3 +33,5 @@ sample-full.wav
 frontend/VERSIONS.md
 .venv/
 logs/
+__pycache__/
+*.pyc

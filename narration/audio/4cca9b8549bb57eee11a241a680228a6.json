@@ -1,0 +1,9 @@
+{
+ "text": "So basically, the doc says the tool is injected and that's all you need, but every run crashes with this event loop error, and the page has no Python agent for it.",
+ "model": "s2.1-pro-free",
+ "refSha256": "2c9d0ecf4608feacc07c88e869cd4dec601481306a939b7be92fc1bff521a727",
+ "duration": 11.796,
+ "file": "4cca9b8549bb57eee11a241a680228a6.mp3",
+ "clip": "LGPY-react-31-A2UI",
+ "at": "notepad"
+}

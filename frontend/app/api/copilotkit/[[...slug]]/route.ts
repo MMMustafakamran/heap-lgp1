@@ -66,6 +66,9 @@ const runtime = new CopilotRuntime({
       // Batch 3: Agent App Context (doc code) + Governed Actions (uses frontend_tools_harness above).
       app_context: "app_context",
       app_context_prebuilt: "app_context_prebuilt",
+      // HARNESS (LangGraph Python): Guardrails + Programmatic Control pages register no agent name; harness routes use these.
+      guardrails: "guardrails",
+      programmatic_control: "programmatic_control",
       // HARNESS: Threads Drawer page uses <CopilotKitProvider> with no agentId, so it resolves to "default".
       default: "sample_agent",
     }),

@@ -12,4 +12,7 @@ dependencies = [
     "langgraph-cli[inmem]",
     "copilotkit>=0.1.97",
     "langchain>=1",
+    "ag-ui-langgraph>=0.0.47",
+    "fastapi>=0.163.1",
+    "uvicorn>=0.54.0",
 ]

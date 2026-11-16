@@ -1,0 +1,18 @@
+{
+ "clip": "LGPY-react-53-Configurable",
+ "finding": "5",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the configurable page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, umm, build agent uses a graph and agent state that are never defined, and there's no frontend code."
+  },
+  {
+   "at": "+",
+   "text": "That's it for this one, kindly look into this issue."
+  }
+ ]
+}

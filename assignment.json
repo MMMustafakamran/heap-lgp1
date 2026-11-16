@@ -134,7 +134,22 @@
    "child": false,
    "docPath": "quickstart",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
+   "review": {
+    "verdict": null,
+    "approvedAt": null,
+    "by": null
+   }
+  },
+  {
+   "id": "quickstart-fastapi",
+   "label": "JS (React) – FastAPI (bring your own agent)",
+   "kind": "quickstart",
+   "group": null,
+   "child": false,
+   "docPath": "quickstart",
+   "reachable": "sidebar",
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -149,7 +164,7 @@
    "child": false,
    "docPath": "prebuilt-components/chat",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -164,7 +179,7 @@
    "child": false,
    "docPath": "prebuilt-components/sidebar",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -179,7 +194,7 @@
    "child": false,
    "docPath": "prebuilt-components/popup",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -194,7 +209,7 @@
    "child": false,
    "docPath": "prebuilt-components/chat-controls",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -209,7 +224,7 @@
    "child": false,
    "docPath": "prebuilt-components/copilot-threads-drawer",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -224,7 +239,7 @@
    "child": false,
    "docPath": "headless-threads",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -239,7 +254,7 @@
    "child": false,
    "docPath": "custom-look-and-feel/css",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -254,7 +269,7 @@
    "child": false,
    "docPath": "custom-look-and-feel/markdown",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -269,7 +284,7 @@
    "child": false,
    "docPath": "custom-look-and-feel/slots",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -284,7 +299,7 @@
    "child": false,
    "docPath": "custom-look-and-feel/headless-ui",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -299,7 +314,7 @@
    "child": false,
    "docPath": "generative-ui/reasoning",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -314,7 +329,7 @@
    "child": false,
    "docPath": "custom-look-and-feel/reasoning-messages",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -330,7 +345,7 @@
    "child": false,
    "docPath": "multimodal-attachments",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -345,7 +360,7 @@
    "child": false,
    "docPath": "voice",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -360,7 +375,7 @@
    "child": false,
    "docPath": "frontend-tools",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -375,7 +390,7 @@
    "child": true,
    "docPath": "generative-ui/tool-based",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -390,7 +405,7 @@
    "child": true,
    "docPath": "generative-ui/tool-rendering",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -405,7 +420,7 @@
    "child": true,
    "docPath": "generative-ui/state-rendering",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -420,7 +435,7 @@
    "child": false,
    "docPath": "generative-ui/components",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -435,12 +450,16 @@
    "child": false,
    "docPath": "generative-ui/components/surfaces",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    4
+   ],
+   "notes": "Issue: the agent calls render_ui but no renderer is registered, the featured products area never updates (3/3 runs)."
   },
   {
    "id": "generative-ui-components-catalogs",
@@ -450,7 +469,7 @@
    "child": false,
    "docPath": "generative-ui/components/catalogs",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -465,7 +484,7 @@
    "child": false,
    "docPath": "generative-ui/components/standard-catalog",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -480,7 +499,7 @@
    "child": false,
    "docPath": "generative-ui/components/state-and-actions",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -495,12 +514,13 @@
    "child": false,
    "docPath": "generative-ui/components/theming",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: now working (theme accent applied)."
   },
   {
    "id": "generative-ui-components-transports",
@@ -510,7 +530,7 @@
    "child": false,
    "docPath": "generative-ui/components/transports",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -525,7 +545,7 @@
    "child": false,
    "docPath": "generative-ui/components/markdown-mode",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -540,7 +560,7 @@
    "child": false,
    "docPath": "generative-ui/components/from-a2ui",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -555,13 +575,17 @@
    "child": false,
    "docPath": "generative-ui/a2ui",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
    },
-   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)"
+   "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)",
+   "findings": [
+    1
+   ],
+   "notes": "Issue: with the Python agent the generate_a2ui tool crashes (bound to a different event loop), no dashboard renders."
   },
   {
    "id": "generative-ui-a2ui-dynamic-schema",
@@ -571,12 +595,16 @@
    "child": false,
    "docPath": "generative-ui/a2ui/dynamic-schema",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    1
+   ],
+   "notes": "Issue: the default path crashes on every run (generate_a2ui: bound to a different event loop), no dashboard renders. The page also shows no Python agent for the default path."
   },
   {
    "id": "generative-ui-a2ui-fixed-schema",
@@ -586,12 +614,16 @@
    "child": false,
    "docPath": "generative-ui/a2ui/fixed-schema",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    2
+   ],
+   "notes": "Issue: the flight card renders but every bound field (airports, price) stays empty."
   },
   {
    "id": "generative-ui-json-render",
@@ -601,7 +633,7 @@
    "child": false,
    "docPath": "generative-ui/json-render",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -616,7 +648,7 @@
    "child": false,
    "docPath": "generative-ui/hashbrown",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -631,7 +663,7 @@
    "child": false,
    "docPath": "generative-ui/open-generative-ui",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -646,7 +678,7 @@
    "child": false,
    "docPath": "generative-ui/mcp-apps",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -661,7 +693,7 @@
    "child": false,
    "docPath": "shared-state",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -677,12 +709,16 @@
    "child": false,
    "docPath": "shared-state/rendering-in-app",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    3
+   ],
+   "notes": "Issue: useAgent() with no agentId looks for the 'default' agent, the quickstart only registers sample_agent, page crashes."
   },
   {
    "id": "shared-state-streaming",
@@ -692,7 +728,7 @@
    "child": false,
    "docPath": "shared-state/streaming",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -707,7 +743,7 @@
    "child": false,
    "docPath": "shared-state/agent-readonly",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -722,7 +758,7 @@
    "child": false,
    "docPath": "human-in-the-loop",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -737,7 +773,7 @@
    "child": true,
    "docPath": "human-in-the-loop/useInterrupt",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -752,12 +788,13 @@
    "child": true,
    "docPath": "human-in-the-loop/headless",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: now working."
   },
   {
    "id": "human-in-the-loop-governed-actions",
@@ -767,7 +804,7 @@
    "child": true,
    "docPath": "human-in-the-loop/governed-actions",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -782,7 +819,7 @@
    "child": false,
    "docPath": "webmcp",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -797,7 +834,7 @@
    "child": false,
    "docPath": "agent-app-context",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -812,7 +849,7 @@
    "child": true,
    "docPath": "agent-app-context?impl=graph",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -827,7 +864,7 @@
    "child": true,
    "docPath": "agent-app-context?impl=prebuilt",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -842,7 +879,7 @@
    "child": false,
    "docPath": "agent-config",
    "reachable": "in-content",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -859,12 +896,16 @@
    "child": false,
    "docPath": "configurable",
    "reachable": "sidebar",
-   "status": null,
+   "status": "❌",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "findings": [
+    5
+   ],
+   "notes": "Issue: Python build_agent uses undefined graph / AgentState and nothing wires it to an endpoint, frontend code is missing."
   },
   {
    "id": "subgraphs",
@@ -874,12 +915,13 @@
    "child": false,
    "docPath": "subgraphs",
    "reachable": "sidebar",
-   "status": null,
+   "status": "N/A",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: no runnable code on the page (one useAgent snippet)."
   },
   {
    "id": "guardrails",
@@ -889,12 +931,13 @@
    "child": false,
    "docPath": "guardrails",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
-   }
+   },
+   "notes": "Note: the helpers (screen_input, redact_sensitive, tool_call_allowed) are left to the reader and tools=[...] as written raises ValueError; filled in by hand."
   },
   {
    "id": "multi-agent-subagents",
@@ -904,7 +947,7 @@
    "child": false,
    "docPath": "multi-agent/subagents",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
@@ -919,13 +962,47 @@
    "child": false,
    "docPath": "inspector",
    "reachable": "sidebar",
-   "status": null,
+   "status": "✅",
    "review": {
     "verdict": null,
     "approvedAt": null,
     "by": null
    },
    "excluded": "not in the team testing doc's LangGraph list (owner, 2026-11-08)"
+  },
+  {
+   "id": "programmatic-control",
+   "label": "Programmatic Control",
+   "kind": "guide",
+   "group": "Prebuilt Components",
+   "child": false,
+   "docPath": "programmatic-control",
+   "reachable": "in-content",
+   "linkedFrom": "prebuilt-components/chat-controls",
+   "status": "✅",
+   "notes": "Note: the page does not say where to mount AgentTrigger.",
+   "review": {
+    "verdict": null,
+    "approvedAt": null,
+    "by": null
+   }
+  },
+  {
+   "id": "human-in-the-loop-interrupt-flow",
+   "label": "Interrupt flow",
+   "kind": "guide",
+   "group": "Shared State",
+   "child": true,
+   "docPath": "human-in-the-loop/interrupt-flow",
+   "reachable": "in-content",
+   "linkedFrom": "(intro page)",
+   "status": "✅",
+   "notes": "Note: agent.py never builds/compiles a graph; wired by hand.",
+   "review": {
+    "verdict": null,
+    "approvedAt": null,
+    "by": null
+   }
   }
  ]
 }

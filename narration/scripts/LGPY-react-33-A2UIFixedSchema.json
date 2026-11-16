@@ -1,0 +1,30 @@
+{
+ "clip": "LGPY-react-33-A2UIFixedSchema",
+ "finding": "2",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the A2UI fixed schema page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, this update data model call should fill the card with the flight data."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for a flight, the card shows up and the reply names the flight, but uh, every field on the card is empty."
+  },
+  {
+   "at": "notepad",
+   "text": "So basically, the card renders, but the airports and the price never show up, the data just doesn't reach the card."
+  },
+  {
+   "at": "+",
+   "text": "So kindly look into it."
+  }
+ ]
+}

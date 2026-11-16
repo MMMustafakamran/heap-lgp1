@@ -1,0 +1,30 @@
+{
+ "clip": "LGPY-react-35-ComponentsSurfaces",
+ "finding": "4",
+ "segments": [
+  {
+   "at": "doc",
+   "text": "Ok so this is the components surfaces page for LangGraph Python, and I'm reporting a problem on this page."
+  },
+  {
+   "at": "evidence",
+   "text": "So this is the problem, the agent uses render UI to fill the surface, umm, but nothing renders it."
+  },
+  {
+   "at": "ide",
+   "text": "This is my project, I've implemented the exact code from the doc."
+  },
+  {
+   "at": "demo",
+   "text": "Moving on to the demo. I asked for cheap running shoes in the featured area, it should update that area, but it stays the same, nothing changes."
+  },
+  {
+   "at": "notepad",
+   "text": "So yeah, the agent calls render UI, but no renderer is registered for it, so the featured products never update, three runs in a row."
+  },
+  {
+   "at": "+",
+   "text": "So this needs a fix, kindly check it."
+  }
+ ]
+}

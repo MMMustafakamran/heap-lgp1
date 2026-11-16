@@ -763,6 +763,11 @@
    "/langgraph-python/troubleshooting/error-debugging",
    "/langgraph-python/troubleshooting/hook-explorer",
    "/langgraph-python/vs-code-extension"
-  ]
+  ],
+  "/langgraph-python/programmatic-control": [
+   "/langgraph-python/headless",
+   "/langgraph-python/human-in-the-loop"
+  ],
+  "/langgraph-python/human-in-the-loop/interrupt-flow": []
  }
 }

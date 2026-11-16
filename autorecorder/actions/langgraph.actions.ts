@@ -1450,3 +1450,52 @@ Object.assign(FINDING_EVIDENCE, {
   'components-markdown-mode': [{ text: 'For a LangGraph Python agent, add CopilotKitMiddleware.', caption: 'only Python agent guidance (FINDINGS.md #43)' }],
   'components-from-a2ui': [{ text: 'Move an app from the a2ui renderer to components and surfaces', caption: 'no LangGraph TS agent setup (FINDINGS.md #43)' }],
 });
+
+// ---------------------------------------------------------------------------------------------
+// LangGraph PYTHON findings (FINDINGS.md of this repo, 2026-11-16). The JS entries above are
+// leftovers from the harness this repo was copied from: cleared here, only these pages are findings.
+for (const k of Object.keys(FINDING_NOTES)) delete FINDING_NOTES[k];
+for (const k of Object.keys(FINDING_EVIDENCE)) delete FINDING_EVIDENCE[k];
+KNOWN_ISSUE.clear();
+KNOWN_ISSUE.add('configurable'); // team doc ❌ for the same problem: level 2, short clip
+const A2UI_LOOP_NOTE = [
+  'doc says the catalog auto enables a2ui and injects generate_a2ui,thats all the default path needs',
+  'with the python agent every run crashes, toast says asyncio event is bound to a different event loop',
+  'no dashboard renders at all',
+  'page also never shows a python agent for the default path,only the opt out agent.py bit',
+  'i built the agent like the js one, tools empty + copilotkitmiddleware',
+].join('\n');
+Object.assign(FINDING_NOTES, {
+  'a2ui-dynamic': A2UI_LOOP_NOTE,
+  a2ui: A2UI_LOOP_NOTE,
+  'a2ui-fixed': [
+    'doc says update_data_model fills the flight card with the data',
+    'card shows up and the reply says united sfo to jfk for 289',
+    'but every field on the card is empty,no airports no price',
+    'so the data never gets bound into the card',
+  ].join('\n'),
+  'rendering-in-app': [
+    'doc uses useAgent with no agentid,says that means the default agent',
+    'page crashes,agent default not found after runtime sync,known agents sample_agent',
+    'quickstart only registers sample_agent so theres no default agent',
+    'page never says to register one',
+  ].join('\n'),
+  'components-surfaces': [
+    'doc says the agent fills the featured products surface',
+    'agent calls render_ui but no renderer is registered for it',
+    'the area stays classic tee and canvas tote, nothing changes',
+    'same thing 3 runs in a row',
+  ].join('\n'),
+  configurable: [
+    'build_agent uses graph and agentstate that dont exist anywhere',
+    'nothing wires it to an endpoint and no frontend code',
+  ].join('\n'),
+});
+Object.assign(FINDING_EVIDENCE, {
+  'a2ui-dynamic': [{ text: 'That is all the default path needs.', caption: 'Default path: no Python agent shown; generate_a2ui crashes (event loop)' }],
+  a2ui: [{ text: 'generate_a2ui', caption: 'Auto-injected generate_a2ui crashes with a Python agent' }],
+  'a2ui-fixed': [{ text: 'a2ui.update_data_model(', caption: 'Data model values never reach the card' }],
+  'rendering-in-app': [{ text: 'No agentId means the "default" agent', caption: "No 'default' agent is registered by the quickstart" }],
+  'components-surfaces': [{ text: 'render_ui', caption: 'render_ui has no renderer, surface never updates' }],
+  configurable: [{ text: 'def build_agent(tenant_id: str)', caption: 'graph / AgentState undefined, no wiring' }],
+});

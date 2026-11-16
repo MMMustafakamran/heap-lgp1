@@ -1,74 +1,39 @@
-# Findings — LangGraph-react (LangGraph JS / TypeScript)
-Open doc defects only. A finding is proposed first and added only after the owner approves it (Claude Code proposes after the daily review and the owner approves locally: `.qa/instructions/QA-RULES.md` section 6). Numbers are stable IDs (code cites `FINDINGS.md #N`), so gaps are removed findings.
-Stack: `@copilotkit/react-core`/`runtime` 1.88.0 (npm latest, CI 2026-11-16), `@copilotkit/sdk-js` 1.85.0 (declared `^1.85.0`), `@langchain/langgraph` 1.7.2, `@langchain/core` 1.3.5, `@langchain/openai` 1.8.2, `zod` 3.25.76 (transitive), `@langchain/langgraph-cli` 1.6.0 (npx), `next` 16.4.5, `react` 19.3.0, Node 26.7.0, Windows 11. Docs: https://docs.copilotkit.ai/langgraph-typescript (snapshot 2026-11-05)
+# Findings — LangGraph Python (React)
+Open doc defects only, from probe evidence. Numbers are stable IDs (code cites `FINDINGS.md #N`).
+Stack: `@copilotkit/react-core`/`runtime` per frontend/VERSIONS.md (npm latest in CI), `langgraph` 1.2.22, `langgraph-cli` 0.4.43 (`langgraph-api` 0.18.1), `langchain-openai` 1.8.0, `langchain-core` 1.8.1, `copilotkit` 0.1.97, `ag-ui-langgraph` 0.0.47, `next` 16.4.5, `react` 19.3.0, Node 26.7.0, Python 3.13 (uv), Windows 11. Docs: https://docs.copilotkit.ai/langgraph-python (checked 2026-11-16)
 
-## Dev blockers (seen with `npm run dev` and normal use of the page)
+## Dev blockers
 
-### [Components and surfaces](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components)
-**#10 "Already have CopilotKit running? Do step 3 only." crashes a quickstart app, and no step wires a LangGraph JS agent.**
-- **Doc:** the step 3 provider is `<CopilotKitProvider runtimeUrl="/api/copilotkit" generativeUI={{ ui: standardUI }}>`, with no `agentId`. Only step 2's route registers an agent named `default`, and that agent is a TanStack AI `BuiltInAgent`, not LangGraph. The only agent note is "For a LangGraph Python agent, add `CopilotKitMiddleware`."
-- **Error:** on the quickstart app (agent `sample_agent`), the page crashes with "This page couldn't load": `useAgent: Agent 'default' not found after runtime sync (runtimeUrl=/api/copilotkit)`.
-- **Harness:** with `agentId` set, the quickstart agent asks for plan details and renders nothing. The frontend-tools agent, which binds `state.copilotkit.actions`, answers with a Markdown table. Neither gives a `standardUI` component. The page never says how a LangGraph JS graph should receive the run's `render_ui` tool and its context.
+### [A2UI](https://docs.copilotkit.ai/langgraph-python/generative-ui/a2ui) / [Dynamic schema](https://docs.copilotkit.ai/langgraph-python/generative-ui/a2ui/dynamic-schema)
+**#1** The default path crashes on every run with a Python agent.
+**Doc:** "That is all the default path needs. The catalog auto-enables A2UI and injects the `generate_a2ui` tool, so the runtime needs no `a2ui` block." (no Python agent shown for the default path; only the opt-out `agent.py` fragment)
+**Error:** chat toast `<asyncio.locks.Event object at 0x… [unset]> is bound to a different event loop`; browser `[CopilotKit] Agent error … Code: agent_run_error_event`; no dashboard renders (3/3 probes). `CopilotKitMiddleware` swaps in `ag_ui_langgraph/a2ui_tool.py` `generate_a2ui`, which runs its subagent via `asyncio.to_thread(asyncio.run(...))`.
+**Confirmed by harness:** `backend/a2ui_dynamic.py` is a HARNESS graph mirroring the JS one (`tools=[]` + `CopilotKitMiddleware`), since the page gives none.
 
-### [Reasoning](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/reasoning)
-**#11 After every answer the chat shows an error: "Cannot send RUN_FINISHED while text messages are still active".**
-- **Doc:** the demo's Code tab (`page.tsx`, `suggestions.ts`, `src/agent/reasoning-agent.ts`), and "No configuration is needed; if your model emits reasoning tokens, the card appears automatically". The harness runs the Code tab's `reasoning-agent.ts` verbatim (its `./openai-headers` helper is not shown).
-- **Error:** the answer renders, then a CopilotKit error card: `Cannot send 'RUN_FINISHED' while text messages are still active` (`agent_run_error_event`, `INCOMPLETE_STREAM`). The server log shows the same.
+### [A2UI Fixed schema](https://docs.copilotkit.ai/langgraph-python/generative-ui/a2ui/fixed-schema)
+**#2** The flight card renders but every data-bound field is empty.
+**Doc:** the page's `update_data_model` op with `path "/"` and the flight values.
+**Result:** the reply says "Here's the United flight from SFO to JFK for $289." and the card shows no airports and no price. Main feature (card with the flight data) does not work as documented.
 
-### [Dynamic Schema A2UI](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/a2ui/dynamic-schema)
-**#34 The generated dashboard fails to render: the chat shows an A2UI render error.**
-- **Doc:** "the agent can render any UI for any request without pre-defined schemas" and "renders cards progressively as data items arrive"; catalog + provider as on the page.
-- **Result (1.85.0, CI 2026-11-09):** asking "Show my team performance." renders no dashboard. The chat shows a red box `A2UI render error: Cannot read properties of undefined (reading 'map')` (browser console: `[A2UI] processMessages error: TypeError: Cannot read properties of undefined (reading 'map') at PayloadValidator.validateComponent`), and the agent still replies "I've shown your team performance dashboard."
+### [Rendering in app](https://docs.copilotkit.ai/langgraph-python/shared-state/rendering-in-app)
+**#3** `useAgent()` with no agentId needs a `default` agent the setup never registers.
+**Doc:** `useAgent()` — "No agentId means the \"default\" agent. Pass { agentId } to target another."
+**Error:** `useAgent: Agent 'default' not found after runtime sync (runtimeUrl=/api/copilotkit-quickstart). Known agents: [sample_agent]`
 
-**#42 The renderers snippet uses `tooltipStyle` and `barCursor`, which the page never defines (doc change 2026-11-16).**
-- **Doc:** `renderers.tsx` (PieChart) `<Tooltip contentStyle={tooltipStyle} />` and (BarChart) `<Tooltip contentStyle={tooltipStyle} cursor={barCursor} />`; neither name is declared or imported anywhere on the page.
-- **Error:** `tsc`: `Cannot find name 'tooltipStyle'` / `Cannot find name 'barCursor'`. At runtime the PieChart and BarChart renderers throw `ReferenceError: tooltipStyle is not defined` as soon as the agent draws one of those charts.
+### [Components: Surfaces](https://docs.copilotkit.ai/langgraph-python/generative-ui/components/surfaces)
+**#4** The featured products surface never updates.
+**Result:** the agent calls `render_ui`; console `The agent called the tool "render_ui", and no renderer is registered for it`; the area stays "Classic Tee / Canvas Tote" (3/3 probes).
 
-### [Voice](https://docs.copilotkit.ai/langgraph-typescript/voice)
-**#36 The page imports a `VoiceChat` component it never shows.**
-- **Doc:** `page.tsx` has `import { VoiceChat } from "./voice-chat";` and renders `<VoiceChat />`. No step or Code tab file shows `voice-chat.tsx` (the Code tab lists `page.tsx`, `sample-audio-button.tsx`, `route.ts`); only the sentence "The parent chat component can then drop that text into the composer's textarea ..." describes it.
-- **Error:** as published, `npm run dev` fails with `Module not found: Can't resolve './voice-chat'` (in Next dev it takes every route down until the file exists).
-- **Harness:** `voice-chat.tsx` copied from the showcase (`frontend/app/voice/voice-chat.tsx`) so the route compiles. CI 2026-11-10 ended in a UI selector timeout (the sample audio text was never sent); re-check pending.
-
-### [Render agent state in your app](https://docs.copilotkit.ai/langgraph-typescript/shared-state/rendering-in-app)
-**#37 The page's own code crashes on a quickstart app: `useAgent: Agent 'default' not found`.**
-- **Doc:** `Canvas.tsx` calls `useAgent()` with no id ("No agentId means the \"default\" agent"), and `app/page.tsx` wraps it in `<CopilotKit runtimeUrl="/api/copilotkit">` with no agent. The quickstart registers only `sample_agent`; no step registers `default` or says to pass an `agentId`.
-- **Error:** the canvas shows "Untitled", then the page crashes with "This page couldn't load": `Error: useAgent: Agent 'default' not found after runtime sync (runtimeUrl=/api/copilotkit). Known agents: [sample_agent, ...]` (harness: the quickstart runtime as published, at `/api/copilotkit-quickstart`).
-- **Confirmed by harness:** with `agent="sample_agent"` on the provider (`/shared-state/rendering-in-app/harness`), the canvas shows "Project launch" with its two items and the chat works.
-
-### [Configurable](https://docs.copilotkit.ai/langgraph-typescript/configurable)
-**#15 Frontend code is missing: nothing shows how to pass context to the graph when CopilotKit runs it.**
-- **Doc:** the TypeScript tab only shows a direct `graph.invoke(input, { context: { tenantId }, recursionLimit: 50 })`.
-- **Result:** no frontend or `LangGraphAgent` code sets context for a graph run through CopilotKit and the LangGraph server (the setup the quickstart builds), so the page can't be built. The language tabs also default to Python on the TypeScript track.
-
-### [State and actions](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/state-and-actions), [Markdown mode](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/markdown-mode), [Adopt from A2UI](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/from-a2ui)
-**#43 No LangGraph TypeScript agent setup on these pages, and on a guessed agent the UI renders only sometimes.**
-- **Doc:** the pages show the provider and catalog only; Markdown mode's only agent line is "For a LangGraph Python agent, add `CopilotKitMiddleware`" (#25).
-- **Result:** on the harness agent (`genui.harness.ts`) both CI takes of 2026-11-16 (CopilotKit 1.88.0) failed on State and actions and Markdown mode (empty reply, `render_ui` "no renderer is registered", or a text-only "Here's a card..."); Adopt from A2UI rendered once and failed once. Earlier rates: #32, #38, #39.
+### [Configurable](https://docs.copilotkit.ai/langgraph-python/configurable)
+**#5** Python fragments only, not runnable.
+**Doc:** `def build_agent(tenant_id: str) -> LangGraphAGUIAgent: … graph=graph` — `graph` and `AgentState` undefined, no endpoint wiring, no frontend code.
 
 ## Minor notes
-- #35 [Headless Threads](https://docs.copilotkit.ai/langgraph-typescript/headless-threads): `ThreadSidebar` calls `useThreads({ agentId: "my-agent" })`, but the page's own `server.ts` registers only `default` (and the chat runs as `default`), so the thread list stays empty. Works with `agentId: "default"` (HARNESS line). Its `server.ts` also uses `agent` and `verifyAppSession` without defining them (harness stand-ins).
-- #12 [MCP Apps](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/mcp-apps): the main runtime snippet uses `process.env.MCP_SERVER_URL || "https://mcp.excalidraw.com"`, which 308-redirects to `/mcp`, so no Excalidraw tools load; the `.../mcp` URL shown further down the page works.
-- #2 [Quickstart](https://docs.copilotkit.ai/langgraph-typescript/quickstart): the route as published (`intelligence: new CopilotKitIntelligence({ apiKey: process.env.CPK_INTELLIGENCE_API_KEY! })`) makes every runtime request 500 (`CopilotKitIntelligence apiKey is required and cannot be blank`) until you sign up and run `copilotkit project select`. The "Running without the Intelligence Platform?" callout fixes it (drop `intelligence` and `identifyUser`); with that, chat works. The page doesn't say the code fails without a key.
-- #3 Quickstart "What's next?" cards link to `/langgraph/...`, which redirects to the **Python** track (`/langgraph-python/human-in-the-loop`, `/shared-state`, `/generative-ui/tool-rendering`, `/frontend-tools`).
-- #4 Next 16 dev overlay error on every page: `Next.js encountered the unstable value Date.now() in a Client Component` at `<CopilotKitProvider>` in `app/providers.tsx` (Next 16 `cacheComponents`). Chat still works.
-- #5 [Guardrails](https://docs.copilotkit.ai/langgraph-typescript/guardrails): the TypeScript track page has only Python code (`agent.py`, `guardrails.py`, `from langchain.agents import create_agent`), no TypeScript version.
-- #6 Guide pages' Code tabs leave out their helpers: [Frontend Tools](https://docs.copilotkit.ai/langgraph-typescript/frontend-tools) `page.tsx` imports `./background` and `./suggestions`, and [Tool Call Rendering](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/tool-rendering)'s custom catch-all imports `./suggestions` (`useSuggestions`); no tab shows them (harness copies from the showcase). Demo agent names (`frontend_tools`, `hitl-in-chat`, ...) are never registered by any doc step; the quickstart route registers only `sample_agent`.
-- #8 [HITL](https://docs.copilotkit.ai/langgraph-typescript/human-in-the-loop): `DEFAULT_SLOTS` hardcodes dates in April 2026 (`2026-04-19T10:00:00-07:00`), which are now in the past. Asked to "schedule a 1:1 next week", the agent pointed out that the picked slot doesn't match next week.
-- #13 Quickstart "Start from scratch": the page says `npx copilotkit@latest create` asks about CopilotKit Intelligence, "or **No** for a standard LangGraph setup". The CLI (`copilotkit@latest`, commit `be9a2ca`) lists `-i, --intelligence` as a "Deprecated no-op". Run with `-n lg-js-starter -f langgraph-js` and no terminal, it refuses with "Name the rest up front: --project", i.e. it requires a hosted Intelligence project and sign-in. The no-Intelligence path couldn't be verified.
-- #17 [Inspector](https://docs.copilotkit.ai/langgraph-typescript/inspector) / Quickstart step "Open Inspector and confirm setup": "Open **Agents**, then **Agent**. Your agent is listed." After a chat turn with `sample_agent`, the Agent pane shows "No agent selected" (select it from the dropdown). AG-UI Events does list the run's events, and Rich Threads shows the locked Intelligence screen, as documented.
-- #23 [Agent App Context](https://docs.copilotkit.ai/langgraph-typescript/agent-app-context) (Readables): the "Custom graph" TypeScript block (`agent-js/src/agent.ts`) uses `RunnableConfig` without importing it, and never builds or exports a graph (no `StateGraph` / `.compile` on the page). The first callout's "Frontend Data documentation" link goes to `/langgraph-python/agent-app-context`. With imports and a graph added (harness `app-context.ts`), the agent lists the three colleagues; the "Prebuilt agent" TypeScript block works verbatim.
-- #25 The generative-UI component pages don't say what a LangGraph TypeScript agent needs: [Transports](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/transports) only says "For a LangGraph Python agent, add `CopilotKitMiddleware`"; [Theming](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/theming) and [Standard catalog](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/standard-catalog) say nothing about the agent; [Markdown mode](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/markdown-mode) gives a generic rule ("put the run's context entries into its system prompt"). The quickstart `sample_agent` uses neither the run's tools nor its context (same root cause as #10). These pages run on a harness graph that does (`genui.harness.ts`).
-- #26 [A2UI](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/a2ui) "How it works" shows only the Python SDK helpers (`from copilotkit import a2ui`, "The CopilotKit Python SDK provides helpers") on the TypeScript track.
-- #27 [Governed Actions](https://docs.copilotkit.ai/langgraph-typescript/human-in-the-loop/governed-actions): no backend is shown. The `useInterrupt` variant reads `interrupt?.metadata?.action`, but no page shows a LangGraph JS agent that sets it, so only the `useHumanInTheLoop` variant could be run: with the doc's code on a tool-binding agent, the approval card renders and "Approve and run" resumes the run.
-- #28 [Surfaces](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/surfaces): `FeaturedProducts` uses `Product` and `ProductRow`, which no snippet defines (harness stubs). With them, the agent's ProductGrid replaces the fallback row in the page target.
-- #30 [Reasoning Messages](https://docs.copilotkit.ai/langgraph-typescript/custom-look-and-feel/reasoning-messages) has the same problem as #11: with the demo's Code-tab agent (`reasoning-agent.ts`), the reasoning block and answer render, then the chat shows `Cannot send 'RUN_FINISHED' while text messages are still active`.
-- #40 [State Streaming](https://docs.copilotkit.ai/langgraph-typescript/shared-state/streaming) and [Sub-agents](https://docs.copilotkit.ai/langgraph-typescript/multi-agent/subagents): the full agent files in the demo's Code tab (`shared-state-streaming.ts`, `subagents.ts`) import `./openai-headers`, which no tab shows.
-- #41 [Threads Drawer](https://docs.copilotkit.ai/langgraph-typescript/prebuilt-components/copilot-threads-drawer): the page's provider snippet has no `agentId`, so the drawer falls back to an agent named `default`, which the quickstart doesn't register (the page does explain `agentId`).
-- #9 [Components and surfaces](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components): React step 1 installs only `@copilotkit/react-core @copilotkit/runtime @tanstack/ai @tanstack/ai-openai`, but `standardUI` loads `maplibre-gl` (optional peer of `@copilotkit/react-core` 1.85.0): `Module not found: Can't resolve 'maplibre-gl'` until you install it (`npm install chart.js maplibre-gl lucide` is only in the Angular tab).
-- #32 [State and actions](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/state-and-actions) and [Catalogs](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/catalogs): the product cards render in some runs only (Catalogs 3/5 probes on 2026-11-09); failed runs leave an empty reply (`The agent called the tool "render_ui", and no renderer is registered for it`). The latest CI takes rendered. Runs on the harness agent (#25).
-- #38 [Transports](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/transports) / [Markdown mode](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/markdown-mode): with the markdown transport the Seats & Price card rendered in about half the probe runs (5/10 and 3/5, 1.85.0); the others answer "Here's a card..." in text only. Flaky on the harness agent (#25).
-- #39 [Adopt from A2UI](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/from-a2ui): the converted `Airport` / `Arrow` catalog rendered in some runs only (1/5 probes on 2026-11-09; the latest CI take rendered); failed runs log the `render_ui` "no renderer is registered" warning. Runs on the harness agent (#25).
-- #33 [Surfaces](https://docs.copilotkit.ai/langgraph-typescript/generative-ui/components/surfaces): the featured row swaps in some runs only (1/5 probes on 2026-11-09, CI 2026-11-10 failed, CI 2026-11-11 rendered); failed runs leave the fallback row and an empty reply (`render_ui` "no renderer is registered"; those runs nested the props in a `props` object, which the page never specifies). Runs on the harness agent (#25).
-
-## Build-only (`tsc` / `next build`; `npm run dev` runs fine)
+- **#6** Quickstart (any tab): on Windows `langgraph dev` crashes at start (`SystemError: ConsoleRenderer with colors=True on Windows requires the colorama package`); the install line doesn't add `colorama` (`langgraph-cli[inmem]` itself is never named either).
+- **#7** Guardrails: `screen_input`, `redact_sensitive`, `tool_call_allowed` left to the reader; `tools=[...]` as written raises `ValueError: The first argument must be a string or a callable with a __name__`.
+- **#8** Interrupt flow: `agent.py` never builds or compiles a graph.
+- **#9** Programmatic control: the page never says where to mount `AgentTrigger`.
+- **#10** Chat controls: `analytics` is undefined in the feedback snippet.
+- **#11** Quickstart FastAPI: the start step runs `uv run main.py` after `cd ..`, but `main.py` is in the agent directory.
+- **#12** `react-native` page linked from the components pages and inspector is a 404.
+- **#13** `CopilotKitProvider`'s `Date.now()` triggers the Next.js unstable-value error on every route (badge hidden, `devIndicators: false`).
